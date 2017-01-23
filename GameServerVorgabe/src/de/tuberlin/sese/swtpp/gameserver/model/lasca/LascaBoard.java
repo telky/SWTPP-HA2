@@ -3,13 +3,43 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.io.Serializable;
 import java.util.*;
 
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField.figureType;
+
 public class LascaBoard implements Serializable {
 		
 	HashMap<String, LascaField> fields;
 	
-	public LascaBoard() {
+	int fieldSize = 7;
+	
+	public LascaBoard(String fenState) {
 		fields = new HashMap<String, LascaField>();
-		setupBoard();
+		parseFen(fenState);
+		connectFields();
+		//setupBoard();
+	}
+	
+	
+	public String toFenString() {
+		String result = "";
+		for (int row = 1; row <= fieldSize; row ++) {
+			String currentColumn = "";
+			for (int column = 1; column <= fieldSize; column ++) {
+				String id = idFor(row, column);
+				LascaField field = fields.get(id);
+				currentColumn.concat(field.toFenString());
+			}
+			result.concat(currentColumn);
+			if (row != fieldSize) {
+				result.concat("/");
+			}
+		}
+		
+			
+		return result; 
+	}
+	
+	public HashMap<String, LascaField> getFields() {
+		return fields;
 	}
 	
 	private void setupBoard(){
@@ -23,16 +53,61 @@ public class LascaBoard implements Serializable {
 		
 	}
 	
+	private void parseFen(String fenString) {
+		fenString = fenString.replaceAll(",,", ",-,");
+		fenString = fenString.replaceAll("/,", "/-,");
+		fenString = fenString.replaceAll(",/", ",-/");
+		
+		List<String> fenRows = Arrays.asList(fenString.split("/"));
+		
+		int row = 1;
+		int column = 1;
+		 
+		for (String fenRow: fenRows) {
+			
+			List<String> columnArray = Arrays.asList(fenRow.split(","));
+			Boolean even = row % 2 == 0;
+			
+			
+			row = 1;
+			for (String component : columnArray) {
+				
+				LascaField field = new LascaField(row, column);
+				switch (component) {
+				case "b":
+					field.figures.add(figureType.BLACK_SOLDIER);
+					break;
+				case "B":
+					field.figures.add(figureType.BLACK_OFFICER);
+					break;
+				case "w":
+					field.figures.add(figureType.WHITE_SOLDIER);
+					break;
+				case "W":
+					field.figures.add(figureType.WHITE_OFFICER);
+					break;
+				default:
+					field.figures.add(figureType.EMPTY);
+					break;
+				}
+				
+				
+				String fieldId = Integer.toString(row) + "-" + Integer.toString(column);
+				fields.put(fieldId, field);
+				row++;
+			}
+			column++;
+		}
+	
+	}
+	
 	private void createFields(){
 		for(int rowIndex = 1; rowIndex < 8; rowIndex++){
 			for (int colIndex = 1; colIndex < 8; colIndex++){
-				if(rowIndex%2 != 0 && colIndex%2 != 0){ // determine whether its a 4 or 3 field row
+				if(rowIndex%2 != 0 && colIndex%2 != 0 || rowIndex%2 == 0 && colIndex%2 == 0){ // determine whether its a 4 or 3 field row
 					LascaField newField = new LascaField(rowIndex, colIndex);
 					fields.put(newField.id, newField);
-				} else if(rowIndex%2 == 0 && colIndex%2 == 0){
-					LascaField newField = new LascaField(rowIndex, colIndex);
-					fields.put(newField.id, newField);
-				}
+				} 
 			}
 		}
 	}
@@ -79,6 +154,10 @@ public class LascaBoard implements Serializable {
 			field.neighbourFieldsBlackDirection.add(fields.get(bottomRight));
 		}
 		
+	}
+	
+	private String idFor(int row, int column) {
+		return Integer.toString(row) + "-" + Integer.toString(column);
 	}
 
 }

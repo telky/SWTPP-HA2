@@ -5,12 +5,20 @@ import java.util.*;
 
 public class LascaField implements Serializable {
 	
+	enum figureType {
+		EMPTY,
+		WHITE_SOLDIER,
+		WHITE_OFFICER,
+		BLACK_SOLDIER,
+		BLACK_OFFICER
+	}
+	
 	int row;
 	int col;
 	
 	String id;
 	
-	LinkedList<LascaFigure> figures;
+	ArrayList<figureType> figures;
 	
 	List<LascaField> neighbourFieldsBlackDirection;
 	List<LascaField> neighbourFieldsWhiteDirection;
@@ -22,8 +30,12 @@ public class LascaField implements Serializable {
 		this.col = col;
 		this.neighbourFieldsBlackDirection = new ArrayList<LascaField>();
 		this.neighbourFieldsWhiteDirection =  new ArrayList<LascaField>();
-		this.figures = new LinkedList<LascaFigure>();
 		
+		this.figures = new ArrayList<figureType>();
+	}
+	
+	public String toFenString() {
+		return "TODO";
 	}
 
 }
