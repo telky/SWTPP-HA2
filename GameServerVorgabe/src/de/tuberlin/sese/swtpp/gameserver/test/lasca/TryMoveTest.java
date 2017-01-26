@@ -71,4 +71,5 @@ public class TryMoveTest {
 	}
 
 	//TODO: implement test cases of same kind as example here
+	
 }

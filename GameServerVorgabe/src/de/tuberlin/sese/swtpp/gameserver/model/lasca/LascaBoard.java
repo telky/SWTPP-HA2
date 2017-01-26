@@ -3,6 +3,7 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.io.Serializable;
 import java.util.*;
 
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField.figureType;
 
 public class LascaBoard implements Serializable {
@@ -14,6 +15,7 @@ public class LascaBoard implements Serializable {
 	public LascaBoard(String fenState) {
 		fields = new HashMap<String, LascaField>();
 		parseFen(fenState);
+		this.printBoard();
 		connectFields();
 		//setupBoard();
 	}
@@ -46,7 +48,6 @@ public class LascaBoard implements Serializable {
 		createFields();
 		connectFields();
 		
-		
 		for ( LascaField field: fields.values()) {
 			LascaField fieldTemp = field;
 		}
@@ -60,45 +61,49 @@ public class LascaBoard implements Serializable {
 		
 		List<String> fenRows = Arrays.asList(fenString.split("/"));
 		
-		int row = 1;
+		int row = 7;
 		int column = 1;
 		 
 		for (String fenRow: fenRows) {
 			
 			List<String> columnArray = Arrays.asList(fenRow.split(","));
-			Boolean even = row % 2 == 0;
+			Boolean evenRow = row % 2 == 0;
+			if (evenRow){ // set starting column in even row to second column
+				column = 2;
+			} else {
+				column = 1;
+			}
 			
-			
-			row = 1;
 			for (String component : columnArray) {
+				Boolean evenColumn = column % 2 == 0;
 				
 				LascaField field = new LascaField(row, column);
-				switch (component) {
-				case "b":
-					field.figures.add(figureType.BLACK_SOLDIER);
-					break;
-				case "B":
-					field.figures.add(figureType.BLACK_OFFICER);
-					break;
-				case "w":
-					field.figures.add(figureType.WHITE_SOLDIER);
-					break;
-				case "W":
-					field.figures.add(figureType.WHITE_OFFICER);
-					break;
-				default:
-					field.figures.add(figureType.EMPTY);
-					break;
+				
+				if(evenRow == evenColumn){ // check if field is valid and can be used by figure
+					switch (component) {
+					case "b":
+						field.figures.add(figureType.WHITE_SOLDIER);
+						break;
+					case "B":
+						field.figures.add(figureType.BLACK_OFFICER);
+						break;
+					case "w":
+						field.figures.add(figureType.WHITE_SOLDIER);
+						break;
+					case "W":
+						field.figures.add(figureType.WHITE_OFFICER);
+						break;
+					default:
+						field.figures.add(figureType.EMPTY);
+						break;
+					}
 				}
-				
-				
-				String fieldId = Integer.toString(row) + "-" + Integer.toString(column);
+				String fieldId = this.idFor(row, column);
 				fields.put(fieldId, field);
-				row++;
+				column = column + 2;
 			}
-			column++;
+			row--;
 		}
-	
 	}
 	
 	private void createFields(){
@@ -158,6 +163,30 @@ public class LascaBoard implements Serializable {
 	
 	private String idFor(int row, int column) {
 		return Integer.toString(row) + "-" + Integer.toString(column);
+	}
+	
+	
+	// for debugging
+	private void printBoard(){
+		
+		System.out.println("Current board: \n\n");
+		for(int rowIndex = 7; rowIndex > 0; rowIndex--){
+			System.out.println("\n");
+			for (int colIndex = 1; colIndex < 8; colIndex++){
+				if(rowIndex%2 != 0 && colIndex%2 != 0 || rowIndex%2 == 0 && colIndex%2 == 0){ // determine whether its a 4 or 3 field row
+					String fieldID = idFor(rowIndex, colIndex);
+					if(!fields.containsKey(fieldID)){ // invalid field
+						System.out.print("[/]");
+					} else if (fields.get(fieldID).figures.size() != 0){ // field with figures
+						// TODO print figure stack
+						System.out.print("[" + fields.get(fieldID).figures.get(0).name().toString() + "]");
+					} 
+				} else { 
+					System.out.print("[///////////]");
+				} 
+			}
+		}
+		System.out.print("\n\n\n ------------------------------- \n\n\n");
 	}
 
 }

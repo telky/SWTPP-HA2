@@ -5,12 +5,27 @@ import java.util.*;
 
 public class LascaField implements Serializable {
 	
-	enum figureType {
-		EMPTY,
-		WHITE_SOLDIER,
-		WHITE_OFFICER,
-		BLACK_SOLDIER,
-		BLACK_OFFICER
+	public enum figureType {
+		EMPTY ("__"),
+		WHITE_SOLDIER ("w"),
+		WHITE_OFFICER ("W"),
+		BLACK_SOLDIER ("b"),
+		BLACK_OFFICER ("B");
+		
+		private final String name;       
+
+	    private figureType(String s) {
+	        name = s;
+	    }
+
+	    public boolean equalsName(String otherName) {
+	        // (otherName == null) check is not needed because name.equals(null) returns false 
+	        return name.equals(otherName);
+	    }
+
+	    public String toBoardName() {
+	       return this.name;
+	    }
 	}
 	
 	int row;
@@ -25,9 +40,9 @@ public class LascaField implements Serializable {
 	
 	
 	public LascaField(int row, int col){
-		this.id = Integer.toString(row) + "-" + Integer.toString(col);
 		this.row = row;
 		this.col = col;
+		this.id = this.toFenString();
 		this.neighbourFieldsBlackDirection = new ArrayList<LascaField>();
 		this.neighbourFieldsWhiteDirection =  new ArrayList<LascaField>();
 		
@@ -35,7 +50,7 @@ public class LascaField implements Serializable {
 	}
 	
 	public String toFenString() {
-		return "TODO";
+		return Integer.toString(this.row) + "-" + Integer.toString(this.col);
 	}
 
 }

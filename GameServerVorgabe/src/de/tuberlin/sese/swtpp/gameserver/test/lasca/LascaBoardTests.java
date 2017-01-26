@@ -19,5 +19,11 @@ public class LascaBoardTests {
 		assertEquals(board.getFields().size(), 25);
 		assertEquals(board.toFenString(), fen);
 	}
+	
+	@Test
+	public void testInvalidBoard_TooManyFigures(){
+		String fen = "b,b,b,b/b,b,b/b,b,b,b/b,b,/w,w,w,w/w,w,w/w,w,w,w";
+		// how should invalid state be tested with the given function?
+	}
 
 }

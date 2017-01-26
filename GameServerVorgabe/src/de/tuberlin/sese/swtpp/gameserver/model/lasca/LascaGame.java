@@ -33,7 +33,7 @@ public class LascaGame extends Game implements Serializable{
 	
 	public LascaGame() {
 		super();
-		this.board = new LascaBoard();
+		this.board = new LascaBoard("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w");
 		// initialize internal game model (state/ board here)
 	}
 	
