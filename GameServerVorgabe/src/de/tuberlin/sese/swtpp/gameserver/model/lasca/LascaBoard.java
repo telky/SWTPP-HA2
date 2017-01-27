@@ -3,8 +3,11 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.io.Serializable;
 import java.util.*;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField.figureType;
+import de.tuberlin.sese.swtpp.gameserver.test.lasca.MalformedFenException;
 
 public class LascaBoard implements Serializable {
 		
@@ -17,10 +20,10 @@ public class LascaBoard implements Serializable {
 		parseFen(fenState);
 		this.printBoard();
 		connectFields();
-		//setupBoard();
 	}
 	
-	
+	// TODO: wrong order, FEN strings begin with upper left corner
+	// currently unused
 	public String toFenString() {
 		String result = "";
 		for (int row = 1; row <= fieldSize; row ++) {
@@ -35,7 +38,6 @@ public class LascaBoard implements Serializable {
 				result.concat("/");
 			}
 		}
-		
 			
 		return result; 
 	}
@@ -44,78 +46,127 @@ public class LascaBoard implements Serializable {
 		return fields;
 	}
 	
-	private void setupBoard(){
-		createFields();
-		connectFields();
-		
-		for ( LascaField field: fields.values()) {
-			LascaField fieldTemp = field;
-		}
-		
-	}
 	
 	private void parseFen(String fenString) {
-		fenString = fenString.replaceAll(",,", ",-,");
-		fenString = fenString.replaceAll("/,", "/-,");
-		fenString = fenString.replaceAll(",/", ",-/");
-		
-		List<String> fenRows = Arrays.asList(fenString.split("/"));
-		
-		int row = 7;
-		int column = 1;
-		 
-		for (String fenRow: fenRows) {
+		try{
+			validateFEN(fenString);
 			
-			List<String> columnArray = Arrays.asList(fenRow.split(","));
-			Boolean evenRow = row % 2 == 0;
-			if (evenRow){ // set starting column in even row to second column
-				column = 2;
-			} else {
-				column = 1;
-			}
+			fenString = fenString.replaceAll(",,", ",-,");
+			fenString = fenString.replaceAll("/,", "/-,");
+			fenString = fenString.replaceAll(",/", ",-/");
 			
-			for (String component : columnArray) {
-				Boolean evenColumn = column % 2 == 0;
-				
-				LascaField field = new LascaField(row, column);
-				
-				if(evenRow == evenColumn){ // check if field is valid and can be used by figure
-					switch (component) {
-					case "b":
-						field.figures.add(figureType.WHITE_SOLDIER);
-						break;
-					case "B":
-						field.figures.add(figureType.BLACK_OFFICER);
-						break;
-					case "w":
-						field.figures.add(figureType.WHITE_SOLDIER);
-						break;
-					case "W":
-						field.figures.add(figureType.WHITE_OFFICER);
-						break;
-					default:
-						field.figures.add(figureType.EMPTY);
-						break;
-					}
-				}
-				String fieldId = this.idFor(row, column);
-				fields.put(fieldId, field);
-				column = column + 2;
+			List<String> fenRows = Arrays.asList(fenString.split("/"));
+			
+			int row = 7;
+			int column = 1;
+			 
+			for (String fenRow: fenRows) {
+				parseRow(fenRow, row, column);
+				row--;
 			}
-			row--;
+		} catch (MalformedFenException excep){
+			System.err.println("FEN String hat falsches Format: " + excep.getMessage());
 		}
 	}
 	
-	private void createFields(){
-		for(int rowIndex = 1; rowIndex < 8; rowIndex++){
-			for (int colIndex = 1; colIndex < 8; colIndex++){
-				if(rowIndex%2 != 0 && colIndex%2 != 0 || rowIndex%2 == 0 && colIndex%2 == 0){ // determine whether its a 4 or 3 field row
-					LascaField newField = new LascaField(rowIndex, colIndex);
-					fields.put(newField.id, newField);
-				} 
+	private void parseRow(String row, int rowIndex, int columnIndex){
+		List<String> columnList = Arrays.asList(row.split(","));
+		Boolean evenRow = rowIndex % 2 == 0;
+		if (evenRow){ // set starting column in even row to second column
+			columnIndex = 2;
+		} else {
+			columnIndex = 1;
+		}
+		
+		for (String component: columnList){
+			parseColumn(component, rowIndex, columnIndex);
+			columnIndex = columnIndex + 2; // skip invalid fields
+		}
+	}
+	
+	private void parseColumn(String component, int rowIndex, int columnIndex){
+		Boolean evenColumn = columnIndex % 2 == 0;
+		Boolean evenRow = rowIndex % 2 == 0;
+		
+		if(evenRow == evenColumn){	// check if field is valid and can be used by figure
+			String fieldID = this.idFor(rowIndex, columnIndex);
+			if (fields.get(fieldID) != null){	// field already exists, needs update
+				fields.get(fieldID).figures = new ArrayList<figureType>();
+				fields.get(fieldID).figures.add(parseFigures(component));
+			} else{
+				LascaField newField = new LascaField(rowIndex, columnIndex); // only valid fields are added
+				newField.figures.add(parseFigures(component));
+				fields.put(newField.id, newField);
+
 			}
 		}
 	}
+	
+	private figureType parseFigures(String figureString){
+		// TODO: Handling of multiple figures on the same field
+		switch (figureString) {
+			case "b":
+				return(figureType.WHITE_SOLDIER);
+			case "B":
+				return(figureType.BLACK_OFFICER);
+			case "w":
+				return(figureType.WHITE_SOLDIER);
+			case "W":
+				return(figureType.WHITE_OFFICER);
+			default:
+				return(figureType.EMPTY);
+		}
+	}
+	
+	
+	
+	private void validateFEN(String fen) throws MalformedFenException{
+		HashMap<Character, Integer> characterDict = getCharMap(fen);
+		System.out.println(characterDict.get('/'));
+		if (characterDict.get('/') != 6){
+			throw new MalformedFenException("Illegal number of rows");
+		}
+		if (characterDict.get(',') != 18){
+			throw new MalformedFenException("Illegal number of columns");
+		}
+		int numberOfBlackSoldiers = characterDict.get('b');
+		int numberOfWhiteSoldiers = characterDict.get('w');
+
+		int numberOfBlackOfficers = 0;
+		int numberOfWhiteOfficers = 0;
+
+		if(characterDict.get('B')!= null){
+			numberOfBlackOfficers = characterDict.get('B');
+		}
+		if(characterDict.get('W')!= null){
+			numberOfWhiteOfficers = characterDict.get('W');
+		}
+		if(numberOfBlackSoldiers + numberOfBlackOfficers != 11){
+			throw new MalformedFenException("Illegal number of black figures");
+		}
+		if(numberOfWhiteSoldiers + numberOfWhiteOfficers != 11){
+			throw new MalformedFenException("Illegal number of white figures");
+		}
+	}
+	
+	
+	
+	private HashMap<Character, Integer> getCharMap(String base){
+		 
+		HashMap<Character, Integer> characterMap = new HashMap<Character, Integer>();
+		char[] baseCharArr = base.toCharArray();
+		
+		for (char currentChar: baseCharArr){
+			if(characterMap.containsKey(currentChar)){
+				characterMap.put(currentChar, characterMap.get(currentChar)+1);
+			} else {
+				characterMap.put(currentChar, 1);
+			}
+		}
+		System.out.println(characterMap.get('/'));
+		return characterMap;
+	}
+
 	
 	private void connectFields(){
 		for(int rowIndex = 1; rowIndex < 8; rowIndex++){
@@ -139,8 +190,6 @@ public class LascaBoard implements Serializable {
 	}
 	
 	private void setNeighbours(LascaField field){
-		List<LascaField> whiteDirectionNeighbours;
-		List<LascaField> blackBirectionNeighbours;
 
 		String topLeft = Integer.toString(field.row+1) + "-" +Integer.toString(field.col-1);
 		if(validField(topLeft)){
