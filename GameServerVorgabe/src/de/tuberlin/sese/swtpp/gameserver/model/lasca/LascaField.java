@@ -3,7 +3,18 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.io.Serializable;
 import java.util.*;
 
+import com.sun.javafx.geom.Point2D;
+
 public class LascaField implements Serializable {
+	int row;
+	int col;
+	
+	String id;
+	
+	ArrayList<figureType> figures;
+	
+	List<LascaField> neighbourFieldsBlackDirection;
+	List<LascaField> neighbourFieldsWhiteDirection;
 	
 	public enum figureType {
 		EMPTY ("__"),
@@ -28,17 +39,6 @@ public class LascaField implements Serializable {
 	    }
 	}
 	
-	int row;
-	int col;
-	
-	String id;
-	
-	ArrayList<figureType> figures;
-	
-	List<LascaField> neighbourFieldsBlackDirection;
-	List<LascaField> neighbourFieldsWhiteDirection;
-	
-	
 	public LascaField(int row, int col){
 		this.row = row;
 		this.col = col;
@@ -50,7 +50,8 @@ public class LascaField implements Serializable {
 	}
 	
 	public String toFenString() {
-		return Integer.toString(this.row) + "-" + Integer.toString(this.col);
+		Point2D tmp = new Point2D(row, col);
+		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 
 }
