@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import de.tuberlin.sese.swtpp.gameserver.model.Game;
 import de.tuberlin.sese.swtpp.gameserver.model.Player;
-import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField.FigureType;
 
 /**
  * Class LascaGame extends the abstract class Game as a concrete game instance that allows to play 
@@ -220,6 +219,7 @@ public class LascaGame extends Game implements Serializable{
 			case BLACK_OFFICER: break;
 			default: return false;
 		}
+		
 		return false;
 	}
 

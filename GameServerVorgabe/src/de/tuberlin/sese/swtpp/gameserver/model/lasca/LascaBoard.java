@@ -6,7 +6,6 @@ import java.util.*;
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
-import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField.figureType;
 import de.tuberlin.sese.swtpp.gameserver.test.lasca.MalformedFenException;
 
 public class LascaBoard implements Serializable {
@@ -91,7 +90,7 @@ public class LascaBoard implements Serializable {
 		if(evenRow == evenColumn){	// check if field is valid and can be used by figure
 			String fieldID = this.idFor(rowIndex, columnIndex);
 			if (fields.get(fieldID) != null){	// field already exists, needs update
-				fields.get(fieldID).figures = new ArrayList<figureType>();
+				fields.get(fieldID).figures = new ArrayList<FigureType>();
 				fields.get(fieldID).figures.add(parseFigures(component));
 			} else{
 				LascaField newField = new LascaField(rowIndex, columnIndex); // only valid fields are added
@@ -102,7 +101,7 @@ public class LascaBoard implements Serializable {
 		}
 	}
 	
-	private figureType parseFigures(String figureString){
+	private FigureType parseFigures(String figureString){
 		// TODO: Handling of multiple figures on the same field
 		switch (figureString) {
 			case "b":
