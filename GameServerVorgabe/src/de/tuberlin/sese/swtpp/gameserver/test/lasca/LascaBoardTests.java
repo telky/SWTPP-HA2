@@ -49,6 +49,12 @@ public class LascaBoardTests {
 	
 	
 	@Test
+	public void testParseColumn(){
+		String fen = "Wb,,b,b/b,bb,b/b,,bw,b/,,/w,w,,/w,bww,w/w,,w,w w";
+		LascaBoard board = new LascaBoard(fen);
+		assertEquals(board.toFenString(),fen);
+	}
+	@Test
 	public void testInvalidBoard_TooManyFigures(){
 		// how should invalid state be tested with the given function?
 	}
