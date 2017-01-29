@@ -112,7 +112,6 @@ public class LascaBoard implements Serializable {
 	}
 	
 	private List<FigureType> parseFigures(String figureString){
-		// TODO: Handling of multiple figures on the same field
 		List<FigureType> figuresRead = new ArrayList<FigureType>();
 		for(int i = 0; i< figureString.length(); i++){
 			 String currentFigure = Character.toString(figureString.charAt(i));
