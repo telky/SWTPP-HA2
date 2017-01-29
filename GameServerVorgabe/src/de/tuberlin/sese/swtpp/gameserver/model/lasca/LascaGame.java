@@ -201,7 +201,7 @@ public class LascaGame extends Game implements Serializable{
 	
 	@Override
 	public boolean tryMove(String moveString, Player player) {
-		// TODO: implement
+		LascaMove move = new LascaMove(moveString);
 		// hint: see javadoc comment in super class
 		return false;
 	}
