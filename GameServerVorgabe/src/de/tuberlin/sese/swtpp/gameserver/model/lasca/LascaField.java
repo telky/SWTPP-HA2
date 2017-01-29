@@ -29,14 +29,14 @@ public class LascaField implements Serializable {
 	
 	public String getFiguresOnField() {
 		String figuresOnField = "";
-		for(figureType figure: this.figures){
+		for(FigureType figure: this.figures){
 			figuresOnField.concat(figure.toBoardName());
 		}
 		return figuresOnField;
 	}
 	
 	private String calculateID(){
-		Point2D tmp = new Point2D(row, col);
+		Point2D tmp = new Point2D(col, row);
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 	

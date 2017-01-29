@@ -14,6 +14,7 @@ public class LascaBoard implements Serializable {
 	HashMap<String, LascaField> fields;
 	
 	int fieldSize = 7;
+	int minFieldIndex = 1;
 	
 	public LascaBoard(String fenState) {
 		fields = new HashMap<String, LascaField>();
@@ -26,16 +27,18 @@ public class LascaBoard implements Serializable {
 	// currently unused
 	public String toFenString() {
 		String result = "";
-		for (int row = 1; row <= fieldSize; row ++) {
+		for (int row = 7; row >= minFieldIndex; row --) {
 			String currentColumn = "";
 			for (int column = 1; column <= fieldSize; column ++) {
 				String id = idFor(row, column);
 				LascaField field = fields.get(id);
-				currentColumn.concat(field.getFiguresOnField());
+				currentColumn=currentColumn+(field.getFiguresOnField());
+				currentColumn=currentColumn+(",");
+				
 			}
-			result.concat(currentColumn);
+			result=result+(currentColumn);
 			if (row != fieldSize) {
-				result.concat("/");
+				result=result+("/");
 			}
 		}
 			
@@ -211,7 +214,7 @@ public class LascaBoard implements Serializable {
 	}
 	
 	private String idFor(int row, int column) { // TODO remove, unnecessary wrapper
-		Point2D tmp = new Point2D(row, column);
+		Point2D tmp = new Point2D(column, row);
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 	
