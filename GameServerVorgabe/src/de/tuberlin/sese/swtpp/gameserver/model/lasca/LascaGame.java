@@ -203,10 +203,8 @@ public class LascaGame extends Game implements Serializable{
 		boolean diagonal = (move.origin.x == move.destination.x + 2) || (move.origin.x == move.destination.x - 2);
 		boolean forward = move.origin.y + 2 == move.destination.y; 
 		
-		FigureType selectedSoldier = origin.topFigure();
 		if (diagonal && forward) {
-			origin.removeTopFigure();
-			destination.addFigure(selectedSoldier);
+			board.moveFigure(origin, destination);
 			return true;
 		} 
 		return false;
