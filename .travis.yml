@@ -2,9 +2,6 @@ language: java
 #script: ant de.tuberlin.sese.swtpp.gameserver.test.lasca
 jdk:
   - oraclejdk8
+sudo: required
 before_script: cd GameServerVorgabe
-script: ant de.tuberlin.sese.swtpp.gameserver.test.lasca
-if [ $? != 0 ]
-then
- exit $?
-fi
+script: scripts/test.sh
