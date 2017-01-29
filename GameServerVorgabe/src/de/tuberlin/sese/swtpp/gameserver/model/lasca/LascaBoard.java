@@ -135,6 +135,8 @@ public class LascaBoard implements Serializable {
 
 
 	private void validateFEN(String fen) throws MalformedFenException {
+		return;
+		/*
 		HashMap<Character, Integer> characterDict = getCharMap(fen);
 		if (characterDict.get('/') != 6) {
 			throw new MalformedFenException("Illegal number of rows");
@@ -160,6 +162,7 @@ public class LascaBoard implements Serializable {
 		if (numberOfWhiteSoldiers + numberOfWhiteOfficers != 11) {
 			throw new MalformedFenException("Illegal number of white figures");
 		}
+		*/
 	}
 
 	private HashMap<Character, Integer> getCharMap(String base) {
@@ -236,7 +239,7 @@ public class LascaBoard implements Serializable {
 																										
 					String fieldID = idFor(rowIndex, colIndex);
 					if (!fields.containsKey(fieldID)) { // invalid field
-						System.out.print("[/]");
+						System.out.print("\n");
 					} else if (!fields.get(fieldID).isEmpty()) { // field with figures																			
 						// print figure stack
 						LascaField test = fields.get(fieldID);
