@@ -19,6 +19,13 @@ public class LascaBoardTests {
 		assertEquals(board.getFields().size(), 25);
 		assertEquals(board.toFenString(), fen);
 	}
+    
+    @Test
+    public void testValidStartingBoard_shouldFail(){
+        String invalidBoard = "b,b,b,b/b,b,b/b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w";
+        String fenCurrentBoard = board.toFenString();
+        assertNotEquals(invalidBoard, fenCurrentBoard);
+    }
 	
 	@Test
 	public void testParseColumn(){
