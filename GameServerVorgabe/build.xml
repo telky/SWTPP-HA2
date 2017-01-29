@@ -11,10 +11,10 @@
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
     
-    <property name="main.build.dir" value="build/main"/>
-    <property name="main.src.dir" value="src/main/java"/>
-    <property name="test.build.dir" value="build/test"/>
-    <property name="test.src.dir" value="src/test/java"/>
+    <property name="main.build.dir" value="build/classes/de/tuberlin/sese/swtpp/gameserver"/>
+    <property name="main.src.dir" value="src/de/tuberlin/sese/swtpp/gameserver"/>
+    <property name="test.build.dir" value="build/classes/de/tuberlin/sese/swtpp/gameserver"/>
+    <property name="test.src.dir" value="src/de/tuberlin/sese/swtpp/gameserver"/>
     
     <path id="Apache Tomcat v8.0 [tomcat].libraryclasspath">
         <pathelement location="../../../../../../../../../Applications/apache-tomcat-8.5.11/lib/annotations-api.jar"/>
