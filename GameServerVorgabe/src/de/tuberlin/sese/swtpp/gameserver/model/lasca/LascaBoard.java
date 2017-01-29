@@ -3,6 +3,7 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.io.Serializable;
 import java.util.*;
 
+import com.sun.javafx.geom.Point2D;
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
@@ -211,7 +212,8 @@ public class LascaBoard implements Serializable {
 	}
 	
 	private String idFor(int row, int column) {
-		return Integer.toString(row) + "-" + Integer.toString(column);
+		Point2D tmp = new Point2D(row, column);
+		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 	
 	
