@@ -211,7 +211,7 @@ public class LascaBoard implements Serializable {
 		
 	}
 	
-	private String idFor(int row, int column) {
+	private String idFor(int row, int column) { // TODO remove, unnecessary wrapper
 		Point2D tmp = new Point2D(row, column);
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
