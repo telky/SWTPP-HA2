@@ -92,45 +92,63 @@ public class LascaBoard implements Serializable {
 		}
 	}
 
-	private void parseColumn(String component, int rowIndex, int columnIndex) {
+	
+	private void parseColumn(String component, int rowIndex, int columnIndex){
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
-
-		if (evenRow == evenColumn) { // check if field is valid and can be used
-										// by figure
+		List<FigureType> figuresOnCurrentField = new ArrayList<FigureType>();
+		
+		if(evenRow == evenColumn){	// check if field is valid and can be used by figure
 			String fieldID = this.idFor(rowIndex, columnIndex);
-			if (fields.get(fieldID) != null) { // field already exists, needs
-												// update
+			if (fields.get(fieldID) != null){	// field already exists, needs update
 				fields.get(fieldID).figures = new ArrayList<FigureType>();
-				fields.get(fieldID).figures.add(parseFigures(component));
-			} else {
-				LascaField newField = new LascaField(rowIndex, columnIndex); // only
-																				// valid
-																				// fields
-																				// are
-																				// added
-				newField.figures.add(parseFigures(component));
+				figuresOnCurrentField = parseFigures(component);
+				for(int i = 0; i < figuresOnCurrentField.size(); i++){
+					fields.get(fieldID).figures.add(figuresOnCurrentField.get(i));
+				}
+				//fields.get(fieldID).figures.add(parseFigures(component));
+			} else{
+				LascaField newField = new LascaField(rowIndex, columnIndex); // only valid fields are added
+				figuresOnCurrentField = parseFigures(component);
+				for(int i = 0; i < figuresOnCurrentField.size(); i++){
+					newField.figures.add(figuresOnCurrentField.get(i));
+				}
+				//newField.figures.add(parseFigures(component));
 				fields.put(newField.id, newField);
 
 			}
 		}
 	}
 
-	private FigureType parseFigures(String figureString) {
-		// TODO: Handling of multiple figures on the same field
-		switch (figureString) {
-		case "b":
-			return (FigureType.BLACK_SOLDIER);
-		case "B":
-			return (FigureType.BLACK_OFFICER);
-		case "w":
-			return (FigureType.WHITE_SOLDIER);
-		case "W":
-			return (FigureType.WHITE_OFFICER);
-		default:
-			return (FigureType.EMPTY);
+
+	
+	
+	private List<FigureType> parseFigures(String figureString){
+		List<FigureType> figuresRead = new ArrayList<FigureType>();
+		for(int i = 0; i< figureString.length(); i++){
+			 String currentFigure = Character.toString(figureString.charAt(i));
+			 switch (currentFigure) {
+				case "b":
+					figuresRead.add(FigureType.BLACK_SOLDIER);
+					break;
+				case "B":
+					figuresRead.add(FigureType.BLACK_OFFICER);
+					break;
+				case "w":
+					figuresRead.add(FigureType.WHITE_SOLDIER);
+					break;
+				case "W":
+					figuresRead.add(FigureType.WHITE_OFFICER);
+					break;
+				default:
+					figuresRead.add(FigureType.EMPTY);
+					break;					
+			}
 		}
+		return figuresRead;
 	}
+
+
 
 	private void validateFEN(String fen) throws MalformedFenException {
 		HashMap<Character, Integer> characterDict = getCharMap(fen);
