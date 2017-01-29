@@ -6,7 +6,7 @@ public class CoordinatesHelper {
 
 	public static Point2D corrdinateForString(String stringValue) {
 		char first = stringValue.charAt(0);
-		int secondInt = (int)stringValue.charAt(0);
+		int secondInt = Character.getNumericValue(stringValue.charAt(1));
 		int firstInt = 0;
 	
         switch(first){
