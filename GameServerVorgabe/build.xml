@@ -37,6 +37,7 @@
         <pathelement location="../../../../../../../../../Applications/apache-tomcat-8.5.11/lib/tomcat-websocket.jar"/>
         <pathelement location="../../../../../../../../../Applications/apache-tomcat-8.5.11/lib/websocket-api.jar"/>
     </path>
+    <path id="classpath.base" />
     <path id="Web App Libraries.libraryclasspath"/>
     <path id="EAR Libraries.libraryclasspath"/>
     <path id="JUnit 4.libraryclasspath">
