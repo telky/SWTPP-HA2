@@ -36,6 +36,12 @@
     <target name="run" depends="build">
         <junit printsummary="on" haltonfailure="yes">
             <classpath>
+                <path refid="classpath.base" />
+                <fileset dir="${junit.dir}">
+                    <include name="**/junit.jar" />
+                </fileset>
+            </classpath>
+            <classpath>
                 <path refid="classpath.test" />
                 <pathelement location="${test.build.dir}"/>
             </classpath>
