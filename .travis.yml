@@ -1,5 +1,5 @@
 language: java
-script: ant de.tuberlin.sese.swtpp.gameserver.test.lasca
+script: ant TryMoveTest
 jdk:
   - oraclejdk8
   - openjdk7
