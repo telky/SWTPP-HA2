@@ -57,4 +57,8 @@ public class LascaField implements Serializable {
 		figures.add(figure);
 	}
 
+	public void removeAllFigures() {
+		figures.clear();
+	}
+
 }

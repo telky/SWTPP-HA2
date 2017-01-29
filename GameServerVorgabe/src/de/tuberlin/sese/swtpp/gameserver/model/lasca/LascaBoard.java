@@ -267,8 +267,20 @@ public class LascaBoard implements Serializable {
 	}
 
 	public void strike(LascaField origin, LascaField destination, boolean movingRight) {
-		// TODO Auto-generated method stub
+		Point2D destinationPoint = CoordinatesHelper.corrdinateForString(destination.id);
 		
+		Point2D newDestinationPoint = new Point2D(movingRight ? destinationPoint.x + 1 : destinationPoint.x - 1 , destinationPoint.y + 1); 
+		LascaField newDestination = getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
+		
+		for (LascaFigure figure : destination.figures) {
+			newDestination.addFigure(figure);
+		}
+		destination.removeAllFigures();
+		
+		fields.put(origin.id, origin);
+		fields.put(destination.id, destination);
+		
+		moveFigure(origin, newDestination);
 	}
 
 }
