@@ -100,6 +100,7 @@
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.TryMoveTest" todir="${junit.output.dir}"/>
             <classpath refid="GameServerVorgabe.classpath"/>
         </junit>
+        <fail message="Test failure detected, check test results." if="test.failed" />
     </target>
     <target name="de.tuberlin.sese.swtpp.gameserver.web">
         <mkdir dir="${junit.output.dir}"/>
