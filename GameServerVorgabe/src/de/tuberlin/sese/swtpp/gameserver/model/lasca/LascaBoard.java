@@ -6,7 +6,7 @@ import java.util.*;
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
-import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField.figureType;
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.FigureType;
 import de.tuberlin.sese.swtpp.gameserver.test.lasca.MalformedFenException;
 
 public class LascaBoard implements Serializable {
@@ -87,12 +87,12 @@ public class LascaBoard implements Serializable {
 	private void parseColumn(String component, int rowIndex, int columnIndex){
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
-		List<figureType> figuresOnCurrentField = new ArrayList<figureType>();
+		List<FigureType> figuresOnCurrentField = new ArrayList<FigureType>();
 		
 		if(evenRow == evenColumn){	// check if field is valid and can be used by figure
 			String fieldID = this.idFor(rowIndex, columnIndex);
 			if (fields.get(fieldID) != null){	// field already exists, needs update
-				fields.get(fieldID).figures = new ArrayList<figureType>();
+				fields.get(fieldID).figures = new ArrayList<FigureType>();
 				figuresOnCurrentField = parseFigures(component);
 				for(int i = 0; i < figuresOnCurrentField.size(); i++){
 					fields.get(fieldID).figures.add(figuresOnCurrentField.get(i));
@@ -111,26 +111,26 @@ public class LascaBoard implements Serializable {
 		}
 	}
 	
-	private List<figureType> parseFigures(String figureString){
+	private List<FigureType> parseFigures(String figureString){
 		// TODO: Handling of multiple figures on the same field
-		List<figureType> figuresRead = new ArrayList<figureType>();
+		List<FigureType> figuresRead = new ArrayList<FigureType>();
 		for(int i = 0; i< figureString.length(); i++){
 			 String currentFigure = Character.toString(figureString.charAt(i));
 			 switch (currentFigure) {
 				case "b":
-					figuresRead.add(figureType.BLACK_SOLDIER);
+					figuresRead.add(FigureType.BLACK_SOLDIER);
 					break;
 				case "B":
-					figuresRead.add(figureType.BLACK_OFFICER);
+					figuresRead.add(FigureType.BLACK_OFFICER);
 					break;
 				case "w":
-					figuresRead.add(figureType.WHITE_SOLDIER);
+					figuresRead.add(FigureType.WHITE_SOLDIER);
 					break;
 				case "W":
-					figuresRead.add(figureType.WHITE_OFFICER);
+					figuresRead.add(FigureType.WHITE_OFFICER);
 					break;
 				default:
-					figuresRead.add(figureType.EMPTY);
+					figuresRead.add(FigureType.EMPTY);
 					break;					
 			}
 		}
@@ -255,6 +255,10 @@ public class LascaBoard implements Serializable {
 			}
 		}
 		System.out.print("\n\n\n ------------------------------- \n\n\n");
+	}
+	
+	public LascaField getField(String fenPoint) {
+		return fields.get(fenPoint);
 	}
 
 }
