@@ -42,14 +42,22 @@ public class LascaField implements Serializable {
 	public LascaField(int row, int col){
 		this.row = row;
 		this.col = col;
-		this.id = this.toFenString();
+		this.id = this.calculateID();
 		this.neighbourFieldsBlackDirection = new ArrayList<LascaField>();
 		this.neighbourFieldsWhiteDirection =  new ArrayList<LascaField>();
 		
 		this.figures = new ArrayList<figureType>();
 	}
 	
-	public String toFenString() {
+	public String getFiguresOnField() {
+		String figuresOnField = "";
+		for(figureType figure: this.figures){
+			figuresOnField.concat(figure.toBoardName());
+		}
+		return figuresOnField;
+	}
+	
+	private String calculateID(){
 		Point2D tmp = new Point2D(row, col);
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}

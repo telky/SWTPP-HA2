@@ -32,7 +32,7 @@ public class LascaBoard implements Serializable {
 			for (int column = 1; column <= fieldSize; column ++) {
 				String id = idFor(row, column);
 				LascaField field = fields.get(id);
-				currentColumn.concat(field.toFenString());
+				currentColumn.concat(field.getFiguresOnField());
 			}
 			result.concat(currentColumn);
 			if (row != fieldSize) {
