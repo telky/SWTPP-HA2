@@ -27,7 +27,7 @@ public class LascaBoard implements Serializable {
 	// currently unused
 	public String toFenString() {
 		String result = "";
-		for (int row = 7; row >= minFieldIndex; row--) {
+		for (int row = fieldSize; row >= minFieldIndex; row--) {
 			String currentColumn = "";
 			for (int column = 1; column <= fieldSize; column++) {
 				String id = idFor(row, column);
@@ -181,8 +181,8 @@ public class LascaBoard implements Serializable {
 	}
 
 	private void connectFields() {
-		for (int rowIndex = 1; rowIndex < 8; rowIndex++) {
-			for (int colIndex = 1; colIndex < 8; colIndex++) {
+		for (int rowIndex = minFieldIndex; rowIndex <= fieldSize; rowIndex++) {
+			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
 				if (validField(rowIndex, colIndex)) {
 					String fieldId = Integer.toString(rowIndex) + "-" + Integer.toString(colIndex);
 					setNeighbours(fields.get(fieldId));
@@ -231,29 +231,29 @@ public class LascaBoard implements Serializable {
 	// for debugging
 	private void printBoard() {
 
-		System.out.println("Current board: \n\n");
-		for (int rowIndex = 7; rowIndex > 0; rowIndex--) {
-			System.out.println("\n");
-			for (int colIndex = 1; colIndex < 8; colIndex++) {
+		System.out.println("Current board:");
+		for (int rowIndex = fieldSize; rowIndex >= minFieldIndex; rowIndex--) {
+	
+			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
 				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine whether it is a 4 field or 3 field row
 																										
 					String fieldID = idFor(rowIndex, colIndex);
 					if (!fields.containsKey(fieldID)) { // invalid field
-						System.out.print("\n");
+						System.out.print("[/]");
 					} else if (!fields.get(fieldID).isEmpty()) { // field with figures																			
 						// print figure stack
-						LascaField test = fields.get(fieldID);
 						System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
 					} else{
 						// print empty field
-						System.out.println("[_]");
+						System.out.print("[_]");
 					}
 				} else {
-					System.out.print("[-]");
+					System.out.print("[ ]");
 				}
 			}
+			System.out.println("\n");
 		}
-		System.out.print("\n\n\n ------------------------------- \n\n\n");
+		System.out.print(" ---------------------- \n");
 	}
 
 	public LascaField getField(String fenPoint) {
