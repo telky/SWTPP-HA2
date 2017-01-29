@@ -19,6 +19,7 @@ public class CoordinatesHelperTests {
 		com.sun.javafx.geom.Point2D b = CoordinatesHelper.corrdinateForString("g0");
 		assert(b.x == 7);
 		assert(b.y == 0);
+		
 	}
 
 }
