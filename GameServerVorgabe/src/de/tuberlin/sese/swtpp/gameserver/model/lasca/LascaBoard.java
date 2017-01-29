@@ -265,6 +265,9 @@ public class LascaBoard implements Serializable {
 		FigureType selectedSoldier = origin.topFigure();
 		origin.removeTopFigure();
 		destination.addFigure(selectedSoldier);
+		
+		fields.put(origin.id, origin);
+		fields.put(destination.id, destination);
 	}
 
 }
