@@ -20,15 +20,23 @@ public class LascaField implements Serializable {
 	public LascaField(int row, int col){
 		this.row = row;
 		this.col = col;
-		this.id = this.toFenString();
+		this.id = this.calculateID();
 		this.neighbourFieldsBlackDirection = new ArrayList<LascaField>();
 		this.neighbourFieldsWhiteDirection =  new ArrayList<LascaField>();
 		
 		this.figures = new ArrayList<FigureType>();
 	}
 	
-	public String toFenString() {
-		Point2D tmp = new Point2D(row, col);
+	public String getFiguresOnField() {
+		String figuresOnField = "";
+		for(FigureType figure: this.figures){
+			figuresOnField=figuresOnField+(figure.toBoardName());
+		}
+		return figuresOnField;
+	}
+	
+	private String calculateID(){
+		Point2D tmp = new Point2D(col, row);
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 	

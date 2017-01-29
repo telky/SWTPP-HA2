@@ -25,33 +25,33 @@ public class CoordinatesHelper {
 	
 	public static String fenStringForCoordinate(Point2D point){
 		String fenString = "";
-		int row = (int) point.y;
-		
-		switch(row){
+		int tmp = (int) point.y;
+		String row = Integer.toString(tmp);
+		int column = (int) point.x;
+		switch(column){
         case 1:
-        	fenString.concat("a");
+        	fenString=fenString+("a");
         	break;
         case 2:
-        	fenString.concat("b");
+        	fenString=fenString+("b");
         	break;
         case 3:
-        	fenString.concat("c");
+        	fenString=fenString+("c");
         	break;
         case 4:
-        	fenString.concat("d");
+        	fenString=fenString+("d");
         	break;
         case 5:
-        	fenString.concat("e");
+        	fenString=fenString+("e");
         	break;
         case 6:
-        	fenString.concat("f");
+        	fenString=fenString+("f");
         	break;
         case 7:
-        	fenString.concat("g");
+        	fenString=fenString+("g");
         	break;
         }
-		String col = Float.toString(point.x);
-		fenString.concat(col);
+		fenString=fenString+(row);
 		
 		return fenString;
 	}
