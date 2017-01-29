@@ -266,4 +266,9 @@ public class LascaBoard implements Serializable {
 		fields.put(destination.id, destination);
 	}
 
+	public void strike(LascaField origin, LascaField destination, boolean movingRight) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

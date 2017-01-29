@@ -45,6 +45,7 @@ public class LascaField implements Serializable {
 	}
 	
 	public Boolean isEmpty() {
+		// todo check for Type EMPTY Figures
 		return figures.isEmpty();
 	}
 	

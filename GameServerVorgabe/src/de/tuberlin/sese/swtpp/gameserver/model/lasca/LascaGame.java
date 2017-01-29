@@ -7,6 +7,7 @@ import com.sun.javafx.geom.Point2D;
 
 import de.tuberlin.sese.swtpp.gameserver.model.Game;
 import de.tuberlin.sese.swtpp.gameserver.model.Player;
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.ColorType;
 
 /**
  * Class LascaGame extends the abstract class Game as a concrete game instance that allows to play 
@@ -202,30 +203,40 @@ public class LascaGame extends Game implements Serializable{
 		return board.toFenString();
 	}
 	
-	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
-		boolean diagonal = false;
-		boolean forward = move.origin.y + 1 == move.destination.y; 
-		boolean movingRight;
-		
-		
+	private boolean tryStrikeSoldier(LascaMove move, LascaField origin, LascaField destination) {
+		boolean movingRight = true;
+				
 		if (move.origin.x + 1 == move.destination.x ) {
-			diagonal = true;
 			movingRight = true;
 		} else if (move.origin.x - 1 == move.destination.x) {
-			diagonal = true;
 			movingRight = false;
+		} else {
+			return false;
 		}
 		
+		LascaField destinationField = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
+		if (!destinationField.isEmpty()) {
+			LascaFigure figure = destinationField.topFigure();	
+			if ((figure.color == ColorType.WHITE && move.player == blackPlayer) || (figure.color == ColorType.BLACK && move.player == whitePlayer)) {
+				
+				board.strike(origin, destination, movingRight);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
+		boolean diagonal = (move.origin.x + 1 == move.destination.x ) || (move.origin.x - 1 == move.destination.x);
+		boolean forward = move.origin.y + 1 == move.destination.y; 
+				
+
 		if (diagonal && forward) {
-			board.moveFigure(origin, destination);
-			
-			LascaField destinationField = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
-			//if (destinationField.topFigure().)
+			if (!tryStrikeSoldier(move, origin, destination)) {
+				board.moveFigure(origin, destination);
+			}
 			return true;
 		} 
-		
-		
-		
 		return false;
 	}
 	
@@ -250,11 +261,13 @@ public class LascaGame extends Game implements Serializable{
 			case OFFICER:
 				// TODO validate move
 				break;
-				
+			default:
+				validMove = false;
+				break;
 		}
 		
 		if (validMove) {
-			nextPlayer = isWhiteNext() ? blackPlayer : whitePlayer;
+			nextPlayer = isWhiteNext() ? whitePlayer : blackPlayer;
 		}
 		
 		return validMove;
