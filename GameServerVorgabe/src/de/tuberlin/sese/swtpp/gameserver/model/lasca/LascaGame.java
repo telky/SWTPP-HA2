@@ -225,7 +225,7 @@ public class LascaGame extends Game implements Serializable {
 			if ((figure.color == ColorType.WHITE && move.player == blackPlayer)
 					|| (figure.color == ColorType.BLACK && move.player == whitePlayer)) {
 
-				board.strike(origin, destination, movingRight);
+				board.strike(origin, destination, movingRight, move.player == whitePlayer );
 				return true;
 			}
 		}
