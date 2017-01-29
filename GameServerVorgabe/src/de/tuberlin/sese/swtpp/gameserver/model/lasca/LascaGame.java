@@ -217,6 +217,8 @@ public class LascaGame extends Game implements Serializable{
 		LascaField origin = board.getField(CoordinatesHelper.fenStringForCoordinate(move.origin));
 		LascaField destination = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
 		
+		boolean validMove = false;
+		
 		if (origin.isEmpty()) {
 			return false;
 		}
@@ -225,18 +227,22 @@ public class LascaGame extends Game implements Serializable{
 		
 		switch (selectedFigure) {
 			case WHITE_SOLDIER:
-				return trySoldierMove(move, origin, destination);
+				validMove = trySoldierMove(move, origin, destination);
 			case WHITE_OFFICER:
 				// TODO validate move
 				break;
 			case BLACK_SOLDIER: 
-				return trySoldierMove(move, origin, destination);
+				validMove =  trySoldierMove(move, origin, destination);
 			case BLACK_OFFICER: 
 				break;
-			default: return false;
+			default: validMove = false;
 		}
 		
-		return false;
+		if (validMove) {
+			nextPlayer = isWhiteNext() ? blackPlayer : whitePlayer;
+		}
+		
+		return validMove;
 	}
 
 
