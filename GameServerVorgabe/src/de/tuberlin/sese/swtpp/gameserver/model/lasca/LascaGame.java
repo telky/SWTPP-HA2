@@ -202,7 +202,32 @@ public class LascaGame extends Game implements Serializable{
 	@Override
 	public boolean tryMove(String moveString, Player player) {
 		LascaMove move = new LascaMove(moveString);
-		// hint: see javadoc comment in super class
+		
+		LascaField origin = board.getField(CoordinatesHelper.fenStringForCoordinate(move.origin));
+		LascaField destination = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
+		
+		if (origin.isEmpty()) {
+			return false;
+		}
+		
+		FigureType selectedFigure = origin.topFigure();
+		
+		switch (selectedFigure) {
+			case WHITE_SOLDIER:
+				// TODO validate move
+				break;
+			case WHITE_OFFICER:
+				// TODO validate move
+				break;
+			case BLACK_SOLDIER: 
+				// TODO validate move
+				break;
+			case BLACK_OFFICER: 
+				// TODO validate move
+				break;
+			default: return false;
+		}
+		
 		return false;
 	}
 
