@@ -79,7 +79,7 @@
         </javac>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-    <target name="de.tuberlin.sese.swtpp.gameserver.test.lasca">
+    <target name="de.tuberlin.sese.swtpp.gameserver.test.lasca" depends="build">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="on" haltonfailure="false" failureproperty="test.failed">
             <formatter type="brief" usefile="false" />
