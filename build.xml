@@ -129,7 +129,7 @@
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.TryMoveTest" todir="${junit.output.dir}"/>
-            <classpath refid="GameServerVorgabe.classpath"/>
+            <classpath refid="JUnit 4.libraryclasspath"/>
         </junit>
     </target>
     <target name="junitreport">
