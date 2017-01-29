@@ -3,5 +3,4 @@ language: java
 jdk:
   - oraclejdk8
 before_script: cd GameServerVorgabe
-script:
-- ./scripts/build.sh
+script: scripts/build.sh
