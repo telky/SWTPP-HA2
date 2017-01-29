@@ -234,14 +234,16 @@ public class LascaBoard implements Serializable {
 					String fieldID = idFor(rowIndex, colIndex);
 					if (!fields.containsKey(fieldID)) { // invalid field
 						System.out.print("[/]");
-					} else if (fields.get(fieldID).figures.size() != 0) { // field with figures
-						// figures
-																			
-						// TODO print figure stack
+					} else if (!fields.get(fieldID).isEmpty()) { // field with figures																			
+						// print figure stack
+						LascaField test = fields.get(fieldID);
 						System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
+					} else{
+						// print empty field
+						System.out.println("[_]");
 					}
 				} else {
-					System.out.print("[///////////]");
+					System.out.print("[-]");
 				}
 			}
 		}
