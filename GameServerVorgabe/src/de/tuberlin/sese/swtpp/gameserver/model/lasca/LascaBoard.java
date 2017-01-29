@@ -254,5 +254,14 @@ public class LascaBoard implements Serializable {
 	public LascaField getField(String fenPoint) {
 		return fields.get(fenPoint);
 	}
+	
+	public void moveFigure(LascaField origin, LascaField destination) {
+		FigureType selectedSoldier = origin.topFigure();
+		origin.removeTopFigure();
+		destination.addFigure(selectedSoldier);
+		
+		fields.put(origin.id, origin);
+		fields.put(destination.id, destination);
+	}
 
 }

@@ -199,12 +199,25 @@ public class LascaGame extends Game implements Serializable{
 		return board.toFenString();
 	}
 	
+	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
+		boolean diagonal = (move.origin.x == move.destination.x + 1) || (move.origin.x == move.destination.x - 1);
+		boolean forward = move.origin.y + 1 == move.destination.y; 
+		
+		if (diagonal && forward) {
+			board.moveFigure(origin, destination);
+			return true;
+		} 
+		return false;
+	}
+	
 	@Override
 	public boolean tryMove(String moveString, Player player) {
 		LascaMove move = new LascaMove(moveString);
 		
 		LascaField origin = board.getField(CoordinatesHelper.fenStringForCoordinate(move.origin));
 		LascaField destination = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
+		
+		boolean validMove = false;
 		
 		if (origin.isEmpty()) {
 			return false;
@@ -214,21 +227,22 @@ public class LascaGame extends Game implements Serializable{
 		
 		switch (selectedFigure) {
 			case WHITE_SOLDIER:
-				// TODO validate move
-				break;
+				validMove = trySoldierMove(move, origin, destination);
 			case WHITE_OFFICER:
 				// TODO validate move
 				break;
 			case BLACK_SOLDIER: 
-				// TODO validate move
-				break;
+				validMove =  trySoldierMove(move, origin, destination);
 			case BLACK_OFFICER: 
-				// TODO validate move
 				break;
-			default: return false;
+			default: validMove = false;
 		}
 		
-		return false;
+		if (validMove) {
+			nextPlayer = isWhiteNext() ? blackPlayer : whitePlayer;
+		}
+		
+		return validMove;
 	}
 
 
