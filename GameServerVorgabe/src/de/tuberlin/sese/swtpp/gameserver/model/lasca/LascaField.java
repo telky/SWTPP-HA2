@@ -3,6 +3,8 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.io.Serializable;
 import java.util.*;
 
+import com.sun.javafx.geom.Point2D;
+
 public class LascaField implements Serializable {
 		
 	int row;
@@ -26,7 +28,8 @@ public class LascaField implements Serializable {
 	}
 	
 	public String toFenString() {
-		return Integer.toString(this.row) + "-" + Integer.toString(this.col);
+		Point2D tmp = new Point2D(row, col);
+		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 	
 	public FigureType topFigure() {
