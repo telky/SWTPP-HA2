@@ -16,7 +16,6 @@ public class LascaMove {
 		
 		origin = CoordinatesHelper.corrdinateForString(positionStrings.get(0));
 		destination = CoordinatesHelper.corrdinateForString(positionStrings.get(1));
-
 	}
 	
 }
