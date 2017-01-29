@@ -7,6 +7,10 @@ import com.sun.javafx.geom.Point2D;
 import com.sun.xml.internal.ws.util.StringUtils;
 
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
+<<<<<<< HEAD
+=======
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.FigureType;
+>>>>>>> fixed the classname usage in LascaBoard
 import de.tuberlin.sese.swtpp.gameserver.test.lasca.MalformedFenException;
 
 public class LascaBoard implements Serializable {
@@ -94,6 +98,7 @@ public class LascaBoard implements Serializable {
 	private void parseColumn(String component, int rowIndex, int columnIndex) {
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
+<<<<<<< HEAD
 
 		if (evenRow == evenColumn) { // check if field is valid and can be used
 										// by figure
@@ -109,11 +114,32 @@ public class LascaBoard implements Serializable {
 																				// are
 																				// added
 				newField.figures.add(parseFigures(component));
+=======
+		List<FigureType> figuresOnCurrentField = new ArrayList<FigureType>();
+		
+		if(evenRow == evenColumn){	// check if field is valid and can be used by figure
+			String fieldID = this.idFor(rowIndex, columnIndex);
+			if (fields.get(fieldID) != null){	// field already exists, needs update
+				fields.get(fieldID).figures = new ArrayList<FigureType>();
+				figuresOnCurrentField = parseFigures(component);
+				for(int i = 0; i < figuresOnCurrentField.size(); i++){
+					fields.get(fieldID).figures.add(figuresOnCurrentField.get(i));
+				}
+				//fields.get(fieldID).figures.add(parseFigures(component));
+			} else{
+				LascaField newField = new LascaField(rowIndex, columnIndex); // only valid fields are added
+				figuresOnCurrentField = parseFigures(component);
+				for(int i = 0; i < figuresOnCurrentField.size(); i++){
+					newField.figures.add(figuresOnCurrentField.get(i));
+				}
+				//newField.figures.add(parseFigures(component));
+>>>>>>> fixed the classname usage in LascaBoard
 				fields.put(newField.id, newField);
 
 			}
 		}
 	}
+<<<<<<< HEAD
 
 	private FigureType parseFigures(String figureString) {
 		// TODO: Handling of multiple figures on the same field
@@ -128,6 +154,31 @@ public class LascaBoard implements Serializable {
 			return (FigureType.WHITE_OFFICER);
 		default:
 			return (FigureType.EMPTY);
+=======
+	
+	private List<FigureType> parseFigures(String figureString){
+		// TODO: Handling of multiple figures on the same field
+		List<FigureType> figuresRead = new ArrayList<FigureType>();
+		for(int i = 0; i< figureString.length(); i++){
+			 String currentFigure = Character.toString(figureString.charAt(i));
+			 switch (currentFigure) {
+				case "b":
+					figuresRead.add(FigureType.BLACK_SOLDIER);
+					break;
+				case "B":
+					figuresRead.add(FigureType.BLACK_OFFICER);
+					break;
+				case "w":
+					figuresRead.add(FigureType.WHITE_SOLDIER);
+					break;
+				case "W":
+					figuresRead.add(FigureType.WHITE_OFFICER);
+					break;
+				default:
+					figuresRead.add(FigureType.EMPTY);
+					break;					
+			}
+>>>>>>> fixed the classname usage in LascaBoard
 		}
 	}
 
@@ -255,6 +306,10 @@ public class LascaBoard implements Serializable {
 			}
 		}
 		System.out.print("\n\n\n ------------------------------- \n\n\n");
+	}
+	
+	public LascaField getField(String fenPoint) {
+		return fields.get(fenPoint);
 	}
 
 	public LascaField getField(String fenPoint) {
