@@ -10,6 +10,12 @@
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
+    
+    <property name="main.build.dir" value="build/main"/>
+    <property name="main.src.dir" value="src/main/java"/>
+    <property name="test.build.dir" value="build/test"/>
+    <property name="test.src.dir" value="src/test/java"/>
+    
     <path id="Apache Tomcat v8.0 [tomcat].libraryclasspath">
         <pathelement location="../../../../../../../../../Applications/apache-tomcat-8.5.11/lib/annotations-api.jar"/>
         <pathelement location="../../../../../../../../../Applications/apache-tomcat-8.5.11/lib/catalina-ant.jar"/>
@@ -88,7 +94,18 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="de.tuberlin.sese.swtpp.gameserver.test.lasca">
+    <target name="compile">
+        <mkdir dir="${main.build.dir}"/>
+        <javac srcdir="${main.src.dir}" destdir="${main.build.dir}" includeantruntime="false"/>
+    </target>
+    
+    <target name="test-compile" depends="compile">
+        <mkdir dir="${test.build.dir}"/>
+        <javac srcdir="${test.src.dir}" destdir="${test.build.dir}" includeantruntime="false">
+            <classpath refid="classpath.test"/>
+        </javac>
+    </target>
+    <target name="de.tuberlin.sese.swtpp.gameserver.test.lasca" depends="test-compile">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="on" haltonfailure="false" failureproperty="test.failed">
             <formatter type="brief" usefile="false" />
