@@ -80,8 +80,10 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/,,,", false);	
-		assertMove("a5-b4", false, true);		
-		assertGameState(",,,/,,/,,,/,,/,,wb,/,,/,,,", true, false, false);
+		assertMove("a5-b4", false, true);	
+		LascaBoard test = new LascaBoard(",,,/,,/,,,/,,/,wb,,/,,/,,,");
+		test.printBoard();
+		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/,,,", true, false, false);
 	}
 
 	//TODO: implement test cases of same kind as example here

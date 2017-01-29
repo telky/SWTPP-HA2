@@ -132,8 +132,6 @@ public class LascaBoard implements Serializable {
 		return figuresRead;
 	}
 
-
-
 	private void validateFEN(String fen) throws MalformedFenException {
 		return;
 		/*
