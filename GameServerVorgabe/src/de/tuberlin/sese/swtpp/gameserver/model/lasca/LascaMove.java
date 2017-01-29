@@ -2,8 +2,6 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.vecmath.Point2d;
-
 import com.sun.javafx.geom.Point2D;
 
 public class LascaMove {
