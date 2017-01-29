@@ -106,15 +106,15 @@ public class LascaBoard implements Serializable {
 		// TODO: Handling of multiple figures on the same field
 		switch (figureString) {
 			case "b":
-				return(figureType.WHITE_SOLDIER);
+				return(FigureType.WHITE_SOLDIER);
 			case "B":
-				return(figureType.BLACK_OFFICER);
+				return(FigureType.BLACK_OFFICER);
 			case "w":
-				return(figureType.WHITE_SOLDIER);
+				return(FigureType.WHITE_SOLDIER);
 			case "W":
-				return(figureType.WHITE_OFFICER);
+				return(FigureType.WHITE_OFFICER);
 			default:
-				return(figureType.EMPTY);
+				return(FigureType.EMPTY);
 		}
 	}
 	
