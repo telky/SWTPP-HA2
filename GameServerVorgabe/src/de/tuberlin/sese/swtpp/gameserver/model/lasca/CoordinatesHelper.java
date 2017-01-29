@@ -4,7 +4,7 @@ import com.sun.javafx.geom.Point2D;
 
 public class CoordinatesHelper {
 
-	static Point2D corrdinateForString(String stringValue) {
+	public static Point2D corrdinateForString(String stringValue) {
 		char first = stringValue.charAt(0);
 		int secondInt = (int)stringValue.charAt(0);
 		int firstInt = 0;
