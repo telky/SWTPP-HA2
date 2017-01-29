@@ -41,9 +41,9 @@ public class LascaBoardTests {
 	
 	@Test
 	public void testValidStartingBoard_shouldFail(){
-		String startingBoard = "b,b,b,b/b,b,b/b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w";
+		String invalidBoard = "b,b,b,b/b,b,b/b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w";
 		String fenCurrentBoard = board.toFenString();
-		assertNotEquals(startingBoard, fenCurrentBoard);
+		assertNotEquals(invalidBoard, fenCurrentBoard);
 	}
 	
 	
