@@ -1,6 +1,9 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
+import java.awt.Point;
 import java.io.Serializable;
+
+import com.sun.javafx.geom.Point2D;
 
 import de.tuberlin.sese.swtpp.gameserver.model.Game;
 import de.tuberlin.sese.swtpp.gameserver.model.Player;
@@ -200,19 +203,35 @@ public class LascaGame extends Game implements Serializable{
 	}
 	
 	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
-		boolean diagonal = (move.origin.x == move.destination.x + 1) || (move.origin.x == move.destination.x - 1);
+		boolean diagonal = false;
 		boolean forward = move.origin.y + 1 == move.destination.y; 
+		boolean movingRight;
+		
+		
+		if (move.origin.x + 1 == move.destination.x ) {
+			diagonal = true;
+			movingRight = true;
+		} else if (move.origin.x - 1 == move.destination.x) {
+			diagonal = true;
+			movingRight = false;
+		}
 		
 		if (diagonal && forward) {
 			board.moveFigure(origin, destination);
+			
+			LascaField destinationField = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
+			//if (destinationField.topFigure().)
 			return true;
 		} 
+		
+		
+		
 		return false;
 	}
 	
 	@Override
 	public boolean tryMove(String moveString, Player player) {
-		LascaMove move = new LascaMove(moveString);
+		LascaMove move = new LascaMove(moveString, player);
 		
 		LascaField origin = board.getField(CoordinatesHelper.fenStringForCoordinate(move.origin));
 		LascaField destination = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
@@ -223,19 +242,15 @@ public class LascaGame extends Game implements Serializable{
 			return false;
 		}
 		
-		FigureType selectedFigure = origin.topFigure();
-		
-		switch (selectedFigure) {
-			case WHITE_SOLDIER:
+		LascaFigure selectedFigure = origin.topFigure();
+		switch (selectedFigure.type) {
+			case SOLDIER:
 				validMove = trySoldierMove(move, origin, destination);
-			case WHITE_OFFICER:
+				break;
+			case OFFICER:
 				// TODO validate move
 				break;
-			case BLACK_SOLDIER: 
-				validMove =  trySoldierMove(move, origin, destination);
-			case BLACK_OFFICER: 
-				break;
-			default: validMove = false;
+				
 		}
 		
 		if (validMove) {

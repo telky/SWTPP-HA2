@@ -12,7 +12,7 @@ public class LascaField implements Serializable {
 	
 	String id;
 	
-	ArrayList<FigureType> figures;
+	ArrayList<LascaFigure> figures;
 	
 	List<LascaField> neighbourFieldsBlackDirection;
 	List<LascaField> neighbourFieldsWhiteDirection;
@@ -24,13 +24,13 @@ public class LascaField implements Serializable {
 		this.neighbourFieldsBlackDirection = new ArrayList<LascaField>();
 		this.neighbourFieldsWhiteDirection =  new ArrayList<LascaField>();
 		
-		this.figures = new ArrayList<FigureType>();
+		this.figures = new ArrayList<LascaFigure>();
 	}
 	
 	public String getFiguresOnField() {
 		String figuresOnField = "";
-		for(FigureType figure: this.figures){
-			figuresOnField=figuresOnField+(figure.toBoardName());
+		for(LascaFigure figure: this.figures){
+			figuresOnField=figuresOnField+(figure.toFenString());
 		}
 		return figuresOnField;
 	}
@@ -40,7 +40,7 @@ public class LascaField implements Serializable {
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 	
-	public FigureType topFigure() {
+	public LascaFigure topFigure() {
 		return figures.get(figures.size()-1);
 	}
 	
@@ -52,7 +52,7 @@ public class LascaField implements Serializable {
 		figures.remove(figures.size()-1);
 	}
 	
-	public void addFigure(FigureType figure) {
+	public void addFigure(LascaFigure figure) {
 		figures.add(figure);
 	}
 
