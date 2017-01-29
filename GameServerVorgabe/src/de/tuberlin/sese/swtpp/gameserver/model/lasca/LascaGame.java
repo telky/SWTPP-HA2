@@ -24,6 +24,8 @@ public class LascaGame extends Game implements Serializable{
 
 	// internal representation of the game state
 	// TODO: insert additional game data here
+	LascaBoard board;
+	String state;
 	
 	/************************
 	 * constructors
@@ -31,7 +33,7 @@ public class LascaGame extends Game implements Serializable{
 	
 	public LascaGame() {
 		super();
-		
+		this.board = new LascaBoard("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w");
 		// initialize internal game model (state/ board here)
 	}
 	
@@ -189,13 +191,12 @@ public class LascaGame extends Game implements Serializable{
 	
 	@Override
 	public void setState(String state) {
-		// TODO: implement
+		board = new LascaBoard(state);
 	}
 	
 	@Override
 	public String getState() {
-		// TODO: implement
-		return "";
+		return board.toFenString();
 	}
 	
 	@Override

@@ -7,5 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ LascaGameTest.class, TryMoveTest.class, })
 public class AllTests {
+	
+	
 
 }
