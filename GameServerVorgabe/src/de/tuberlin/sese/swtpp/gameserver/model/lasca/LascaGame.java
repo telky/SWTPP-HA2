@@ -256,6 +256,8 @@ public class LascaGame extends Game implements Serializable {
 
 		if (origin.isEmpty()) {
 			return false;
+		} else if ((origin.topFigure().color == ColorType.BLACK && player != blackPlayer) || ((origin.topFigure().color == ColorType.WHITE && player != whitePlayer))) {
+			return false;
 		}
 
 		LascaFigure selectedFigure = origin.topFigure();

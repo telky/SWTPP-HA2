@@ -81,8 +81,6 @@ public class TryMoveTest {
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/,,,", false);	
 		assertMove("a5-b4", false, true);	
-		LascaBoard test = new LascaBoard(",,,/,,/,,,/,,/,wb,,/,,/,,,");
-		test.printBoard();
 		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/,,,", true, false, false);
 	}
 
