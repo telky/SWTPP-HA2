@@ -43,6 +43,7 @@ public class LascaBoard implements Serializable {
 
 		}
 
+		result = removeLastChar(result);
 		return result;
 	}
 
