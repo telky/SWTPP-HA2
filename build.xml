@@ -122,6 +122,9 @@
             <classpath refid="GameServerVorgabe.classpath"/>
         </junit>
     </target>
+    <path id="classPath">
+    <pathelement location="${lib.dir}/junit-4.11.jar" />
+    </path>
     <target name="TryMoveTest">
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
