@@ -81,7 +81,7 @@
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target name="de.tuberlin.sese.swtpp.gameserver.test.lasca">
         <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="on">
+        <junit fork="yes" printsummary="on" failureproperty="test.failed">
             <formatter type="brief" usefile="false" />
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.AllTests" todir="${junit.output.dir}"/>
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.CoordinatesHelperTests" todir="${junit.output.dir}"/>
@@ -91,6 +91,7 @@
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.TryMoveTest" todir="${junit.output.dir}"/>
             <classpath refid="GameServerVorgabe.classpath"/>
         </junit>
+        <fail message="Test failure detected, check test results." if="test.failed" />
     </target>
     <target name="de.tuberlin.sese.swtpp.gameserver.web">
         <mkdir dir="${junit.output.dir}"/>
