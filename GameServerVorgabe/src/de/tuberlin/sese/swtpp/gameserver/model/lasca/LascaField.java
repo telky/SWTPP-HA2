@@ -5,7 +5,7 @@ import java.util.*;
 
 public class LascaField implements Serializable {
 	
-	public enum figureType {
+	public enum FigureType {
 		EMPTY ("__"),
 		WHITE_SOLDIER ("w"),
 		WHITE_OFFICER ("W"),
@@ -14,7 +14,7 @@ public class LascaField implements Serializable {
 		
 		private final String name;       
 
-	    private figureType(String s) {
+	    private FigureType(String s) {
 	        name = s;
 	    }
 
@@ -33,11 +33,10 @@ public class LascaField implements Serializable {
 	
 	String id;
 	
-	ArrayList<figureType> figures;
+	ArrayList<FigureType> figures;
 	
 	List<LascaField> neighbourFieldsBlackDirection;
 	List<LascaField> neighbourFieldsWhiteDirection;
-	
 	
 	public LascaField(int row, int col){
 		this.row = row;
@@ -46,11 +45,19 @@ public class LascaField implements Serializable {
 		this.neighbourFieldsBlackDirection = new ArrayList<LascaField>();
 		this.neighbourFieldsWhiteDirection =  new ArrayList<LascaField>();
 		
-		this.figures = new ArrayList<figureType>();
+		this.figures = new ArrayList<FigureType>();
 	}
 	
 	public String toFenString() {
 		return Integer.toString(this.row) + "-" + Integer.toString(this.col);
+	}
+	
+	public FigureType topFigure() {
+		return figures.get(figures.size()-1);
+	}
+	
+	public Boolean isEmpty() {
+		return figures.isEmpty();
 	}
 
 }
