@@ -3,6 +3,4 @@ language: java
 jdk:
   - oraclejdk8
 before_script: cd GameServerVorgabe
-script: ant de.tuberlin.sese.swtpp.gameserver.test.lasca; if [ $? != 0 ]; then exit $?; fi
- 
-
+script: scripts/test.sh
