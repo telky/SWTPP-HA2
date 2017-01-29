@@ -199,6 +199,15 @@ public class LascaGame extends Game implements Serializable{
 		return board.toFenString();
 	}
 	
+	private boolean trySoldierMove(LascaMove move) {
+		boolean diagonal = (move.origin.x == move.destination.x + 2) || (move.origin.x == move.destination.x - 2);
+		boolean forward = move.origin.y + 2 == move.destination.y; 
+		
+		// todo add handling for strike
+		
+		return diagonal && forward;
+	}
+	
 	@Override
 	public boolean tryMove(String moveString, Player player) {
 		LascaMove move = new LascaMove(moveString);
@@ -214,16 +223,13 @@ public class LascaGame extends Game implements Serializable{
 		
 		switch (selectedFigure) {
 			case WHITE_SOLDIER:
-				// TODO validate move
-				break;
+				return trySoldierMove(move);
 			case WHITE_OFFICER:
 				// TODO validate move
 				break;
 			case BLACK_SOLDIER: 
-				// TODO validate move
-				break;
+				return trySoldierMove(move);
 			case BLACK_OFFICER: 
-				// TODO validate move
 				break;
 			default: return false;
 		}
