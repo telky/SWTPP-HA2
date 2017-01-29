@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import de.tuberlin.sese.swtpp.gameserver.model.Game;
 import de.tuberlin.sese.swtpp.gameserver.model.Player;
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField.FigureType;
 
 /**
  * Class LascaGame extends the abstract class Game as a concrete game instance that allows to play 
@@ -202,7 +203,23 @@ public class LascaGame extends Game implements Serializable{
 	@Override
 	public boolean tryMove(String moveString, Player player) {
 		LascaMove move = new LascaMove(moveString);
-		// hint: see javadoc comment in super class
+		
+		LascaField origin;
+		LascaField destination;
+		
+		if (origin.isEmpty()) {
+			return false;
+		}
+		
+		FigureType selectedFigure = origin.topFigure();
+		
+		switch (selectedFigure) {
+			case WHITE_SOLDIER: break;
+			case WHITE_OFFICER: break;
+			case BLACK_SOLDIER: break;
+			case BLACK_OFFICER: break;
+			default: return false;
+		}
 		return false;
 	}
 
