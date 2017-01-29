@@ -32,18 +32,23 @@ public class LascaBoard implements Serializable {
 			for (int column = 1; column <= fieldSize; column ++) {
 				String id = idFor(row, column);
 				LascaField field = fields.get(id);
-				currentColumn=currentColumn+(field.getFiguresOnField());
-				currentColumn=currentColumn+(",");
-				
+				if(field!=null){
+					currentColumn=currentColumn+(field.getFiguresOnField());
+					currentColumn=currentColumn+(",");
+				}
 			}
 			result=result+(currentColumn);
-			if (row != fieldSize) {
-				result=result+("/");
-			}
+			result = removeLastChar(result);
+			result=result+("/");
+			
 		}
 			
 		return result; 
 	}
+	
+	private static String removeLastChar(String str) {
+        return str.substring(0,str.length()-1);
+    }
 	
 	public HashMap<String, LascaField> getFields() {
 		return fields;
@@ -109,7 +114,7 @@ public class LascaBoard implements Serializable {
 		// TODO: Handling of multiple figures on the same field
 		switch (figureString) {
 			case "b":
-				return(FigureType.WHITE_SOLDIER);
+				return(FigureType.BLACK_SOLDIER);
 			case "B":
 				return(FigureType.BLACK_OFFICER);
 			case "w":

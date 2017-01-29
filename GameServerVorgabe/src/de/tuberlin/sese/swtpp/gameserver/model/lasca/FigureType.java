@@ -3,7 +3,7 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.io.Serializable;
 
 public enum FigureType {
-	EMPTY ("__"),
+	EMPTY (""),
 	WHITE_SOLDIER ("w"),
 	WHITE_OFFICER ("W"),
 	BLACK_SOLDIER ("b"),
