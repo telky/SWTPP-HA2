@@ -238,5 +238,9 @@ public class LascaBoard implements Serializable {
 		}
 		System.out.print("\n\n\n ------------------------------- \n\n\n");
 	}
+	
+	public LascaField getField(String fenPoint) {
+		return fields.get(fenPoint);
+	}
 
 }
