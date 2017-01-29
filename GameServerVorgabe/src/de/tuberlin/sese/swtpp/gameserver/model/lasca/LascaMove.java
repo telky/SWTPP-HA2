@@ -9,7 +9,7 @@ public class LascaMove {
 	public Point2D origin;
 	public Point2D destination;
 	
-	public LascaMove(String moveString) {
+	public LascaMove(String moveString) {	// TODO: Needs Implementation for move over multiple points
 		List<String> positionStrings = Arrays.asList(moveString.split("-"));
 		
 		origin = CoordinatesHelper.corrdinateForString(positionStrings.get(0));
