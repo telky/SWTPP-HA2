@@ -39,5 +39,13 @@ public class LascaField implements Serializable {
 	public Boolean isEmpty() {
 		return figures.isEmpty();
 	}
+	
+	public void removeTopFigure() {
+		figures.remove(figures.size()-1);
+	}
+	
+	public void addFigure(FigureType figure) {
+		figures.add(figure);
+	}
 
 }
