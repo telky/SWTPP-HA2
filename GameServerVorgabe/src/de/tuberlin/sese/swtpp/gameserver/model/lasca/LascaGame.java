@@ -234,7 +234,7 @@ public class LascaGame extends Game implements Serializable {
 
 	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
 		boolean diagonal = (move.origin.x + 1 == move.destination.x) || (move.origin.x - 1 == move.destination.x);
-		boolean forward = move.origin.y + 1 == move.destination.y;
+		boolean forward = move.player == whitePlayer ? move.origin.y + 1 == move.destination.y : move.origin.y - 1 == move.destination.y;
 
 		if (diagonal && forward) {
 			if (!tryStrikeSoldier(move, origin, destination)) {
@@ -272,7 +272,7 @@ public class LascaGame extends Game implements Serializable {
 		}
 
 		if (validMove) {
-			nextPlayer = isWhiteNext() ? whitePlayer : blackPlayer;
+			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
 		}
 
 		return validMove;
