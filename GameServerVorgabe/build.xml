@@ -90,7 +90,7 @@
     </target>
     <target name="de.tuberlin.sese.swtpp.gameserver.test.lasca">
         <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr" haltonfailure="false" failureproperty="test.failed">
+        <junit fork="yes" printsummary="on" haltonfailure="false" failureproperty="test.failed">
             <formatter type="xml"/>
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.AllTests" todir="${junit.output.dir}"/>
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.CoordinatesHelperTests" todir="${junit.output.dir}"/>
