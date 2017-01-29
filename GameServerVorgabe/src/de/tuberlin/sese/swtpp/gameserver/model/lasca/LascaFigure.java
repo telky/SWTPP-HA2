@@ -39,6 +39,8 @@ public class LascaFigure {
 		default:
 			type = FigureType.Empty;
 		}
+		
+		// TODO remove empty state
 	}
 
 	public boolean equalsName(String otherName) {

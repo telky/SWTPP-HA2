@@ -5,6 +5,8 @@ import java.util.*;
 
 import com.sun.javafx.geom.Point2D;
 
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.FigureType;
+
 public class LascaField implements Serializable {
 		
 	int row;
@@ -45,8 +47,12 @@ public class LascaField implements Serializable {
 	}
 	
 	public Boolean isEmpty() {
-		// todo check for Type EMPTY Figures
-		return figures.isEmpty();
+		for (LascaFigure figure : figures) {
+			if (figure.type != FigureType.Empty) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public void removeTopFigure() {
@@ -58,7 +64,11 @@ public class LascaField implements Serializable {
 	}
 
 	public void removeAllFigures() {
-		figures.clear();
+		ArrayList<LascaFigure> newFigures = new ArrayList<LascaFigure>();;
+		for (LascaFigure figure : figures) {
+			newFigures.add(new LascaFigure(""));
+		}
+		figures = newFigures;
 	}
 
 }
