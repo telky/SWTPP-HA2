@@ -133,7 +133,6 @@ public class LascaBoard implements Serializable {
 
 	private void validateFEN(String fen) throws MalformedFenException {
 		HashMap<Character, Integer> characterDict = getCharMap(fen);
-		System.out.println(characterDict.get('/'));
 		if (characterDict.get('/') != 6) {
 			throw new MalformedFenException("Illegal number of rows");
 		}
@@ -172,7 +171,6 @@ public class LascaBoard implements Serializable {
 				characterMap.put(currentChar, 1);
 			}
 		}
-		System.out.println(characterMap.get('/'));
 		return characterMap;
 	}
 
@@ -231,23 +229,16 @@ public class LascaBoard implements Serializable {
 		for (int rowIndex = 7; rowIndex > 0; rowIndex--) {
 			System.out.println("\n");
 			for (int colIndex = 1; colIndex < 8; colIndex++) {
-				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine
-																										// whether
-																										// its
-																										// a
-																										// 4
-																										// or
-																										// 3
-																										// field
-																										// row
+				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine whether it is a 4 field or 3 field row
+																										
 					String fieldID = idFor(rowIndex, colIndex);
 					if (!fields.containsKey(fieldID)) { // invalid field
 						System.out.print("[/]");
-					} else if (fields.get(fieldID).figures.size() != 0) { // field
-																			// with
-																			// figures
+					} else if (fields.get(fieldID).figures.size() != 0) { // field with figures
+						// figures
+																			
 						// TODO print figure stack
-						System.out.print("[" + fields.get(fieldID).figures.get(0).name().toString() + "]");
+						System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
 					}
 				} else {
 					System.out.print("[///////////]");
