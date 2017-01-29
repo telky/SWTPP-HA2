@@ -79,9 +79,9 @@ public class TryMoveTest {
 	
 	@Test
 	public void testStrikeSoldier() {
-		startGame(",,,/,,/b,,,/w,,/,,,/,,/,,,", false);	
+		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w", false);	
 		assertMove("a5-b4", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/,,,", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/w,w,w,w", true, false, false);
 	}
 
 	//TODO: implement test cases of same kind as example here

@@ -65,8 +65,8 @@ public class LascaBoard implements Serializable {
 
 			List<String> fenRows = Arrays.asList(fenString.split("/"));
 
-			int row = 7;
-			int column = 1;
+			int row = fieldSize;
+			int column = minFieldIndex;
 
 			for (String fenRow : fenRows) {
 				parseRow(fenRow, row, column);
@@ -115,7 +115,6 @@ public class LascaBoard implements Serializable {
 				}
 				//newField.figures.add(parseFigures(component));
 				fields.put(newField.id, newField);
-
 			}
 		}
 	}
