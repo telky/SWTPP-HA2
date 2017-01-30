@@ -225,8 +225,15 @@ public class LascaGame extends Game implements Serializable {
 			if ((figure.color == ColorType.WHITE && move.player == blackPlayer)
 					|| (figure.color == ColorType.BLACK && move.player == whitePlayer)) {
 
-				board.strike(origin, destination, movingRight, move.player == whitePlayer );
-				return true;
+				boolean forward = move.player == whitePlayer; 
+				
+				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : - 1) , move.destination.y + (forward ? 1 : -1)); 
+				LascaField newDestination = board.getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
+				
+				if (newDestination.isEmpty()) {
+					board.strike(origin, destination, movingRight, forward);
+					return true;					
+				}
 			}
 		}
 		return false;
