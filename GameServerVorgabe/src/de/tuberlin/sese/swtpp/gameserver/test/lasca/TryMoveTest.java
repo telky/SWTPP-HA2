@@ -112,6 +112,20 @@ public class TryMoveTest {
 		assertGameState(",W,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false, false, false);
 	}
 	
+	@Test
+	public void testStrikeUpgradeToSoldierBlack() {
+		startGame(",,,/,,/b,,,/b,,/,b,,/,w,/w,,,w", false);
+		assertMove("c3-d2", false, true);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,wB,w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeUpgradeToSoldierWhite() {
+		startGame(",,,/,b,/b,,w,/b,,/,,,/,b,/w,,,w", true);
+		assertMove("e5-d6", true, true);
+		assertGameState(",bW,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false, false, false);
+	}
+	
 
 	//TODO: implement test cases of same kind as example here
 	
