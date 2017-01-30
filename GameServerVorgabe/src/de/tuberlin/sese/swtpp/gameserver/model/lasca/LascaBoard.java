@@ -256,6 +256,10 @@ public class LascaBoard implements Serializable {
 		return fields.get(fenPoint);
 	}
 	
+	public LascaField getField(Point2D point) {
+		return getField(CoordinatesHelper.fenStringForCoordinate(point));
+	}
+	
 	public void moveFigure(LascaField origin, LascaField destination) {
 		LascaFigure selectedSoldier = origin.topFigure();
 		origin.removeTopFigure();

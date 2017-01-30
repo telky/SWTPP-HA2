@@ -218,7 +218,7 @@ public class LascaGame extends Game implements Serializable {
 	private boolean tryStrikeSoldier(LascaMove move, LascaField origin, LascaField destination) {
 		boolean movingRight = move.origin.x + 1 == move.destination.x;
 
-		LascaField destinationField = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
+		LascaField destinationField = board.getField(move.destination);
 		if (!destinationField.isEmpty()) {
 			LascaFigure strikedFigure = destinationField.topFigure();
 			if ((strikedFigure.color == ColorType.WHITE && move.getPlayer() == blackPlayer)
@@ -227,7 +227,7 @@ public class LascaGame extends Game implements Serializable {
 				boolean forward = move.getPlayer() == whitePlayer; 
 				
 				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : - 1) , move.destination.y + (forward ? 1 : -1)); 
-				LascaField newDestination = board.getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
+				LascaField newDestination = board.getField(newDestinationPoint);
 				
 				if (newDestination.isEmpty()) {
 					board.strike(origin, destination, movingRight, forward);
@@ -259,8 +259,8 @@ public class LascaGame extends Game implements Serializable {
 	public boolean tryMove(String moveString, Player player) {
 		LascaMove move = new LascaMove(moveString, player);
 
-		LascaField origin = board.getField(CoordinatesHelper.fenStringForCoordinate(move.origin));
-		LascaField destination = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
+		LascaField origin = board.getField(move.origin);
+		LascaField destination = board.getField(move.destination);
 
 		boolean validMove = false;
 
