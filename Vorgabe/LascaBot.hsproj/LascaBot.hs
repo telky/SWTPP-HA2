@@ -15,6 +15,18 @@ listMoves :: String -> String
 --- types/structures (TODO)
 
 data Color = White | Black
+data FigureType = Soldier | Officer
+
+
+data Figure = Figure { figureType :: FigureType  
+                                , color :: Color
+                            } 
+                            
+data Field = Field { figures :: [Figure]}
+
+emptyField :: Field -> Bool
+emptyField  (Field { figures = f }) = length f == 0
+             
 
     --- ... ---
 
@@ -33,12 +45,23 @@ listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
 --parseInput (board:color:[])   = ... (parseColor color) ...
 --parseInput (board:color:move:[]) = ... (parseColor color) ...
 
+
+parseFigure :: String -> Figure
+parseFigure s = Figure{ figureType = (parseFigureType s), color = (parseColor s) }
+
 parseColor :: String -> Color
 parseColor "w" = White
 parseColor "b" = Black
 
+parseFigureType :: String -> FigureType
+parseFigureType "w" = Soldier
+parseFigureType "b" = Soldier
+parseFigureType "W" = Officer
+parseFigureType "B" = Officer
+
 toInt :: Char -> Int
 toInt c = ((ord c) - (ord 'a') + 1)
+
 
     --- ... ---
 
