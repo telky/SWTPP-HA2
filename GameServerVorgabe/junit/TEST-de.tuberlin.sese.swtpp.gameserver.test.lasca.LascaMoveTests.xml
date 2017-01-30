@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="dhcp-213-158.vpn.tu-berlin.de" name="de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests" skipped="0" tests="1" time="0.073" timestamp="2017-01-29T20:16:27">
+<testsuite errors="0" failures="0" hostname="dhcp-213-158.vpn.tu-berlin.de" name="de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests" skipped="0" tests="1" time="0.094" timestamp="2017-01-29T23:27:03">
   <properties>
     <property name="java.vendor" value="Oracle Corporation" />
     <property name="sun.java.launcher" value="SUN_STANDARD" />
@@ -17,6 +17,7 @@
     <property name="java.runtime.version" value="1.8.0_65-b17" />
     <property name="env.Apple_PubSub_Socket_Render" value="/private/tmp/com.apple.launchd.5l23oP6nr8/Render" />
     <property name="env.DISPLAY" value="/private/tmp/com.apple.launchd.qsbyfG7XTT/org.macosforge.xquartz:0" />
+    <property name="env.JAVA_MAIN_CLASS_92663" value="org.apache.tools.ant.launch.Launcher" />
     <property name="user.name" value="daniel" />
     <property name="env.USER" value="daniel" />
     <property name="env.SHELL" value="/bin/zsh" />
@@ -35,10 +36,10 @@
     <property name="java.endorsed.dirs" value="/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home/jre/lib/endorsed" />
     <property name="sun.cpu.isalist" value="" />
     <property name="sun.jnu.encoding" value="UTF-8" />
-    <property name="env.ITERM_SESSION_ID" value="w0t0p0:1897074A-2749-48E4-85DA-2E9A4BF142ED" />
+    <property name="env.ITERM_SESSION_ID" value="w0t0p0:675813A7-A1DE-4426-8378-915006B839A8" />
     <property name="file.encoding.pkg" value="sun.io" />
     <property name="env.SHLVL" value="2" />
-    <property name="ECLIPSE_HOME" value="../../../../../../../../../Applications/Eclipse.app/Contents/Eclipse/" />
+    <property name="ECLIPSE_HOME" value="/Applications/Eclipse.app/Contents/Eclipse/" />
     <property name="file.separator" value="/" />
     <property name="java.specification.name" value="Java Platform API Specification" />
     <property name="java.class.version" value="52.0" />
@@ -47,7 +48,6 @@
     <property name="env.ZSH" value="/Users/daniel/.oh-my-zsh" />
     <property name="java.vm.info" value="mixed mode" />
     <property name="env.LOGNAME" value="daniel" />
-    <property name="env.JAVA_MAIN_CLASS_64295" value="org.apache.tools.ant.launch.Launcher" />
     <property name="ant.file" value="/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/build.xml" />
     <property name="os.version" value="10.12.2" />
     <property name="env.TERM_PROGRAM_VERSION" value="3.0.13" />
@@ -71,9 +71,9 @@
     <property name="gopherProxySet" value="false" />
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment" />
     <property name="ant.version" value="Apache Ant(TM) version 1.10.0 compiled on December 27 2016" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/junit/TEST-de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests.xml crashfile=/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/junitvmwatcher6382651349405790485.properties propsfile=/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/junit7476425900178599968.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false formatter=org.apache.tools.ant.taskdefs.optional.junit.OutErrSummaryJUnitResultFormatter showoutput=false outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=false formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/junit/TEST-de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests.xml crashfile=/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/junitvmwatcher1711804240422160634.properties propsfile=/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/junit1672079181212236777.properties" />
     <property name="java.class.path" value="/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/build/classes:/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/lib/javax.json-1.0.jar:/Applications/apache-tomcat-8.5.11/lib/annotations-api.jar:/Applications/apache-tomcat-8.5.11/lib/catalina-ant.jar:/Applications/apache-tomcat-8.5.11/lib/catalina-ha.jar:/Applications/apache-tomcat-8.5.11/lib/catalina-storeconfig.jar:/Applications/apache-tomcat-8.5.11/lib/catalina-tribes.jar:/Applications/apache-tomcat-8.5.11/lib/catalina.jar:/Applications/apache-tomcat-8.5.11/lib/ecj-4.5.1.jar:/Applications/apache-tomcat-8.5.11/lib/el-api.jar:/Applications/apache-tomcat-8.5.11/lib/jasper-el.jar:/Applications/apache-tomcat-8.5.11/lib/jasper.jar:/Applications/apache-tomcat-8.5.11/lib/jaspic-api.jar:/Applications/apache-tomcat-8.5.11/lib/jsp-api.jar:/Applications/apache-tomcat-8.5.11/lib/servlet-api.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-api.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-coyote.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-dbcp.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-i18n-es.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-i18n-fr.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-i18n-ja.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-jdbc.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-jni.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-util-scan.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-util.jar:/Applications/apache-tomcat-8.5.11/lib/tomcat-websocket.jar:/Applications/apache-tomcat-8.5.11/lib/websocket-api.jar:/Applications/Eclipse.app/Contents/Eclipse/plugins/org.junit_4.12.0.v201504281640/junit.jar:/Applications/Eclipse.app/Contents/Eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar:/usr/local/Cellar/ant/1.10.0/libexec/lib/ant-launcher.jar:/usr/local/Cellar/ant/1.10.0/libexec/lib/ant.jar:/usr/local/Cellar/ant/1.10.0/libexec/lib/ant-junit.jar:/usr/local/Cellar/ant/1.10.0/libexec/lib/ant-junit4.jar" />
-    <property name="env.TERM_SESSION_ID" value="w0t0p0:1897074A-2749-48E4-85DA-2E9A4BF142ED" />
+    <property name="env.TERM_SESSION_ID" value="w0t0p0:675813A7-A1DE-4426-8378-915006B839A8" />
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification" />
     <property name="ant.file.type" value="file" />
     <property name="java.vm.specification.version" value="1.8" />
@@ -103,7 +103,7 @@
     <property name="ant.file.type.GameServerVorgabe" value="file" />
     <property name="ant.file.GameServerVorgabe" value="/Users/daniel/Documents/Studium/Medieninformatik/5. Semester/Softwaretechnik/ha2/GameServerVorgabe/build.xml" />
   </properties>
-  <testcase classname="de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests" name="testConstructor" time="0.007" />
+  <testcase classname="de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests" name="testConstructor" time="0.006" />
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

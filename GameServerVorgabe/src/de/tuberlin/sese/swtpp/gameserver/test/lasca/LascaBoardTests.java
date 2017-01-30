@@ -4,20 +4,28 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import de.tuberlin.sese.swtpp.gameserver.control.GameController;
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaBoard;
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaGame;
 
 public class LascaBoardTests {
+	
+	LascaBoard board = null;
 
+	@Before
+	public void setUp() throws Exception {
+		board = new LascaBoard("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w");
+	}
+	
 	@Test
-	public void testSize() {
-		String fen = "b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w";
-		LascaBoard board = new LascaBoard(fen);
-		
-		assertEquals(board.getFields().size(), 25);
-		assertEquals(board.toFenString(), fen);
+	public void testValidStartingBoard_shouldSucceed() {
+		String validBoard = "b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w";
+		String fenCurrentBoard = board.toFenString();
+		assertEquals(validBoard, fenCurrentBoard);
 	}
     
     @Test
