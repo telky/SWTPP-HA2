@@ -76,6 +76,29 @@ public class TryMoveTest {
 		assertMove("a1-a1", true, false);		
 		assertGameState("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true, false, false);
 	}
+	
+	@Test
+	public void testStrikeSoldier() {
+		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w", false);	
+		assertMove("a5-b4", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/w,w,w,w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeSoldierNotEmptyField() {
+		startGame(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w", false);	
+		assertMove("a5-b4", false, false);	
+		assertGameState(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w", false, false, false);
+	}
+	
+	@Test
+	public void testStrikeOwnSoldier() {
+		startGame(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false);
+		assertMove("a5-b4", false, false);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false, false, false);
+	}
+	
+	
 
 	//TODO: implement test cases of same kind as example here
 	

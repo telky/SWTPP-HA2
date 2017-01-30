@@ -26,7 +26,7 @@ public class LascaBoard implements Serializable {
 	// currently unused
 	public String toFenString() {
 		String result = "";
-		for (int row = 7; row >= minFieldIndex; row--) {
+		for (int row = fieldSize; row >= minFieldIndex; row--) {
 			String currentColumn = "";
 			for (int column = 1; column <= fieldSize; column++) {
 				String id = idFor(row, column);
@@ -64,8 +64,8 @@ public class LascaBoard implements Serializable {
 
 			List<String> fenRows = Arrays.asList(fenString.split("/"));
 
-			int row = 7;
-			int column = 1;
+			int row = fieldSize;
+			int column = minFieldIndex;
 
 			for (String fenRow : fenRows) {
 				parseRow(fenRow, row, column);
@@ -91,65 +91,48 @@ public class LascaBoard implements Serializable {
 		}
 	}
 
-	private void parseColumn(String component, int rowIndex, int columnIndex) {
+	
+	private void parseColumn(String component, int rowIndex, int columnIndex){
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
-		List<FigureType> figuresOnCurrentField = new ArrayList<FigureType>();
-
-		if (evenRow == evenColumn) { // check if field is valid and can be used
-										// by figure
+		List<LascaFigure> figuresOnCurrentField = new ArrayList<LascaFigure>();
+		
+		if(evenRow == evenColumn){	// check if field is valid and can be used by figure
 			String fieldID = this.idFor(rowIndex, columnIndex);
-			if (fields.get(fieldID) != null) { // field already exists, needs
-												// update
-				fields.get(fieldID).figures = new ArrayList<FigureType>();
+			if (fields.get(fieldID) != null){	// field already exists, needs update
+				fields.get(fieldID).figures = new ArrayList<LascaFigure>();
 				figuresOnCurrentField = parseFigures(component);
-				for (int i = 0; i < figuresOnCurrentField.size(); i++) {
+				for(int i = 0; i < figuresOnCurrentField.size(); i++){
 					fields.get(fieldID).figures.add(figuresOnCurrentField.get(i));
 				}
-				// fields.get(fieldID).figures.add(parseFigures(component));
-			} else {
-				LascaField newField = new LascaField(rowIndex, columnIndex); // only
-																				// valid
-																				// fields
-																				// are
-																				// added
+				//fields.get(fieldID).figures.add(parseFigures(component));
+			} else{
+				LascaField newField = new LascaField(rowIndex, columnIndex); // only valid fields are added
 				figuresOnCurrentField = parseFigures(component);
-				for (int i = 0; i < figuresOnCurrentField.size(); i++) {
+				for(int i = 0; i < figuresOnCurrentField.size(); i++){
 					newField.figures.add(figuresOnCurrentField.get(i));
 				}
-				// newField.figures.add(parseFigures(component));
+				//newField.figures.add(parseFigures(component));
 				fields.put(newField.id, newField);
-
 			}
 		}
 	}
 
-	private List<FigureType> parseFigures(String figureString) {
-		List<FigureType> figuresRead = new ArrayList<FigureType>();
-		for (int i = 0; i < figureString.length(); i++) {
-			String currentFigure = Character.toString(figureString.charAt(i));
-			switch (currentFigure) {
-			case "b":
-				figuresRead.add(FigureType.BLACK_SOLDIER);
-				break;
-			case "B":
-				figuresRead.add(FigureType.BLACK_OFFICER);
-				break;
-			case "w":
-				figuresRead.add(FigureType.WHITE_SOLDIER);
-				break;
-			case "W":
-				figuresRead.add(FigureType.WHITE_OFFICER);
-				break;
-			default:
-				figuresRead.add(FigureType.EMPTY);
-				break;
-			}
+
+	
+	
+	private List<LascaFigure> parseFigures(String figureString){
+		List<LascaFigure> figuresRead = new ArrayList<LascaFigure>();
+		for(int i = 0; i< figureString.length(); i++){
+			 String currentFigure = Character.toString(figureString.charAt(i));
+			 figuresRead.add(new LascaFigure(currentFigure));
 		}
 		return figuresRead;
 	}
 
 	private void validateFEN(String fen) throws MalformedFenException {
+		return;
+		/*
 		HashMap<Character, Integer> characterDict = getCharMap(fen);
 		if (characterDict.get('/') != 6) {
 			throw new MalformedFenException("Illegal number of rows");
@@ -175,6 +158,7 @@ public class LascaBoard implements Serializable {
 		if (numberOfWhiteSoldiers + numberOfWhiteOfficers != 11) {
 			throw new MalformedFenException("Illegal number of white figures");
 		}
+		*/
 	}
 
 	private HashMap<Character, Integer> getCharMap(String base) {
@@ -193,8 +177,8 @@ public class LascaBoard implements Serializable {
 	}
 
 	private void connectFields() {
-		for (int rowIndex = 1; rowIndex < 8; rowIndex++) {
-			for (int colIndex = 1; colIndex < 8; colIndex++) {
+		for (int rowIndex = minFieldIndex; rowIndex <= fieldSize; rowIndex++) {
+			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
 				if (validField(rowIndex, colIndex)) {
 					String fieldId = Integer.toString(rowIndex) + "-" + Integer.toString(colIndex);
 					setNeighbours(fields.get(fieldId));
@@ -243,53 +227,63 @@ public class LascaBoard implements Serializable {
 	// for debugging
 	private void printBoard() {
 
-		System.out.println("Current board: \n\n");
-		for (int rowIndex = 7; rowIndex > 0; rowIndex--) {
-			System.out.println("\n");
-			for (int colIndex = 1; colIndex < 8; colIndex++) {
-				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine
-																										// whether
-																										// it
-																										// is
-																										// a
-																										// 4
-																										// field
-																										// or
-																										// 3
-																										// field
-																										// row
-
+		System.out.println("Current board:");
+		for (int rowIndex = fieldSize; rowIndex >= minFieldIndex; rowIndex--) {
+	
+			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
+				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine whether it is a 4 field or 3 field row
+																										
 					String fieldID = idFor(rowIndex, colIndex);
 					if (!fields.containsKey(fieldID)) { // invalid field
 						System.out.print("[/]");
-					} else if (!fields.get(fieldID).isEmpty()) { // field with
-																	// figures
+					} else if (!fields.get(fieldID).isEmpty()) { // field with figures																			
 						// print figure stack
-						LascaField test = fields.get(fieldID);
 						System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
-					} else {
+					} else{
 						// print empty field
-						System.out.println("[_]");
+						System.out.print("[_]");
 					}
 				} else {
-					System.out.print("[-]");
+					System.out.print("[ ]");
 				}
 			}
+			System.out.println("\n");
 		}
-		System.out.print("\n\n\n ------------------------------- \n\n\n");
+		System.out.print(" ---------------------- \n");
 	}
 
 	public LascaField getField(String fenPoint) {
 		return fields.get(fenPoint);
 	}
-
+	
+	public LascaField getField(Point2D point) {
+		return getField(CoordinatesHelper.fenStringForCoordinate(point));
+	}
+	
 	public void moveFigure(LascaField origin, LascaField destination) {
-		FigureType selectedSoldier = origin.topFigure();
+		LascaFigure selectedSoldier = origin.topFigure();
 		origin.removeTopFigure();
 		destination.addFigure(selectedSoldier);
-
+		
 		fields.put(origin.id, origin);
 		fields.put(destination.id, destination);
+	}
+
+	public void strike(LascaField origin, LascaField destination, boolean movingRight, boolean forward) {
+		Point2D destinationPoint = CoordinatesHelper.corrdinateForString(destination.id);
+		
+		Point2D newDestinationPoint = new Point2D(destinationPoint.x + (movingRight ? 1 : - 1) , destinationPoint.y + (forward ? 1 : -1)); 
+		LascaField newDestination = getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
+		
+		for (LascaFigure figure : destination.figures) {
+			newDestination.addFigure(figure);
+		}
+		destination.removeAllFigures();
+		
+		fields.put(origin.id, origin);
+		fields.put(destination.id, destination);
+		
+		moveFigure(origin, newDestination);
 	}
 
 }
