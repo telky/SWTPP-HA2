@@ -21,8 +21,10 @@ data FigureType = Soldier | Officer deriving (Show)
 data Figure = Figure { figureType :: FigureType  
                                 , color :: Color
                             } 
-
 type Field = [Figure]
+type Row = [Field]
+type Board = [Row]
+
                            
 empty :: Field -> Bool
 empty f = length f == 0
@@ -38,13 +40,18 @@ listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
 
 --- input (TODO)
 
+parseBoard :: String -> Board 
+parseBoard s = map parseRow (splitOn "/" s)
+
+parseRow :: String -> Row 
+parseRow s = map parseField (splitOn "," s)
+
 parseField :: String -> Field
 parseField s = map parseFigure (splitChars s)
 
 --parseInput :: [String] -> ...
 --parseInput (board:color:[])   = ... (parseColor color) ...
 --parseInput (board:color:move:[]) = ... (parseColor color) ...
-
 
 parseFigure :: String -> Figure
 parseFigure s = Figure{ figureType = (parseFigureType s), color = (parseColor s) }
@@ -69,8 +76,6 @@ splitChars :: String -> [[Char]]
 splitChars [] = []
 splitChars s = [take 1 s] ++ splitChars (tail s)
 
-
-
     --- ... ---
 
 --- output (TODO)
@@ -79,9 +84,15 @@ colorToString :: Color -> String
 colorToString White = "w"
 colorToString Black = "b"
 
-instance Show Figure where 
-  show (Figure{color = c, figureType = f})= show f ++ "," ++ show c
+figureToString :: Figure -> String 
+figureToString (Figure{color = White, figureType = Soldier}) = "w"
+figureToString (Figure{color = White, figureType = Officer}) = "W"
+figureToString (Figure{color = Black, figureType = Soldier}) = "b"
+figureToString (Figure{color = Black, figureType = Officer}) = "B"
 
+instance Show Figure where 
+  show = figureToString 
+                                                       
 instance Show Color where
     show = colorToString
     
