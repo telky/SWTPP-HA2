@@ -39,7 +39,7 @@ listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
 --- input (TODO)
 
 parseField :: String -> Field
-parseField s = map parseFigure (splitOn " " s)
+parseField s = map parseFigure (splitChars s)
 
 --parseInput :: [String] -> ...
 --parseInput (board:color:[])   = ... (parseColor color) ...
@@ -64,6 +64,11 @@ parseFigureType "B" = Officer
 
 toInt :: Char -> Int
 toInt c = ((ord c) - (ord 'a') + 1)
+
+splitChars :: String -> [[Char]]
+splitChars [] = []
+splitChars s = [take 1 s] ++ splitChars (tail s)
+
 
 
     --- ... ---
