@@ -15,12 +15,13 @@ listMoves :: String -> String
 --- types/structures (TODO)
 
 data Color = White | Black 
-data FigureType = Soldier | Officer deriving (Show)
+data FigureType = Soldier | Officer 
 
 
 data Figure = Figure { figureType :: FigureType  
                                 , color :: Color
                             } 
+
 type Field = [Figure]
 type Row = [Field]
 type Board = [Row]
@@ -29,6 +30,8 @@ type Board = [Row]
 empty :: Field -> Bool
 empty f = length f == 0
              
+fieldAt :: Board -> Int -> Int -> Field
+fieldAt b x y  =  (b !! (y - 1) ) !! (x - 1)
 
     --- ... ---
 
