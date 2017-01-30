@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.*;
 
 import com.sun.javafx.geom.Point2D;
-import com.sun.xml.internal.ws.util.StringUtils;
 
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
 import de.tuberlin.sese.swtpp.gameserver.test.lasca.MalformedFenException;
