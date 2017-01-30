@@ -17,7 +17,6 @@ public class LascaMove extends Move {
 	public Point2D destination;
 	
 	public LascaMove(String moveString, Player player) {	
-		// TODO: Needs Implementation for move over multiple points
 		super(moveString, "TODO insert state here", player);
 		List<String> positionStrings = Arrays.asList(moveString.split("-"));
 		
