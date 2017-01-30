@@ -85,10 +85,17 @@ public class TryMoveTest {
 	}
 	
 	@Test
-	public void testStrikeInvalidSoldier() {
+	public void testStrikeSoldierNotEmptyField() {
 		startGame(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w", false);	
 		assertMove("a5-b4", false, false);	
 		assertGameState(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w", false, false, false);
+	}
+	
+	@Test
+	public void testStrikeOwnSoldier() {
+		startGame(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false);
+		assertMove("a5-b4", false, false);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false, false, false);
 	}
 	
 	

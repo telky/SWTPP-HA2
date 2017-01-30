@@ -221,9 +221,9 @@ public class LascaGame extends Game implements Serializable {
 
 		LascaField destinationField = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
 		if (!destinationField.isEmpty()) {
-			LascaFigure figure = destinationField.topFigure();
-			if ((figure.color == ColorType.WHITE && move.player == blackPlayer)
-					|| (figure.color == ColorType.BLACK && move.player == whitePlayer)) {
+			LascaFigure strikedFigure = destinationField.topFigure();
+			if ((strikedFigure.color == ColorType.WHITE && move.player == blackPlayer)
+					|| (strikedFigure.color == ColorType.BLACK && move.player == whitePlayer)) {
 
 				boolean forward = move.player == whitePlayer; 
 				
@@ -245,7 +245,11 @@ public class LascaGame extends Game implements Serializable {
 
 		if (diagonal && forward) {
 			if (!tryStrikeSoldier(move, origin, destination)) {
-				board.moveFigure(origin, destination);
+				if (destination.isEmpty()) {
+					board.moveFigure(origin, destination);	
+				} else {
+					return false;
+				}
 			}
 			return true;
 		}
