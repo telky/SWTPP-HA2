@@ -285,6 +285,7 @@ public class LascaGame extends Game implements Serializable {
 
 		if (validMove) {
 			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
+			history.add(move);
 		}
 
 		return validMove;
