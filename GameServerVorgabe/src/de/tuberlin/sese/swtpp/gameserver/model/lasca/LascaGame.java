@@ -1,6 +1,5 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
-import java.awt.Point;
 import java.io.Serializable;
 
 import com.sun.javafx.geom.Point2D;
@@ -222,10 +221,10 @@ public class LascaGame extends Game implements Serializable {
 		LascaField destinationField = board.getField(CoordinatesHelper.fenStringForCoordinate(move.destination));
 		if (!destinationField.isEmpty()) {
 			LascaFigure strikedFigure = destinationField.topFigure();
-			if ((strikedFigure.color == ColorType.WHITE && move.player == blackPlayer)
-					|| (strikedFigure.color == ColorType.BLACK && move.player == whitePlayer)) {
+			if ((strikedFigure.color == ColorType.WHITE && move.getPlayer() == blackPlayer)
+					|| (strikedFigure.color == ColorType.BLACK && move.getPlayer() == whitePlayer)) {
 
-				boolean forward = move.player == whitePlayer; 
+				boolean forward = move.getPlayer() == whitePlayer; 
 				
 				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : - 1) , move.destination.y + (forward ? 1 : -1)); 
 				LascaField newDestination = board.getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
@@ -241,7 +240,7 @@ public class LascaGame extends Game implements Serializable {
 
 	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
 		boolean diagonal = (move.origin.x + 1 == move.destination.x) || (move.origin.x - 1 == move.destination.x);
-		boolean forward = move.player == whitePlayer ? move.origin.y + 1 == move.destination.y : move.origin.y - 1 == move.destination.y;
+		boolean forward = move.getPlayer() == whitePlayer ? move.origin.y + 1 == move.destination.y : move.origin.y - 1 == move.destination.y;
 
 		if (diagonal && forward) {
 			if (!tryStrikeSoldier(move, origin, destination)) {
