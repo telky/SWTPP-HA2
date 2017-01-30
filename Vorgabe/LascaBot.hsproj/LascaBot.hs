@@ -24,8 +24,8 @@ data Figure = Figure { figureType :: FigureType
                             
 data Field = Field { figures :: [Figure]}
 
-emptyField :: Field -> Bool
-emptyField  (Field { figures = f }) = length f == 0
+empty :: Field -> Bool
+empty (Field { figures = f }) = length f == 0
              
 
     --- ... ---
