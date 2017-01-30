@@ -14,18 +14,18 @@ listMoves :: String -> String
 
 --- types/structures (TODO)
 
-data Color = White | Black
-data FigureType = Soldier | Officer
+data Color = White | Black 
+data FigureType = Soldier | Officer deriving (Show)
 
 
 data Figure = Figure { figureType :: FigureType  
                                 , color :: Color
                             } 
-                            
-data Field = Field { figures :: [Figure]}
 
+type Field = [Figure]
+                           
 empty :: Field -> Bool
-empty (Field { figures = f }) = length f == 0
+empty f = length f == 0
              
 
     --- ... ---
@@ -38,8 +38,8 @@ listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
 
 --- input (TODO)
 
---parse :: String -> ...
---parse s = parseInput (splitOn " " s)
+parseField :: String -> Field
+parseField s = map parseFigure (splitOn " " s)
 
 --parseInput :: [String] -> ...
 --parseInput (board:color:[])   = ... (parseColor color) ...
@@ -52,12 +52,15 @@ parseFigure s = Figure{ figureType = (parseFigureType s), color = (parseColor s)
 parseColor :: String -> Color
 parseColor "w" = White
 parseColor "b" = Black
+parseColor "W" = White
+parseColor "B" = Black
 
 parseFigureType :: String -> FigureType
 parseFigureType "w" = Soldier
 parseFigureType "b" = Soldier
 parseFigureType "W" = Officer
 parseFigureType "B" = Officer
+
 
 toInt :: Char -> Int
 toInt c = ((ord c) - (ord 'a') + 1)
@@ -70,6 +73,9 @@ toInt c = ((ord c) - (ord 'a') + 1)
 colorToString :: Color -> String
 colorToString White = "w"
 colorToString Black = "b"
+
+instance Show Figure where 
+  show (Figure{color = c, figureType = f})= show f ++ "," ++ show c
 
 instance Show Color where
     show = colorToString
