@@ -231,6 +231,10 @@ public class LascaGame extends Game implements Serializable {
 				
 				if (newDestination.isEmpty()) {
 					board.strike(origin, destination, movingRight, forward);
+					if ((newDestination.row == 7 && move.getPlayer() == whitePlayer) || (newDestination.row == 1 && move.getPlayer() == blackPlayer)) { 
+						newDestination.topFigure().upgrade();
+					}
+					
 					return true;					
 				}
 			}
