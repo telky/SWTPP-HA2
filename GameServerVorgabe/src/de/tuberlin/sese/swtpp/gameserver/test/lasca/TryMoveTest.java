@@ -78,7 +78,6 @@ public class TryMoveTest {
 		startGame("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", true);
 		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", true, false, false);
 		assertMove("b4-a3", true, false);
-
 	}
 	
 	// Black Soldiers
@@ -94,6 +93,14 @@ public class TryMoveTest {
 		startGame("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false);
 		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false, false, false);
 		assertMove("f4-g5", false, false);
+	}
+	
+	// Black is next but white wants to move - should fail
+	@Test
+	public void testMoveSoldier_wrongColor(){
+		startGame("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false, false, false);
+		assertMove("a3-b4", true, false);
 	}
 	
 	@Test
