@@ -32,8 +32,8 @@ public class LascaField implements Serializable {
 	public String getFiguresOnField() {
 		String figuresOnField = "";
 		for(LascaFigure figure: this.figures){
-			figuresOnField=(figure.toFenString())+figuresOnField;
-		}
+            figuresOnField=figuresOnField+(figure.toFenString());
+        }
 		return figuresOnField;
 	}
 	
