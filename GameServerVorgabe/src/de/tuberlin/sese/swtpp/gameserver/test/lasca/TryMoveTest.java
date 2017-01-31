@@ -74,18 +74,26 @@ public class TryMoveTest {
 	}
 	
 	@Test
-	public void testMoveWhiteSolder_invalidDirection(){
+	public void testMoveWhiteSoldier_invalidDirection(){
 		startGame("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", true);
 		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", true, false, false);
 		assertMove("b4-a3", true, false);
 
 	}
 	
+	// Black Soldiers
+	
 	@Test
 	public void testMoveBlackSoldier() {
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", false);
 		assertMove("a5-b4", false, true);
 		assertGameState("b,b,b,b/b,b,b/,b,b,b/b,,/w,w,w,w/w,w,w/w,w,w,w", true, false, false);
+	}
+	@Test
+	public void testMoveBlackSoldier_invalidDirection(){
+		startGame("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false, false, false);
+		assertMove("f4-g5", false, false);
 	}
 	
 	@Test
