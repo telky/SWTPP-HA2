@@ -279,7 +279,6 @@ public class LascaGame extends Game implements Serializable {
 			// TODO validate move
 			break;
 		default:
-			validMove = false;
 			break;
 		}
 
