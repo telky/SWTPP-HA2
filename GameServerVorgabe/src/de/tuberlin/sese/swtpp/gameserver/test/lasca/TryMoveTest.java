@@ -109,14 +109,14 @@ public class TryMoveTest {
 	public void testMoveWhiteOfficerForward() {
 		startGame(",,,/,,/,,,/,,/,,,/,,/W,w,w,w", true);
 		assertMove("a1-b2", true, true);
-		assertGameState(",,,/,,/,,,/,,/,,,/,W,/,w,w,w", false, false, false);
+		assertGameState(",,,/,,/,,,/,,/,,,/W,,/,w,w,w", false, false, false);
 	}
 	
 	@Test 
 	public void testMoveWhiteOfficerBackward() {
 		startGame(",,,/,,/W,,,/,,/,,,/,,/w,w,w,w", true);
 		assertMove("a5-b4", true, true);
-		assertGameState(",,,/,,/,,,/w,,/,,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/,,/,,,/W,,/,,,/,,/w,w,w,w", false, false, false);
 	}
 	
 	@Test
@@ -129,8 +129,8 @@ public class TryMoveTest {
 	@Test 
 	public void testMoveBlackOfficerBackward() {
 		startGame(",,,/,,/,,,/,,/,,,/,,/B,w,w,w", false);
-		assertMove("a1-b2", true, true);
-		assertGameState(",,,/,,/,,,/,,/,,,/,B,/,w,w,w", true, false, false);
+		assertMove("a1-b2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,,,/B,,/,w,w,w", true, false, false);
 	}
 	
 	public void testUpgradeToSoldierBlack() {
