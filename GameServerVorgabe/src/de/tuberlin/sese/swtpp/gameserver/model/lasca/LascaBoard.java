@@ -280,9 +280,6 @@ public class LascaBoard implements Serializable {
 		}
 		destination.removeAllFigures();
 		
-		fields.put(origin.id, origin);
-		fields.put(destination.id, destination);
-		
 		moveFigure(origin, newDestination);
 	}
 

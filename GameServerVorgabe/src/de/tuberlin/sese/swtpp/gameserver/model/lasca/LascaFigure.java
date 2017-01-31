@@ -14,10 +14,7 @@ public class LascaFigure {
 		WHITE, BLACK
 	}
 
-	private final String fenString;
-
 	public LascaFigure(String fenString) {
-		this.fenString = fenString;
 
 		switch (fenString) {
 		case "b":
@@ -46,13 +43,30 @@ public class LascaFigure {
 	public boolean equalsName(String otherName) {
 		// (otherName == null) check is not needed because name.equals(null)
 		// returns false
-		return fenString.equals(otherName);
+		return toFenString().equals(otherName);
 	}
 
 	public String toFenString() {
-		if (type == FigureType.Empty) {
-			return "";
+		switch (type) {
+			case OFFICER:
+				if (color == ColorType.WHITE) {
+					return "W";
+				} else {
+					return "B";
+				}
+			case SOLDIER:
+				if (color == ColorType.WHITE) {
+					return "w";
+				} else {
+					return "b";
+				}
+			case Empty:
+				return "";
 		}
-		return this.fenString;
+		return "";
+	}
+
+	public void upgrade() {
+		this.type = FigureType.OFFICER;
 	}
 }
