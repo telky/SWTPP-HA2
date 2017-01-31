@@ -49,7 +49,6 @@ public class TryMoveTest {
 	}
 	
 	public void assertGameState(String expectedBoard, boolean whiteNext, boolean finished, boolean whiteWon) {
-		System.out.print(game.getState());
 		assertEquals(game.getState(), expectedBoard);
 		assertEquals(game.isWhiteNext(), whiteNext);
 
@@ -82,7 +81,7 @@ public class TryMoveTest {
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w", false);	
 		assertMove("a5-b4", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/w,w,w,w", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w", true, false, false);
 	}
 	
 	@Test
