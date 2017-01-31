@@ -43,7 +43,7 @@ public class LascaField implements Serializable {
 	}
 	
 	public LascaFigure topFigure() {
-		return figures.get(figures.size()-1);
+		return figures.get(0);
 	}
 	
 	public Boolean isEmpty() {
@@ -56,11 +56,11 @@ public class LascaField implements Serializable {
 	}
 	
 	public void removeTopFigure() {
-		figures.remove(figures.size()-1);
+		figures.remove(0);
 	}
 	
 	public void addFigure(LascaFigure figure) {
-		figures.add(figure);
+		figures.add(0, figure);
 	}
 
 	public void removeAllFigures() {
