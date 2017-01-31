@@ -81,7 +81,7 @@ public class TryMoveTest {
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w", false);	
 		assertMove("a5-b4", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/w,w,w,w", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w", true, false, false);
 	}
 	
 	@Test
@@ -98,6 +98,33 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false, false, false);
 	}
 	
+	@Test
+	public void testUpgradeToSoldierBlack() {
+		startGame(",,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false);
+		assertMove("d2-e1", false, true);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,B,w", true, false, false);
+	}
+	
+	@Test
+	public void testUpgradeToSoldierWhite() {
+		startGame(",,,/,w,/b,,,/b,,/,,,/,b,/w,,,w", true);
+		assertMove("d6-c7", true, true);
+		assertGameState(",W,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false, false, false);
+	}
+	
+	@Test
+	public void testStrikeUpgradeToSoldierBlack() {
+		startGame(",,,/,,/b,,,/b,,/,b,,/,w,/w,,,w", false);
+		assertMove("c3-d2", false, true);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,Bw,w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeUpgradeToSoldierWhite() {
+		startGame(",,,/,b,/b,,w,/b,,/,,,/,b,/w,,,w", true);
+		assertMove("e5-d6", true, true);
+		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false, false, false);
+	}
 	
 
 	//TODO: implement test cases of same kind as example here
