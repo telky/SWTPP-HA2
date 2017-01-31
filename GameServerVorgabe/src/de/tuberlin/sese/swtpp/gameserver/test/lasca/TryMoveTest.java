@@ -64,14 +64,21 @@ public class TryMoveTest {
 	 *******************************************/
 	
 	@Test
-	public void exampleTest() {
+	public void testMoveWhiteSoldier() {
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);
 		assertMove("a3-b4", true, true);
 		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", false, false, false);
 	}
 	
 	@Test
-	public void testMoveSoldier() {
+	public void testMoveBlackSoldier() {
+		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", false);
+		assertMove("a5-b4", false, true);
+		assertGameState("b,b,b,b/b,b,b/,b,b,b/b,,/w,w,w,w/w,w,w/w,w,w,w", true, false, false);
+	}
+	
+	@Test
+	public void testInvalidMoveSoldier() {
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);	
 		assertMove("a1-a1", true, false);		
 		assertGameState("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true, false, false);
