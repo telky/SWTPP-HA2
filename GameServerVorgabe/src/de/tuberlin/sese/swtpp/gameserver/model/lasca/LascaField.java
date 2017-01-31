@@ -43,8 +43,8 @@ public class LascaField implements Serializable {
 	}
 	
 	public LascaFigure topFigure() {
-		return figures.get(0);
-	}
+        return figures.get(figures.size()-1);
+    }
 	
 	public Boolean isEmpty() {
 		for (LascaFigure figure : figures) {
@@ -56,12 +56,12 @@ public class LascaField implements Serializable {
 	}
 	
 	public void removeTopFigure() {
-		figures.remove(0);
+        figures.remove(figures.size()-1);
 	}
 	
 	public void addFigure(LascaFigure figure) {
-		figures.add(0, figure);
-	}
+        figures.add(figure);
+    }
 
 	public void removeAllFigures() {
 		ArrayList<LascaFigure> newFigures = new ArrayList<LascaFigure>();;
