@@ -63,11 +63,22 @@ public class TryMoveTest {
 	 * !!!!!!!!! To be implemented !!!!!!!!!!!!
 	 *******************************************/
 	
+	
+	// White Soldiers
+	
 	@Test
 	public void testMoveWhiteSoldier() {
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);
 		assertMove("a3-b4", true, true);
 		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", false, false, false);
+	}
+	
+	@Test
+	public void testMoveWhiteSolder_invalidDirection(){
+		startGame("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", true);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", true, false, false);
+		assertMove("b4-a3", true, false);
+
 	}
 	
 	@Test
