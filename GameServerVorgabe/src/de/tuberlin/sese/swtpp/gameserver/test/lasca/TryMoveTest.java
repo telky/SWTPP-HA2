@@ -157,9 +157,9 @@ public class TryMoveTest {
 	
 	@Test
 	public void testStrikeUpgradeToSoldierWhite() {
-		startGame(",,,/,b,w/b,,,/b,,/,,,/,b,/w,,,w w", true);
-		assertMove("f6-g7", true, true);
-		assertGameState(",b,,W/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
+		startGame(",,,/,b,/b,,w,/b,,/,,,/,b,/w,,,w w", true);
+		assertMove("e5-d6", true, true);
+		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
 	
 	
