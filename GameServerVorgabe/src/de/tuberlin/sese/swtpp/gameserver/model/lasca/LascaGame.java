@@ -16,11 +16,11 @@ import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.ColorType;
 public class LascaGame extends Game implements Serializable {
 
 	private static final long serialVersionUID = 8461983069685628324L;
-
+	
 	/************************
 	 * member
 	 ***********************/
-
+	
 	// just for better comprehensibility of the code: assign white and black
 	// player
 	private Player blackPlayer;
@@ -30,6 +30,7 @@ public class LascaGame extends Game implements Serializable {
 	// TODO: insert additional game data here
 	LascaBoard board;
 	String state;
+	
 
 	/************************
 	 * constructors
@@ -37,8 +38,9 @@ public class LascaGame extends Game implements Serializable {
 
 	public LascaGame() {
 		super();
-		this.board = new LascaBoard("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w");
+		this.board = new LascaBoard("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w");
 		// initialize internal game model (state/ board here)
+		setCurrentPlayer(board.currentPlayer);
 	}
 
 	/*******************************************
@@ -204,6 +206,14 @@ public class LascaGame extends Game implements Serializable {
 	 * !!!!!!!!! To be implemented !!!!!!!!!!!!
 	 ******************************************/
 
+	private void setCurrentPlayer(Character charPlayer){
+		if(charPlayer == 'w'){
+			this.nextPlayer = this.whitePlayer;
+		} else {
+			this.nextPlayer = this.blackPlayer;
+		}
+	}
+	
 	@Override
 	public void setState(String state) {
 		board = new LascaBoard(state);
@@ -211,7 +221,14 @@ public class LascaGame extends Game implements Serializable {
 
 	@Override
 	public String getState() {
-		return board.toFenString();
+		String fenStringState = board.toFenString();
+		String playerString = "";
+		if(this.nextPlayer == blackPlayer){
+			playerString = " b";
+		} else {
+			playerString = " w";
+		}
+		return fenStringState = fenStringState + playerString;
 	}
 
 	// only call for valid moves!
@@ -224,18 +241,20 @@ public class LascaGame extends Game implements Serializable {
 			if ((strikedFigure.color == ColorType.WHITE && move.getPlayer() == blackPlayer)
 					|| (strikedFigure.color == ColorType.BLACK && move.getPlayer() == whitePlayer)) {
 
-				boolean forward = move.getPlayer() == whitePlayer; 
-				
-				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : - 1) , move.destination.y + (forward ? 1 : -1)); 
+				boolean forward = move.getPlayer() == whitePlayer;
+
+				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : -1),
+						move.destination.y + (forward ? 1 : -1));
 				LascaField newDestination = board.getField(newDestinationPoint);
-				
+
 				if (newDestination.isEmpty()) {
 					board.strike(origin, destination, movingRight, forward);
-					if ((newDestination.row == 7 && move.getPlayer() == whitePlayer) || (newDestination.row == 1 && move.getPlayer() == blackPlayer)) { 
+					if ((newDestination.row == 7 && move.getPlayer() == whitePlayer)
+							|| (newDestination.row == 1 && move.getPlayer() == blackPlayer)) {
 						newDestination.topFigure().upgrade();
 					}
-					
-					return true;					
+
+					return true;
 				}
 			}
 		}
@@ -244,13 +263,15 @@ public class LascaGame extends Game implements Serializable {
 
 	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
 		boolean diagonal = (move.origin.x + 1 == move.destination.x) || (move.origin.x - 1 == move.destination.x);
-		boolean forward = move.getPlayer() == whitePlayer ? move.origin.y + 1 == move.destination.y : move.origin.y - 1 == move.destination.y;
+		boolean forward = move.getPlayer() == whitePlayer ? move.origin.y + 1 == move.destination.y
+				: move.origin.y - 1 == move.destination.y;
 
 		if (diagonal && forward) {
 			if (!tryStrikeSoldier(move, origin, destination)) {
 				if (destination.isEmpty()) {
 					board.moveFigure(origin, destination);
-					if ((destination.row == 7 && move.getPlayer() == whitePlayer) || (destination.row == 1 && move.getPlayer() == blackPlayer)) {
+					if ((destination.row == 7 && move.getPlayer() == whitePlayer)
+							|| (destination.row == 1 && move.getPlayer() == blackPlayer)) {
 						destination.topFigure().upgrade();
 					}
 				} else {
@@ -273,9 +294,14 @@ public class LascaGame extends Game implements Serializable {
 
 		if (origin.isEmpty()) {
 			return false;
-		} else if ((origin.topFigure().color == ColorType.BLACK && player != blackPlayer) || ((origin.topFigure().color == ColorType.WHITE && player != whitePlayer))) {
+		}
+		if (this.nextPlayer != player){
 			return false;
 		}
+		if (!checkFieldFigure(origin, player)) {
+			return false;
+		}
+
 
 		LascaFigure selectedFigure = origin.topFigure();
 		switch (selectedFigure.type) {
@@ -296,6 +322,14 @@ public class LascaGame extends Game implements Serializable {
 		}
 
 		return validMove;
+	}
+	
+	private boolean checkFieldFigure(LascaField field, Player player){
+		if ((field.topFigure().color == ColorType.BLACK && player != blackPlayer)
+				|| ((field.topFigure().color == ColorType.WHITE && player != whitePlayer))) {
+			return false;
+		}
+		return true;
 	}
 
 }
