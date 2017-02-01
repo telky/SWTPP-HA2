@@ -68,96 +68,101 @@ public class TryMoveTest {
 	
 	@Test
 	public void testMoveWhiteSoldier() {
-		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);
+		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w", true);
 		assertMove("a3-b4", true, true);
-		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", false, false, false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w b", false, false, false);
 	}
 	
 	@Test
 	public void testMoveWhiteSoldier_invalidDirection(){
-		startGame("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", true);
-		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w", true, false, false);
+		startGame("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w w", true);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w w", true, false, false);
 		assertMove("b4-a3", true, false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,b/w,,/,w,w,w/w,w,w/w,w,w,w w", true, false, false);
 	}
 	
 	// Black Soldiers
 	
 	@Test
 	public void testMoveBlackSoldier() {
-		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", false);
+		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w b", false);
 		assertMove("a5-b4", false, true);
-		assertGameState("b,b,b,b/b,b,b/,b,b,b/b,,/w,w,w,w/w,w,w/w,w,w,w", true, false, false);
+		assertGameState("b,b,b,b/b,b,b/,b,b,b/b,,/w,w,w,w/w,w,w/w,w,w,w w", true, false, false);
 	}
 	@Test
 	public void testMoveBlackSoldier_invalidDirection(){
-		startGame("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false);
-		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false, false, false);
+		startGame("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w b", false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w b", false, false, false);
 		assertMove("f4-g5", false, false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w b", false, false, false);
 	}
 	
 	// Black is next but white wants to move - should fail
 	@Test
 	public void testMoveSoldier_wrongColor(){
-		startGame("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false);
-		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w", false, false, false);
+		startGame("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w b", false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w b", false, false, false);
 		assertMove("a3-b4", true, false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,/,,b/w,w,w,w/w,w,w/w,w,w,w b", false, false, false);
 	}
 	
 	@Test
 	public void testInvalidMoveSoldier() {
-		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);	
+		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w", true);	
 		assertMove("a1-a1", true, false);		
-		assertGameState("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true, false, false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w", true, false, false);
 	}
 	
 	@Test
 	public void testStrikeSoldier() {
-		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w", false);	
+		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);	
 		assertMove("a5-b4", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
 	}
 	
 	@Test
 	public void testStrikeSoldierNotEmptyField() {
-		startGame(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w", false);	
+		startGame(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w b", false);	
 		assertMove("a5-b4", false, false);	
-		assertGameState(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w b", false, false, false);
 	}
 	
 	@Test
 	public void testStrikeOwnSoldier() {
-		startGame(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false);
+		startGame(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w b", false);
 		assertMove("a5-b4", false, false);
-		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
 	@Test
-	public void testUpgradeToSoldierBlack() {
-		startGame(",,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false);
+	public void testUpgradeToOfficerBlack() {
+		startGame(",,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false);
 		assertMove("d2-e1", false, true);
-		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,B,w", true, false, false);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,B,w w", true, false, false);
 	}
 	
 	@Test
-	public void testUpgradeToSoldierWhite() {
-		startGame(",,,/,w,/b,,,/b,,/,,,/,b,/w,,,w", true);
+	public void testUpgradeToOfficerWhite() {
+		startGame(",,,/,w,/b,,,/b,,/,,,/,b,/w,,,w w", true);
 		assertMove("d6-c7", true, true);
-		assertGameState(",W,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false, false, false);
+		assertGameState(",W,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
 	
 	@Test
 	public void testStrikeUpgradeToSoldierBlack() {
-		startGame(",,,/,,/b,,,/b,,/,b,,/,w,/w,,,w", false);
+		startGame(",,,/,,/b,,,/b,,/,b,,/,w,/w,,,w b", false);
 		assertMove("c3-d2", false, true);
-		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,Bw,w", true, false, false);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,Bw,w w", true, false, false);
 	}
 	
 	@Test
 	public void testStrikeUpgradeToSoldierWhite() {
-		startGame(",,,/,b,/b,,w,/b,,/,,,/,b,/w,,,w", true);
-		assertMove("e5-d6", true, true);
-		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false, false, false);
+		startGame(",,,/,b,w/b,,,/b,,/,,,/,b,/w,,,w w", true);
+		assertMove("f6-g7", true, true);
+		assertGameState(",b,,W/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
+	
+	
 	
 
 	//TODO: implement test cases of same kind as example here
