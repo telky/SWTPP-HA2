@@ -11,6 +11,7 @@ import de.tuberlin.sese.swtpp.gameserver.test.lasca.MalformedFenException;
 public class LascaBoard implements Serializable {
 
 	HashMap<String, LascaField> fields;
+	Character currentPlayer = null;
 
 	int fieldSize = 7;
 	int minFieldIndex = 1;
@@ -39,9 +40,7 @@ public class LascaBoard implements Serializable {
 			result = result + (currentColumn);
 			result = removeLastChar(result);
 			result = result + ("/");
-
 		}
-
 		result = removeLastChar(result);
 		return result;
 	}
@@ -53,9 +52,22 @@ public class LascaBoard implements Serializable {
 	public HashMap<String, LascaField> getFields() {
 		return fields;
 	}
+	
+	private void setCurrentPlayer(String fen){
+		String lastTwoCharacters = fen.substring(fen.length()-2); 
+		if(lastTwoCharacters.startsWith(" ")){
+			this.currentPlayer = lastTwoCharacters.charAt(1);
+		} else {
+			System.out.println("FEN String is missing attribute for currentPlayer");
+		}
+	}
 
 	private void parseFen(String fenString) {
 		try {
+			setCurrentPlayer(fenString);
+			if(currentPlayer != null){
+				fenString = fenString.substring(0, fenString.length()-2);
+			}
 			fenString = fenString.replaceAll(",,", ",-,");
 			fenString = fenString.replaceAll("/,", "/-,");
 			fenString = fenString.replaceAll(",/", ",-/");
@@ -115,9 +127,6 @@ public class LascaBoard implements Serializable {
 			}
 		}
 	}
-
-
-	
 	
 	private List<LascaFigure> parseFigures(String figureString){
 		List<LascaFigure> figuresRead = new ArrayList<LascaFigure>();
