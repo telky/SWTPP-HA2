@@ -56,8 +56,6 @@ public class LascaBoard implements Serializable {
 
 	private void parseFen(String fenString) {
 		try {
-			validateFEN(fenString);
-
 			fenString = fenString.replaceAll(",,", ",-,");
 			fenString = fenString.replaceAll("/,", "/-,");
 			fenString = fenString.replaceAll(",/", ",-/");
@@ -128,37 +126,6 @@ public class LascaBoard implements Serializable {
 			 figuresRead.add(new LascaFigure(currentFigure));
 		}
 		return figuresRead;
-	}
-
-	private void validateFEN(String fen) throws MalformedFenException {
-		return;
-		/*
-		HashMap<Character, Integer> characterDict = getCharMap(fen);
-		if (characterDict.get('/') != 6) {
-			throw new MalformedFenException("Illegal number of rows");
-		}
-		if (characterDict.get(',') != 18) {
-			throw new MalformedFenException("Illegal number of columns");
-		}
-		int numberOfBlackSoldiers = characterDict.get('b');
-		int numberOfWhiteSoldiers = characterDict.get('w');
-
-		int numberOfBlackOfficers = 0;
-		int numberOfWhiteOfficers = 0;
-
-		if (characterDict.get('B') != null) {
-			numberOfBlackOfficers = characterDict.get('B');
-		}
-		if (characterDict.get('W') != null) {
-			numberOfWhiteOfficers = characterDict.get('W');
-		}
-		if (numberOfBlackSoldiers + numberOfBlackOfficers != 11) {
-			throw new MalformedFenException("Illegal number of black figures");
-		}
-		if (numberOfWhiteSoldiers + numberOfWhiteOfficers != 11) {
-			throw new MalformedFenException("Illegal number of white figures");
-		}
-		*/
 	}
 
 	private HashMap<Character, Integer> getCharMap(String base) {
