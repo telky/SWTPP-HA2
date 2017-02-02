@@ -22,8 +22,6 @@ public class LascaBoard implements Serializable {
 		connectFields();
 	}
 
-	// TODO: wrong order, FEN strings begin with upper left corner
-	// currently unused
 	public String toFenString() {
 		String result = "";
 		for (int row = fieldSize; row >= minFieldIndex; row--) {
