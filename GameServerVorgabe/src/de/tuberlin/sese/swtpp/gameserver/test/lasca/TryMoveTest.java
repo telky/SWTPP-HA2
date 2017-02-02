@@ -106,6 +106,33 @@ public class TryMoveTest {
 	}
 	
 	@Test
+	public void testMoveWhiteOfficerForward() {
+		startGame(",,,/,,/,,,/,,/,,,/,,/W,w,w,w", true);
+		assertMove("a1-b2", true, true);
+		assertGameState(",,,/,,/,,,/,,/,,,/W,,/,w,w,w", false, false, false);
+	}
+	
+	@Test 
+	public void testMoveWhiteOfficerBackward() {
+		startGame(",,,/,,/W,,,/,,/,,,/,,/w,w,w,w", true);
+		assertMove("a5-b4", true, true);
+		assertGameState(",,,/,,/,,,/W,,/,,,/,,/w,w,w,w", false, false, false);
+	}
+	
+	@Test
+	public void testMoveBlackOfficerForward() {
+		startGame(",,,/,,/B,,,/,,/,,,/,,/w,w,w,w", false);
+		assertMove("a5-b4", false, true);
+		assertGameState(",,,/,,/,,,/B,,/,,,/,,/w,w,w,w", true, false, false);
+	}
+	
+	@Test 
+	public void testMoveBlackOfficerBackward() {
+		startGame(",,,/,,/,,,/,,/,,,/,,/B,w,w,w", false);
+		assertMove("a1-b2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,,,/B,,/,w,w,w", true, false, false);
+	}
+	
 	public void testUpgradeToSoldierBlack() {
 		startGame(",,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false);
 		assertMove("d2-e1", false, true);

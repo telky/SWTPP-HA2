@@ -10,7 +10,8 @@ Executable LascaBot
   main-is: LascaBot.hs
   buildable: True
   build-depends:
-      base -any
+      base -any,
+      HUnit -any
   other-modules:
       LascaTest
       Util
