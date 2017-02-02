@@ -115,11 +115,8 @@ public class TryMoveTest {
 	
 	@Test
 	public void testStrikeSoldier() {
-		System.out.println("TEST Strike Soldier");
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);
-		game.printBoard();
 		assertMove("a5-c3", false, true);	
-		game.printBoard();
 		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
 	}
 	
@@ -132,11 +129,8 @@ public class TryMoveTest {
 	
 	@Test
 	public void testStrikeOwnSoldier() {
-		System.out.println("Test Strike Own Soldiers");
 		startGame(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w b", false);
-		game.printBoard();
 		assertMove("a5-c3", false, false);
-		game.printBoard();
 		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
@@ -190,13 +184,12 @@ public class TryMoveTest {
 	
 	@Test
 	public void testStrikeUpgradeToOfficerWhite() {
-		System.out.print("Test strikeUpgradeToWhiteOfficer ");
 		startGame(",,,/,b,/b,,w,/b,,/,,,/,b,/w,,,w w", true);
-		game.printBoard();
 		assertMove("e5-c7", true, true);
-		game.printBoard();
 		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
+	
+	
 	
 	
 	
