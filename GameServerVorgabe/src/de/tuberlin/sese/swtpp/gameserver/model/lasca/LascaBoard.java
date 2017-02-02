@@ -19,7 +19,6 @@ public class LascaBoard implements Serializable {
 	public LascaBoard(String fenState) {
 		fields = new HashMap<String, LascaField>();
 		parseFen(fenState);
-		this.printBoard();
 		connectFields();
 	}
 
@@ -201,7 +200,7 @@ public class LascaBoard implements Serializable {
 	}
 
 	// for debugging
-	private void printBoard() {
+	public void printBoard() {
 
 		System.out.println("Current board:");
 		for (int rowIndex = fieldSize; rowIndex >= minFieldIndex; rowIndex--) {

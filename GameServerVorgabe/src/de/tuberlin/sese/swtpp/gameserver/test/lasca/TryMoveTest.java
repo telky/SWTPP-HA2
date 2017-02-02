@@ -115,8 +115,11 @@ public class TryMoveTest {
 	
 	@Test
 	public void testStrikeSoldier() {
-		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);	
+		System.out.println("TEST Strike Soldier");
+		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);
+		game.printBoard();
 		assertMove("a5-c3", false, true);	
+		game.printBoard();
 		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
 	}
 	

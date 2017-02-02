@@ -25,7 +25,16 @@ public class LascaMove extends Move {
 	}
 	
 	public boolean isDiagonal() {
-		return (this.origin.x + 1 == this.destination.x) || (this.origin.x - 1 == this.destination.x);
+		if(this.origin.x + 1 == this.destination.x || this.origin.x - 1 == this.destination.x){
+			if(this.origin.y + 1 == this.destination.y || this.origin.y - 1 == this.destination.y){
+				return true;
+			}
+		} if(this.origin.x + 2 == this.destination.x || this.origin.x - 2 == this.destination.x){
+			if(this.origin.y + 2 == this.destination.y || this.origin.y - 2 == this.destination.y){
+				return true;
+			}
+		}		
+		return false;
 	}
 	
 }

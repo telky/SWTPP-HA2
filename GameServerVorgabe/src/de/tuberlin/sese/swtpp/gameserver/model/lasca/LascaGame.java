@@ -409,5 +409,10 @@ public class LascaGame extends Game implements Serializable {
 		}
 		return true;
 	}
+	
+	// TODO debugging purpose
+	public void  printBoard(){
+		this.board.printBoard();
+	}
 
 }
