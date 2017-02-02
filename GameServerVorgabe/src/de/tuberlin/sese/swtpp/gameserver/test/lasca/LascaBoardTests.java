@@ -23,28 +23,22 @@ public class LascaBoardTests {
 	
 	@Test
 	public void testValidStartingBoard_shouldSucceed() {
-		String validBoard = "b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w";
+		String validBoard = "b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w";
 		String fenCurrentBoard = board.toFenString();
 		assertEquals(validBoard, fenCurrentBoard);
 	}
     
     @Test
     public void testValidStartingBoard_shouldFail(){
-        String invalidBoard = "b,b,b,b/b,b,b/b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w";
-        //String fenCurrentBoard = board.toFenString();
-        //assertNotEquals(invalidBoard, fenCurrentBoard);
+        String invalidBoard = "b,b,b,b/b,b,b/b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w";
+        String fenCurrentBoard = board.toFenString();
+        assertNotEquals(invalidBoard, fenCurrentBoard);
     }
 	
 	@Test
 	public void testParseColumn(){
-		String fen = "Wb,,b,b/b,bb,b/b,,bw,b/,,/w,w,,/w,bww,w/w,,w,w";
+		String fen = "Wb,,b,b/b,bb,b/b,,bw,b/,,/w,w,,/w,bww,w/w,,w,w w";
 		LascaBoard board = new LascaBoard(fen);
 		assertEquals(board.toFenString(),fen);
 	}
-	@Test
-	public void testInvalidBoard_TooManyFigures(){
-		String fen = "b,b,b,b/b,b,b/b,b,b,b/b,b,/w,w,w,w/w,w,w/w,w,w,w";
-		// how should invalid state be tested with the given function?
-	}
-
 }
