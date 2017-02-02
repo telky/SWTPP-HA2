@@ -312,23 +312,6 @@ public class LascaGame extends Game implements Serializable {
 			}
 		}
 		return false;
-		
-
-//		if (diagonal && forward) {
-//			if (!tryStrikeSoldier(move, origin, destination)) {
-//				if (destination.isEmpty()) { // simple move
-//					board.moveFigure(origin, destination);
-//					if ((destination.row == 7 && move.getPlayer() == whitePlayer)
-//							|| (destination.row == 1 && move.getPlayer() == blackPlayer)) {
-//						destination.topFigure().upgrade();
-//					}
-//				} else {
-//					return false;
-//				}
-//			}
-//			return true;
-//		}
-//		return false;
 	}
 	
 	// check if the move direction matches forward direction of figure at

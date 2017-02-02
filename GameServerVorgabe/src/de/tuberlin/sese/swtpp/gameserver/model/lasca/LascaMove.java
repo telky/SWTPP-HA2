@@ -24,7 +24,7 @@ public class LascaMove extends Move {
 		destination = CoordinatesHelper.corrdinateForString(positionStrings.get(1));
 	}
 	
-	public boolean isDiagonal() {
+	public boolean isDiagonal() { // TODO only working for soldiers 
 		if(this.origin.x + 1 == this.destination.x || this.origin.x - 1 == this.destination.x){
 			if(this.origin.y + 1 == this.destination.y || this.origin.y - 1 == this.destination.y){
 				return true;
