@@ -236,6 +236,17 @@ public class LascaBoard implements Serializable {
 		return getField(CoordinatesHelper.fenStringForCoordinate(point));
 	}
 	
+	public LascaField getFieldBetween(LascaField source, LascaField destination){
+		boolean left = source.col > destination.col;
+		boolean whiteForward = source.row < destination.row;
+		Point2D tempPoint = new Point2D(source.col + (left ? -1 : 1), source.row + (whiteForward ? 1 : -1));
+		LascaField fieldBetween = getField(tempPoint);
+		if (fieldBetween != null){
+			return fieldBetween;
+		}
+		return null;
+	}
+	
 	public void moveFigure(LascaField origin, LascaField destination) {
 		LascaFigure selectedSoldier = origin.topFigure();
 		origin.removeTopFigure();

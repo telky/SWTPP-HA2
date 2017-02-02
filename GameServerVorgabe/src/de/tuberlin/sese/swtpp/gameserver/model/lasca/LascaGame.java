@@ -233,53 +233,80 @@ public class LascaGame extends Game implements Serializable {
 
 	// only call for valid moves!
 	private boolean tryStrikeSoldier(LascaMove move, LascaField origin, LascaField destination) {
-		boolean movingRight = move.origin.x + 1 == move.destination.x;
-
-		LascaField destinationField = board.getField(move.destination);
-		if (!destinationField.isEmpty()) {
-			LascaFigure strikedFigure = destinationField.topFigure();
-			if ((strikedFigure.color == ColorType.WHITE && move.getPlayer() == blackPlayer)
-					|| (strikedFigure.color == ColorType.BLACK && move.getPlayer() == whitePlayer)) {
-
-				boolean forward = move.getPlayer() == whitePlayer;
-
-				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : -1),
-						move.destination.y + (forward ? 1 : -1));
-				LascaField newDestination = board.getField(newDestinationPoint);
-
-				if (newDestination.isEmpty()) {
-					board.strike(origin, destination, movingRight, forward);
-					if ((newDestination.row == 7 && move.getPlayer() == whitePlayer)
-							|| (newDestination.row == 1 && move.getPlayer() == blackPlayer)) {
-						newDestination.topFigure().upgrade();
-					}
-
-					return true;
-				}
-			}
+		if(move.origin.x + 2 != move.destination.x){ // strikes are defined by moving over an opponents figure
+			return false;
 		}
-		return false;
+				
+		LascaField destinationField = board.getField(move.destination);
+		LascaField opponentField = board.getFieldBetween(origin, destination);
+		
+		
+		
+		//boolean movingRight = move.origin.x + 1 == move.destination.x;
+
+		
+//
+//		LascaField destinationField = board.getField(move.destination);
+//		if (!destinationField.isEmpty()) {
+//			LascaFigure strikedFigure = destinationField.topFigure();
+//			if ((strikedFigure.color == ColorType.WHITE && move.getPlayer() == blackPlayer)
+//					|| (strikedFigure.color == ColorType.BLACK && move.getPlayer() == whitePlayer)) {
+//
+//				boolean forward = move.getPlayer() == whitePlayer;
+//
+//				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : -1),
+//						move.destination.y + (forward ? 1 : -1));
+//				LascaField newDestination = board.getField(newDestinationPoint);
+//
+//				if (newDestination.isEmpty()) {
+//					board.strike(origin, destination, movingRight, forward);
+//					if ((newDestination.row == 7 && move.getPlayer() == whitePlayer)
+//							|| (newDestination.row == 1 && move.getPlayer() == blackPlayer)) {
+//						newDestination.topFigure().upgrade();
+//					}
+//
+//					return true;
+//				}
+//			}
+//		}
+//		return false;
 	}
 
 	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
+		if(destination.isEmpty()){
+			return false;
+		}
 		boolean diagonal = move.isDiagonal();
 		boolean forward = checkSoldierDirectionForward(move);
-
-		if (diagonal && forward) {
-			if (!tryStrikeSoldier(move, origin, destination)) {
-				if (destination.isEmpty()) { // simple move
-					board.moveFigure(origin, destination);
-					if ((destination.row == 7 && move.getPlayer() == whitePlayer)
-							|| (destination.row == 1 && move.getPlayer() == blackPlayer)) {
-						destination.topFigure().upgrade();
-					}
-				} else {
-					return false;
-				}
+		
+		if(diagonal && forward){ 
+			// check: strike possible?
+			if(tryStrikeSoldier(move, origin, destination)){
+				return true;
+			} else{ // simple move without striking
+				board.moveFigure(origin, destination);
+				checkUpgrade(move, destination);
+				return true;
 			}
-			return true;
 		}
 		return false;
+		
+
+//		if (diagonal && forward) {
+//			if (!tryStrikeSoldier(move, origin, destination)) {
+//				if (destination.isEmpty()) { // simple move
+//					board.moveFigure(origin, destination);
+//					if ((destination.row == 7 && move.getPlayer() == whitePlayer)
+//							|| (destination.row == 1 && move.getPlayer() == blackPlayer)) {
+//						destination.topFigure().upgrade();
+//					}
+//				} else {
+//					return false;
+//				}
+//			}
+//			return true;
+//		}
+//		return false;
 	}
 	
 	// check if the move direction matches forward direction of figure at
@@ -290,6 +317,14 @@ public class LascaGame extends Game implements Serializable {
 			return move.origin.y > move.destination.y;
 		}
 		return false;
+	}
+	
+	private void checkUpgrade(LascaMove move, LascaField destination){
+		if (destination.row == 7 && move.getPlayer() == whitePlayer){
+			destination.topFigure().upgrade();
+		} else if (destination.row == 1 && move.getPlayer() == blackPlayer){
+			destination.topFigure().upgrade();
+		}
 	}
 	
 	
