@@ -263,11 +263,11 @@ public class LascaGame extends Game implements Serializable {
 
 	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
 		boolean diagonal = move.isDiagonal();
-		boolean forward = move.getPlayer() == whitePlayer ? move.origin.y + 1 == move.destination.y : move.origin.y - 1 == move.destination.y;
+		boolean forward = checkSoldierDirectionForward(move);
 
 		if (diagonal && forward) {
 			if (!tryStrikeSoldier(move, origin, destination)) {
-				if (destination.isEmpty()) {
+				if (destination.isEmpty()) { // simple move
 					board.moveFigure(origin, destination);
 					if ((destination.row == 7 && move.getPlayer() == whitePlayer)
 							|| (destination.row == 1 && move.getPlayer() == blackPlayer)) {
@@ -281,6 +281,17 @@ public class LascaGame extends Game implements Serializable {
 		}
 		return false;
 	}
+	
+	// check if the move direction matches forward direction of figure at
+	private boolean checkSoldierDirectionForward(LascaMove move){
+		if(move.getPlayer() == whitePlayer){
+			return move.origin.y < move.destination.y;
+		} else if(move.getPlayer() == blackPlayer) {
+			return move.origin.y > move.destination.y;
+		}
+		return false;
+	}
+	
 	
 	private boolean tryOfficerMove(LascaMove move, LascaField origin, LascaField destination) {
 		boolean diagonal = move.isDiagonal();
@@ -308,14 +319,11 @@ public class LascaGame extends Game implements Serializable {
 
 		if (origin.isEmpty()) {
 			return false;
-		}
-		if (this.nextPlayer != player){
+		} else if (this.nextPlayer != player){
+			return false;
+		} else if (!checkFieldFigure(origin, player)) {
 			return false;
 		}
-		if (!checkFieldFigure(origin, player)) {
-			return false;
-		}
-
 
 		LascaFigure selectedFigure = origin.topFigure();
 		switch (selectedFigure.type) {
