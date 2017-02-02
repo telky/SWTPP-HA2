@@ -116,21 +116,21 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);	
-		assertMove("a5-b4", false, true);	
+		assertMove("a5-c3", false, true);	
 		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
 	}
 	
 	@Test
 	public void testStrikeSoldierNotEmptyField() {
 		startGame(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w b", false);	
-		assertMove("a5-b4", false, false);	
+		assertMove("a5-c3", false, false);	
 		assertGameState(",,,/,,/b,,,/w,,/,b,,/,,/w,w,w,w b", false, false, false);
 	}
 	
 	@Test
 	public void testStrikeOwnSoldier() {
 		startGame(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w b", false);
-		assertMove("a5-b4", false, false);
+		assertMove("a5-c3", false, false);
 		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
@@ -178,14 +178,14 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeUpgradeToSoldierBlack() {
 		startGame(",,,/,,/b,,,/b,,/,b,,/,w,/w,,,w b", false);
-		assertMove("c3-d2", false, true);
+		assertMove("c3-e1", false, true);
 		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,Bw,w w", true, false, false);
 	}
 	
 	@Test
 	public void testStrikeUpgradeToSoldierWhite() {
 		startGame(",,,/,b,/b,,w,/b,,/,,,/,b,/w,,,w w", true);
-		assertMove("e5-d6", true, true);
+		assertMove("e5-f7", true, true);
 		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
 	
