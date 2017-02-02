@@ -22,8 +22,10 @@ public class LascaMove extends Move {
 		
 		origin = CoordinatesHelper.corrdinateForString(positionStrings.get(0));
 		destination = CoordinatesHelper.corrdinateForString(positionStrings.get(1));
-		
-		
+	}
+	
+	public boolean isDiagonal() {
+		return (this.origin.x + 1 == this.destination.x) || (this.origin.x - 1 == this.destination.x);
 	}
 	
 }
