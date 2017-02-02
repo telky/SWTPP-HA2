@@ -235,10 +235,24 @@ public class LascaGame extends Game implements Serializable {
 	private boolean tryStrikeSoldier(LascaMove move, LascaField origin, LascaField destination) {
 		if(move.origin.x + 2 != move.destination.x){ // strikes are defined by moving over an opponents figure
 			return false;
+		} else if (!destination.isEmpty()){
+			return false;
 		}
-				
-		LascaField destinationField = board.getField(move.destination);
+		
 		LascaField opponentField = board.getFieldBetween(origin, destination);
+		if (opponentField != null && !opponentField.isEmpty()){
+			LascaFigure figureToStrike = opponentField.topFigure();
+			if (figureIsStrikable(figureToStrike.color, move.getPlayer())){
+				board.strike(origin, opponentField, move.origin.x < move.destination.x, move.origin.y < move.destination.y);
+				checkUpgrade(move, destination);
+				return true;
+			} else {
+				System.out.println("Tried to strike figure of own team, invalid move"); // TODO delete before publishing
+				return false;
+			}
+		} 
+		System.out.println("Critical Error: Tried to get an invalid field in tryStrike"); // TODO delete before publishing
+		return false;
 		
 		
 		
@@ -271,11 +285,19 @@ public class LascaGame extends Game implements Serializable {
 //		}
 //		return false;
 	}
+	
+	private boolean figureIsStrikable(ColorType figureColor, Player movePlayer){
+		switch(figureColor){
+		case WHITE:
+			return movePlayer == blackPlayer;
+		case BLACK:
+			return movePlayer == whitePlayer;
+		}
+		return false;
+		
+	}
 
 	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
-		if(destination.isEmpty()){
-			return false;
-		}
 		boolean diagonal = move.isDiagonal();
 		boolean forward = checkSoldierDirectionForward(move);
 		
@@ -283,7 +305,7 @@ public class LascaGame extends Game implements Serializable {
 			// check: strike possible?
 			if(tryStrikeSoldier(move, origin, destination)){
 				return true;
-			} else{ // simple move without striking
+			} else if(destination.isEmpty()){ // simple move without striking
 				board.moveFigure(origin, destination);
 				checkUpgrade(move, destination);
 				return true;
