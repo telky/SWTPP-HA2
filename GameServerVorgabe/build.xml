@@ -86,7 +86,6 @@
             <formatter type="brief" usefile="false" />
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.AllTests" todir="${junit.output.dir}"/>
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.CoordinatesHelperTests" todir="${junit.output.dir}"/>
-            <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaBoardTests" todir="${junit.output.dir}"/>
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaGameTest" todir="${junit.output.dir}"/>
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaMoveTests" todir="${junit.output.dir}"/>
             <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.TryMoveTest" todir="${junit.output.dir}"/>
@@ -98,14 +97,6 @@
         <mkdir dir="${junit.output.dir}"/>
         <junit fork="yes" printsummary="withOutAndErr">
             <formatter type="xml"/>
-            <classpath refid="GameServerVorgabe.classpath"/>
-        </junit>
-    </target>
-    <target name="LascaBoardTests">
-        <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
-            <formatter type="xml"/>
-            <test name="de.tuberlin.sese.swtpp.gameserver.test.lasca.LascaBoardTests" todir="${junit.output.dir}"/>
             <classpath refid="GameServerVorgabe.classpath"/>
         </junit>
     </target>
