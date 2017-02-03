@@ -16,11 +16,11 @@ import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.ColorType;
 public class LascaGame extends Game implements Serializable {
 
 	private static final long serialVersionUID = 8461983069685628324L;
-	
+
 	/************************
 	 * member
 	 ***********************/
-	
+
 	// just for better comprehensibility of the code: assign white and black
 	// player
 	private Player blackPlayer;
@@ -30,7 +30,7 @@ public class LascaGame extends Game implements Serializable {
 	// TODO: insert additional game data here
 	LascaBoard board;
 	String state;
-	
+
 
 	/************************
 	 * constructors
@@ -213,7 +213,7 @@ public class LascaGame extends Game implements Serializable {
 			this.nextPlayer = this.blackPlayer;
 		}
 	}
-	
+
 	@Override
 	public void setState(String state) {
 		board = new LascaBoard(state);
@@ -238,7 +238,7 @@ public class LascaGame extends Game implements Serializable {
 		} else if (!destination.isEmpty()){
 			return false;
 		}
-		
+
 		LascaField opponentField = board.getFieldBetween(origin, destination);
 		if (opponentField != null && !opponentField.isEmpty()){
 			LascaFigure figureToStrike = opponentField.topFigure();
@@ -253,39 +253,39 @@ public class LascaGame extends Game implements Serializable {
 		} 
 		System.out.println("Critical Error: Tried to get an invalid field in tryStrike"); // TODO delete before publishing
 		return false;
-		
-		
-		
+
+
+
 		//boolean movingRight = move.origin.x + 1 == move.destination.x;
 
-		
-//
-//		LascaField destinationField = board.getField(move.destination);
-//		if (!destinationField.isEmpty()) {
-//			LascaFigure strikedFigure = destinationField.topFigure();
-//			if ((strikedFigure.color == ColorType.WHITE && move.getPlayer() == blackPlayer)
-//					|| (strikedFigure.color == ColorType.BLACK && move.getPlayer() == whitePlayer)) {
-//
-//				boolean forward = move.getPlayer() == whitePlayer;
-//
-//				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : -1),
-//						move.destination.y + (forward ? 1 : -1));
-//				LascaField newDestination = board.getField(newDestinationPoint);
-//
-//				if (newDestination.isEmpty()) {
-//					board.strike(origin, destination, movingRight, forward);
-//					if ((newDestination.row == 7 && move.getPlayer() == whitePlayer)
-//							|| (newDestination.row == 1 && move.getPlayer() == blackPlayer)) {
-//						newDestination.topFigure().upgrade();
-//					}
-//
-//					return true;
-//				}
-//			}
-//		}
-//		return false;
+
+		//
+		//		LascaField destinationField = board.getField(move.destination);
+		//		if (!destinationField.isEmpty()) {
+		//			LascaFigure strikedFigure = destinationField.topFigure();
+		//			if ((strikedFigure.color == ColorType.WHITE && move.getPlayer() == blackPlayer)
+		//					|| (strikedFigure.color == ColorType.BLACK && move.getPlayer() == whitePlayer)) {
+		//
+		//				boolean forward = move.getPlayer() == whitePlayer;
+		//
+		//				Point2D newDestinationPoint = new Point2D(move.destination.x + (movingRight ? 1 : -1),
+		//						move.destination.y + (forward ? 1 : -1));
+		//				LascaField newDestination = board.getField(newDestinationPoint);
+		//
+		//				if (newDestination.isEmpty()) {
+		//					board.strike(origin, destination, movingRight, forward);
+		//					if ((newDestination.row == 7 && move.getPlayer() == whitePlayer)
+		//							|| (newDestination.row == 1 && move.getPlayer() == blackPlayer)) {
+		//						newDestination.topFigure().upgrade();
+		//					}
+		//
+		//					return true;
+		//				}
+		//			}
+		//		}
+		//		return false;
 	}
-	
+
 	private boolean figureIsStrikable(ColorType figureColor, Player movePlayer){
 		switch(figureColor){
 		case WHITE:
@@ -294,13 +294,13 @@ public class LascaGame extends Game implements Serializable {
 			return movePlayer == whitePlayer;
 		}
 		return false;
-		
+
 	}
 
 	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
 		boolean diagonal = move.isDiagonal();
 		boolean forward = checkSoldierDirectionForward(move);
-		
+
 		if(diagonal && forward){ 
 			// check: strike possible?
 			if(tryStrikeSoldier(move, origin, destination)){
@@ -313,7 +313,7 @@ public class LascaGame extends Game implements Serializable {
 		}
 		return false;
 	}
-	
+
 	// check if the move direction matches forward direction of figure at
 	private boolean checkSoldierDirectionForward(LascaMove move){
 		if(move.getPlayer() == whitePlayer){
@@ -323,7 +323,7 @@ public class LascaGame extends Game implements Serializable {
 		}
 		return false;
 	}
-	
+
 	private void checkUpgrade(LascaMove move, LascaField destination){
 		if (destination.row == 7 && move.getPlayer() == whitePlayer){
 			destination.topFigure().upgrade();
@@ -331,12 +331,12 @@ public class LascaGame extends Game implements Serializable {
 			destination.topFigure().upgrade();
 		}
 	}
-	
+
 	private boolean isSimpleMove(LascaMove move){
 		return move.origin.x + 1 == move.destination.x || move.origin.x - 1 == move.destination.x;
 	}
-	
-	
+
+
 	private boolean tryOfficerMove(LascaMove move, LascaField origin, LascaField destination) {
 		boolean diagonal = move.isDiagonal();
 
@@ -388,7 +388,7 @@ public class LascaGame extends Game implements Serializable {
 
 		return validMove;
 	}
-	
+
 	private boolean checkFieldFigure(LascaField field, Player player){
 		if ((field.topFigure().color == ColorType.BLACK && player != blackPlayer)
 				|| ((field.topFigure().color == ColorType.WHITE && player != whitePlayer))) {
@@ -396,7 +396,7 @@ public class LascaGame extends Game implements Serializable {
 		}
 		return true;
 	}
-	
+
 	// TODO debugging purpose
 	public void  printBoard(){
 		this.board.printBoard();
