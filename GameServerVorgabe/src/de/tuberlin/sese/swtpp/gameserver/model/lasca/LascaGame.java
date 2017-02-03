@@ -233,7 +233,7 @@ public class LascaGame extends Game implements Serializable {
 
 	// only call for valid moves!
 	private boolean tryStrikeSoldier(LascaMove move, LascaField origin, LascaField destination) {
-		if(move.origin.x + 2 != move.destination.x && move.origin.x - 2 != move.destination.x){ // strikes are defined by moving over an opponents figure
+		if(!move.isStrikeLength()){
 			return false;
 		} else if (!destination.isEmpty()){
 			return false;
