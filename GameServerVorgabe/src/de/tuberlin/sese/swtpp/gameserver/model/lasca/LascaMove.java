@@ -36,5 +36,9 @@ public class LascaMove extends Move {
 		}		
 		return false;
 	}
+	
+	public boolean isSimpleMove(){
+		return origin.x + 1 == destination.x || origin.x - 1 == destination.x;
+	}
 
 }

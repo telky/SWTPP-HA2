@@ -305,7 +305,7 @@ public class LascaGame extends Game implements Serializable {
 			// check: strike possible?
 			if(tryStrikeSoldier(move, origin, destination)){
 				return true;
-			} else if(destination.isEmpty() && isSimpleMove(move)){ // simple move without striking
+			} else if(destination.isEmpty() && move.isSimpleMove()){ // simple move without striking
 				board.moveFigure(origin, destination);
 				checkUpgrade(move, destination);
 				return true;
@@ -332,9 +332,6 @@ public class LascaGame extends Game implements Serializable {
 		}
 	}
 
-	private boolean isSimpleMove(LascaMove move){
-		return move.origin.x + 1 == move.destination.x || move.origin.x - 1 == move.destination.x;
-	}
 
 
 	private boolean tryOfficerMove(LascaMove move, LascaField origin, LascaField destination) {
