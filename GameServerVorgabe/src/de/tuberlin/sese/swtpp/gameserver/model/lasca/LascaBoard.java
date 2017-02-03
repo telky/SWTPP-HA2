@@ -19,12 +19,9 @@ public class LascaBoard implements Serializable {
 	public LascaBoard(String fenState) {
 		fields = new HashMap<String, LascaField>();
 		parseFen(fenState);
-		this.printBoard();
 		connectFields();
 	}
 
-	// TODO: wrong order, FEN strings begin with upper left corner
-	// currently unused
 	public String toFenString() {
 		String result = "";
 		for (int row = fieldSize; row >= minFieldIndex; row--) {
@@ -52,7 +49,7 @@ public class LascaBoard implements Serializable {
 	public HashMap<String, LascaField> getFields() {
 		return fields;
 	}
-	
+
 	private void setCurrentPlayer(String fen){
 		String lastTwoCharacters = fen.substring(fen.length()-2); 
 		if(lastTwoCharacters.startsWith(" ")){
@@ -101,12 +98,12 @@ public class LascaBoard implements Serializable {
 		}
 	}
 
-	
+
 	private void parseColumn(String component, int rowIndex, int columnIndex){
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
 		List<LascaFigure> figuresOnCurrentField = new ArrayList<LascaFigure>();
-		
+
 		if(evenRow == evenColumn){	// check if field is valid and can be used by figure
 			String fieldID = this.idFor(rowIndex, columnIndex);
 			if (fields.get(fieldID) != null){	// field already exists, needs update
@@ -127,12 +124,12 @@ public class LascaBoard implements Serializable {
 			}
 		}
 	}
-	
+
 	private List<LascaFigure> parseFigures(String figureString){
 		List<LascaFigure> figuresRead = new ArrayList<LascaFigure>();
 		for(int i = 0; i< figureString.length(); i++){
-			 String currentFigure = Character.toString(figureString.charAt(i));
-			 figuresRead.add(new LascaFigure(currentFigure));
+			String currentFigure = Character.toString(figureString.charAt(i));
+			figuresRead.add(new LascaFigure(currentFigure));
 		}
 		return figuresRead;
 	}
@@ -195,20 +192,20 @@ public class LascaBoard implements Serializable {
 	}
 
 	private String idFor(int row, int column) { // TODO remove, unnecessary
-												// wrapper
+		// wrapper
 		Point2D tmp = new Point2D(column, row);
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 
 	// for debugging
-	private void printBoard() {
+	public void printBoard() {
 
 		System.out.println("Current board:");
 		for (int rowIndex = fieldSize; rowIndex >= minFieldIndex; rowIndex--) {
-	
+
 			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
 				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine whether it is a 4 field or 3 field row
-																										
+
 					String fieldID = idFor(rowIndex, colIndex);
 					if (!fields.containsKey(fieldID)) { // invalid field
 						System.out.print("[/]");
@@ -231,31 +228,42 @@ public class LascaBoard implements Serializable {
 	public LascaField getField(String fenPoint) {
 		return fields.get(fenPoint);
 	}
-	
+
 	public LascaField getField(Point2D point) {
 		return getField(CoordinatesHelper.fenStringForCoordinate(point));
 	}
-	
+
+	public LascaField getFieldBetween(LascaField source, LascaField destination){
+		boolean left = source.col > destination.col;
+		boolean whiteForward = source.row < destination.row;
+		Point2D tempPoint = new Point2D(source.col + (left ? -1 : 1), source.row + (whiteForward ? 1 : -1));
+		LascaField fieldBetween = getField(tempPoint);
+		if (fieldBetween != null){
+			return fieldBetween;
+		}
+		return null;
+	}
+
 	public void moveFigure(LascaField origin, LascaField destination) {
 		LascaFigure selectedSoldier = origin.topFigure();
 		origin.removeTopFigure();
 		destination.addFigure(selectedSoldier);
-		
+
 		fields.put(origin.id, origin);
 		fields.put(destination.id, destination);
 	}
 
 	public void strike(LascaField origin, LascaField destination, boolean movingRight, boolean forward) {
 		Point2D destinationPoint = CoordinatesHelper.corrdinateForString(destination.id);
-		
+
 		Point2D newDestinationPoint = new Point2D(destinationPoint.x + (movingRight ? 1 : - 1) , destinationPoint.y + (forward ? 1 : -1)); 
 		LascaField newDestination = getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
-		
+
 		for (LascaFigure figure : destination.figures) {
 			newDestination.addFigure(figure);
 		}
 		destination.removeAllFigures();
-		
+
 		moveFigure(origin, newDestination);
 	}
 
