@@ -40,12 +40,6 @@ public class LascaFigure {
 		// TODO remove empty state
 	}
 
-	public boolean equalsName(String otherName) {
-		// (otherName == null) check is not needed because name.equals(null)
-		// returns false
-		return toFenString().equals(otherName);
-	}
-
 	public String toFenString() {
 		switch (type) {
 			case OFFICER:
@@ -60,10 +54,9 @@ public class LascaFigure {
 				} else {
 					return "b";
 				}
-			case Empty:
+			default:
 				return "";
 		}
-		return "";
 	}
 
 	public void upgrade() {

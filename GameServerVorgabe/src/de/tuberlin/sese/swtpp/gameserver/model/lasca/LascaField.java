@@ -15,16 +15,11 @@ public class LascaField implements Serializable {
 	String id;
 	
 	ArrayList<LascaFigure> figures;
-	
-	List<LascaField> neighbourFieldsBlackDirection;
-	List<LascaField> neighbourFieldsWhiteDirection;
-	
+		
 	public LascaField(int row, int col){
 		this.row = row;
 		this.col = col;
 		this.id = this.calculateID();
-		this.neighbourFieldsBlackDirection = new ArrayList<LascaField>();
-		this.neighbourFieldsWhiteDirection =  new ArrayList<LascaField>();
 		
 		this.figures = new ArrayList<LascaFigure>();
 	}
