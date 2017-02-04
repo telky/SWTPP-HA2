@@ -247,47 +247,11 @@ public class LascaGame extends Game implements Serializable {
 			} else {
 				System.out.println("Tried to strike figure of own team, invalid move"); // TODO
 																						// delete
-																						// before
-																						// publishing
 				return false;
 			}
 		}
 		System.out.println("Critical Error: Tried to get an invalid field in tryStrike"); // TODO
-																							// delete
-																							// before
-																							// publishing
 		return false;
-
-		// boolean movingRight = move.origin.x + 1 == move.destination.x;
-
-		//
-		// LascaField destinationField = board.getField(move.destination);
-		// if (!destinationField.isEmpty()) {
-		// LascaFigure strikedFigure = destinationField.topFigure();
-		// if ((strikedFigure.color == ColorType.WHITE && move.getPlayer() ==
-		// blackPlayer)
-		// || (strikedFigure.color == ColorType.BLACK && move.getPlayer() ==
-		// whitePlayer)) {
-		//
-		// boolean forward = move.getPlayer() == whitePlayer;
-		//
-		// Point2D newDestinationPoint = new Point2D(move.destination.x +
-		// (movingRight ? 1 : -1),
-		// move.destination.y + (forward ? 1 : -1));
-		// LascaField newDestination = board.getField(newDestinationPoint);
-		//
-		// if (newDestination.isEmpty()) {
-		// board.strike(origin, destination, movingRight, forward);
-		// if ((newDestination.row == 7 && move.getPlayer() == whitePlayer)
-		// || (newDestination.row == 1 && move.getPlayer() == blackPlayer)) {
-		// newDestination.topFigure().upgrade();
-		// }
-		//
-		// return true;
-		// }
-		// }
-		// }
-		// return false;
 	}
 
 	private boolean figureIsStrikable(ColorType figureColor, Player movePlayer) {
@@ -392,11 +356,8 @@ public class LascaGame extends Game implements Serializable {
 	}
 
 	private boolean checkFieldFigure(LascaField field, Player player) {
-		if ((field.topFigure().color == ColorType.BLACK && player != blackPlayer)
-				|| ((field.topFigure().color == ColorType.WHITE && player != whitePlayer))) {
-			return false;
-		}
-		return true;
+		return  !((field.topFigure().color == ColorType.BLACK && player != blackPlayer)
+				|| ((field.topFigure().color == ColorType.WHITE && player != whitePlayer)));
 	}
 
 	// TODO debugging purpose

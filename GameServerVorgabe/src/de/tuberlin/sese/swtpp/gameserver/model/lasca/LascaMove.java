@@ -44,18 +44,7 @@ public class LascaMove extends Move {
 	}
 
 	public boolean isStrikeLength() {
-		if (origin.x + 2 != destination.x && origin.x - 2 != destination.x) { // strikes
-																				// are
-																				// defined
-																				// by
-																				// moving
-																				// over
-																				// an
-																				// opponents
-																				// figure
-			return false;
-		}
-		return true;
+		return !(origin.x + 2 != destination.x && origin.x - 2 != destination.x); 
 	}
 
 }
