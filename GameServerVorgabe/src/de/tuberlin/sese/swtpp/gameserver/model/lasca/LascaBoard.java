@@ -70,22 +70,17 @@ public class LascaBoard implements Serializable {
 		List<String> fenRows = Arrays.asList(fenString.split("/"));
 
 		int row = fieldSize;
-		int column = minFieldIndex;
 
 		for (String fenRow : fenRows) {
-			parseRow(fenRow, row, column);
+			parseRow(fenRow, row);
 			row--;
 		}
 	}
 
-	private void parseRow(String row, int rowIndex, int columnIndex) {
+	private void parseRow(String row, int rowIndex) {
 		List<String> columnList = Arrays.asList(row.split(","));
 		Boolean evenRow = rowIndex % 2 == 0;
-		if (evenRow) { // set starting column in even row to second column
-			columnIndex = 2;
-		} else {
-			columnIndex = 1;
-		}
+		int columnIndex = evenRow ? 2 : 1;
 
 		for (String component : columnList) {
 			parseColumn(component, rowIndex, columnIndex);
@@ -132,23 +127,14 @@ public class LascaBoard implements Serializable {
 		for (int rowIndex = fieldSize; rowIndex >= minFieldIndex; rowIndex--) {
 
 			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
-				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine
-																										// whether
-																										// it
-																										// is
-																										// a
-																										// 4
-																										// field
-																										// or
-																										// 3
-																										// field
-																										// row
-
+				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { 
+					// determine whether it is a 4 field or 3 field row 
 					String fieldID = idFor(rowIndex, colIndex);
-					if (!fields.containsKey(fieldID)) { // invalid field
+					if (!fields.containsKey(fieldID)) { 
+						// invalid field
 						System.out.print("[/]");
-					} else if (!fields.get(fieldID).isEmpty()) { // field with
-																	// figures
+					} else if (!fields.get(fieldID).isEmpty()) { 
+						// field with figures
 						// print figure stack
 						System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
 					} else {
