@@ -1,7 +1,5 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
-import java.io.Serializable;
-
 public class LascaFigure {
 	public FigureType type;
 	public ColorType color;
@@ -36,26 +34,26 @@ public class LascaFigure {
 		default:
 			type = FigureType.Empty;
 		}
-		
+
 		// TODO remove empty state
 	}
 
 	public String toFenString() {
 		switch (type) {
-			case OFFICER:
-				if (color == ColorType.WHITE) {
-					return "W";
-				} else {
-					return "B";
-				}
-			case SOLDIER:
-				if (color == ColorType.WHITE) {
-					return "w";
-				} else {
-					return "b";
-				}
-			default:
-				return "";
+		case OFFICER:
+			if (color == ColorType.WHITE) {
+				return "W";
+			} else {
+				return "B";
+			}
+		case SOLDIER:
+			if (color == ColorType.WHITE) {
+				return "w";
+			} else {
+				return "b";
+			}
+		default:
+			return "";
 		}
 	}
 

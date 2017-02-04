@@ -1,12 +1,12 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import com.sun.javafx.geom.Point2D;
-
-import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaField;
-import de.tuberlin.sese.swtpp.gameserver.test.lasca.MalformedFenException;
 
 public class LascaBoard implements Serializable {
 
@@ -49,9 +49,9 @@ public class LascaBoard implements Serializable {
 		return fields;
 	}
 
-	private void setCurrentPlayer(String fen){
-		String lastTwoCharacters = fen.substring(fen.length()-2); 
-		if(lastTwoCharacters.startsWith(" ")){
+	private void setCurrentPlayer(String fen) {
+		String lastTwoCharacters = fen.substring(fen.length() - 2);
+		if (lastTwoCharacters.startsWith(" ")) {
 			this.currentPlayer = lastTwoCharacters.charAt(1);
 		} else {
 			System.out.println("FEN String is missing attribute for currentPlayer");
@@ -60,8 +60,8 @@ public class LascaBoard implements Serializable {
 
 	private void parseFen(String fenString) {
 		setCurrentPlayer(fenString);
-		if(currentPlayer != null){
-			fenString = fenString.substring(0, fenString.length()-2);
+		if (currentPlayer != null) {
+			fenString = fenString.substring(0, fenString.length() - 2);
 		}
 		fenString = fenString.replaceAll(",,", ",-,");
 		fenString = fenString.replaceAll("/,", "/-,");
@@ -75,7 +75,7 @@ public class LascaBoard implements Serializable {
 		for (String fenRow : fenRows) {
 			parseRow(fenRow, row, column);
 			row--;
-		}		
+		}
 	}
 
 	private void parseRow(String row, int rowIndex, int columnIndex) {
@@ -93,26 +93,30 @@ public class LascaBoard implements Serializable {
 		}
 	}
 
-
-	private void parseColumn(String component, int rowIndex, int columnIndex){
+	private void parseColumn(String component, int rowIndex, int columnIndex) {
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
 		List<LascaFigure> figuresOnCurrentField = new ArrayList<LascaFigure>();
 
-		if(evenRow == evenColumn){	// check if field is valid and can be used by figure
-			LascaField newField = new LascaField(rowIndex, columnIndex); // only valid fields are added
+		if (evenRow == evenColumn) { // check if field is valid and can be used
+										// by figure
+			LascaField newField = new LascaField(rowIndex, columnIndex); // only
+																			// valid
+																			// fields
+																			// are
+																			// added
 			figuresOnCurrentField = parseFigures(component);
-			for(int i = 0; i < figuresOnCurrentField.size(); i++){
+			for (int i = 0; i < figuresOnCurrentField.size(); i++) {
 				newField.figures.add(figuresOnCurrentField.get(i));
 			}
-			//newField.figures.add(parseFigures(component));
+			// newField.figures.add(parseFigures(component));
 			fields.put(newField.id, newField);
 		}
 	}
 
-	private List<LascaFigure> parseFigures(String figureString){
+	private List<LascaFigure> parseFigures(String figureString) {
 		List<LascaFigure> figuresRead = new ArrayList<LascaFigure>();
-		for(int i = 0; i< figureString.length(); i++){
+		for (int i = 0; i < figureString.length(); i++) {
 			String currentFigure = Character.toString(figureString.charAt(i));
 			figuresRead.add(new LascaFigure(currentFigure));
 		}
@@ -132,15 +136,26 @@ public class LascaBoard implements Serializable {
 		for (int rowIndex = fieldSize; rowIndex >= minFieldIndex; rowIndex--) {
 
 			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
-				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine whether it is a 4 field or 3 field row
+				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { // determine
+																										// whether
+																										// it
+																										// is
+																										// a
+																										// 4
+																										// field
+																										// or
+																										// 3
+																										// field
+																										// row
 
 					String fieldID = idFor(rowIndex, colIndex);
 					if (!fields.containsKey(fieldID)) { // invalid field
 						System.out.print("[/]");
-					} else if (!fields.get(fieldID).isEmpty()) { // field with figures																			
+					} else if (!fields.get(fieldID).isEmpty()) { // field with
+																	// figures
 						// print figure stack
 						System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
-					} else{
+					} else {
 						// print empty field
 						System.out.print("[_]");
 					}
@@ -161,7 +176,7 @@ public class LascaBoard implements Serializable {
 		return getField(CoordinatesHelper.fenStringForCoordinate(point));
 	}
 
-	public LascaField getFieldBetween(LascaField source, LascaField destination){
+	public LascaField getFieldBetween(LascaField source, LascaField destination) {
 		boolean left = source.col > destination.col;
 		boolean whiteForward = source.row < destination.row;
 		Point2D tempPoint = new Point2D(source.col + (left ? -1 : 1), source.row + (whiteForward ? 1 : -1));
@@ -181,7 +196,8 @@ public class LascaBoard implements Serializable {
 	public void strike(LascaField origin, LascaField destination, boolean movingRight, boolean forward) {
 		Point2D destinationPoint = CoordinatesHelper.corrdinateForString(destination.id);
 
-		Point2D newDestinationPoint = new Point2D(destinationPoint.x + (movingRight ? 1 : - 1) , destinationPoint.y + (forward ? 1 : -1)); 
+		Point2D newDestinationPoint = new Point2D(destinationPoint.x + (movingRight ? 1 : -1),
+				destinationPoint.y + (forward ? 1 : -1));
 		LascaField newDestination = getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
 
 		for (LascaFigure figure : destination.figures) {
