@@ -1,4 +1,5 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class LascaMove extends Move {
 	public Point2D origin;
 	public Point2D destination;
 
-	public LascaMove(String moveString, Player player) {	
+	public LascaMove(String moveString, Player player) {
 		super(moveString, "TODO insert state here", player);
 		List<String> positionStrings = Arrays.asList(moveString.split("-"));
 
@@ -24,28 +25,26 @@ public class LascaMove extends Move {
 		destination = CoordinatesHelper.corrdinateForString(positionStrings.get(1));
 	}
 
-	public boolean isDiagonal() { // TODO only working for soldiers 
-		if(this.origin.x + 1 == this.destination.x || this.origin.x - 1 == this.destination.x){
-			if(this.origin.y + 1 == this.destination.y || this.origin.y - 1 == this.destination.y){
+	public boolean isDiagonal() { // TODO only working for soldiers
+		if (this.origin.x + 1 == this.destination.x || this.origin.x - 1 == this.destination.x) {
+			if (this.origin.y + 1 == this.destination.y || this.origin.y - 1 == this.destination.y) {
 				return true;
 			}
-		} if(this.origin.x + 2 == this.destination.x || this.origin.x - 2 == this.destination.x){
-			if(this.origin.y + 2 == this.destination.y || this.origin.y - 2 == this.destination.y){
+		}
+		if (this.origin.x + 2 == this.destination.x || this.origin.x - 2 == this.destination.x) {
+			if (this.origin.y + 2 == this.destination.y || this.origin.y - 2 == this.destination.y) {
 				return true;
 			}
-		}		
+		}
 		return false;
 	}
-	
-	public boolean isSimpleMove(){
+
+	public boolean isSimpleMove() {
 		return origin.x + 1 == destination.x || origin.x - 1 == destination.x;
 	}
 
 	public boolean isStrikeLength() {
-		if(origin.x + 2 != destination.x && origin.x - 2 != destination.x){ // strikes are defined by moving over an opponents figure
-			return false;
-		}
-		return true;
+		return !(origin.x + 2 != destination.x && origin.x - 2 != destination.x); 
 	}
 
 }
