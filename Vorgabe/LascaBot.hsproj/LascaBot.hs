@@ -25,12 +25,6 @@ data Figure = Figure { figureType :: FigureType
 type Field = [Figure]
 type Row = [Field]
 type Board = [Row]
-
-getColor :: Figure -> Color 
-getColor (Figure{color = fColor }) = fColor
-
-fieldSize :: Int
-fieldSize = 7
                            
 empty :: Field -> Bool
 empty f = length f == 0
@@ -61,8 +55,6 @@ canMoveInThisDir White yOrigin yDestination = yOrigin < yDestination
 canMoveInThisDir Black yOrigin yDestination = yOrigin > yDestination  
   -- TODO add support for Officer
   
-
-
     --- ... ---
 
 --- input (TODO)
