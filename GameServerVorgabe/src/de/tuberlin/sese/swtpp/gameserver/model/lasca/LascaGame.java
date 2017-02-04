@@ -322,27 +322,17 @@ public class LascaGame extends Game implements Serializable {
 		LascaField origin = board.getField(move.origin);
 		LascaField destination = board.getField(move.destination);
 
-		boolean validMove = false;
-
-		if (origin.isEmpty()) {
+		Boolean movingFieldEmpty = origin.isEmpty();
+		Boolean wrongPlayerIsMoving = this.nextPlayer != player;
+		Boolean currentPlayerCantMoveOrigin = !checkFieldFigure(origin, player);
+		
+		if (movingFieldEmpty || wrongPlayerIsMoving || currentPlayerCantMoveOrigin) {
 			return false;
-		} else if (this.nextPlayer != player) {
-			return false;
-		} else if (!checkFieldFigure(origin, player)) {
-			return false;
-		}
+		} 
 
 		LascaFigure selectedFigure = origin.topFigure();
-		switch (selectedFigure.type) {
-		case SOLDIER:
-			validMove = trySoldierMove(move, origin, destination);
-			break;
-		case OFFICER:
-			validMove = tryOfficerMove(move, origin, destination);
-			break;
-		default:
-			break;
-		}
+
+		boolean validMove = selectedFigure.type == FigureType.SOLDIER ? trySoldierMove(move, origin, destination) : tryOfficerMove(move, origin, destination);
 
 		if (validMove) {
 			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
