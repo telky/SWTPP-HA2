@@ -5,6 +5,7 @@ import java.io.Serializable;
 import de.tuberlin.sese.swtpp.gameserver.model.Game;
 import de.tuberlin.sese.swtpp.gameserver.model.Player;
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.ColorType;
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.FigureType;
 
 /**
  * Class LascaGame extends the abstract class Game as a concrete game instance
