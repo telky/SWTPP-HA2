@@ -97,14 +97,10 @@ public class LascaBoard implements Serializable {
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
 		List<LascaFigure> figuresOnCurrentField = new ArrayList<LascaFigure>();
-
-		if (evenRow == evenColumn) { // check if field is valid and can be used
-										// by figure
-			LascaField newField = new LascaField(rowIndex, columnIndex); // only
-																			// valid
-																			// fields
-																			// are
-																			// added
+		// check if field is valid and can be used by figure
+		if (evenRow == evenColumn) { 
+			LascaField newField = new LascaField(rowIndex, columnIndex);
+			// only valid fields are added
 			figuresOnCurrentField = parseFigures(component);
 			for (int i = 0; i < figuresOnCurrentField.size(); i++) {
 				newField.figures.add(figuresOnCurrentField.get(i));

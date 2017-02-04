@@ -60,7 +60,6 @@ public class LascaField implements Serializable {
 
 	public void removeAllFigures() {
 		ArrayList<LascaFigure> newFigures = new ArrayList<LascaFigure>();
-		;
 		for (LascaFigure figure : figures) {
 			newFigures.add(new LascaFigure(""));
 		}

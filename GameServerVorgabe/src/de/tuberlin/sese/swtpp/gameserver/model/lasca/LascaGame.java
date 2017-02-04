@@ -246,7 +246,6 @@ public class LascaGame extends Game implements Serializable {
 				return true;
 			} else {
 				System.out.println("Tried to strike figure of own team, invalid move"); // TODO
-																						// delete
 				return false;
 			}
 		}
@@ -273,10 +272,8 @@ public class LascaGame extends Game implements Serializable {
 			// check: strike possible?
 			if (tryStrikeSoldier(move, origin, destination)) {
 				return true;
-			} else if (destination.isEmpty() && move.isSimpleMove()) { // simple
-																		// move
-																		// without
-																		// striking
+			} else if (destination.isEmpty() && move.isSimpleMove()) {
+				// simple move without strike 
 				board.moveFigure(origin, destination);
 				checkUpgrade(move, destination);
 				return true;
