@@ -1,6 +1,7 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sun.javafx.geom.Point2D;
@@ -329,26 +330,30 @@ public class LascaGame extends Game implements Serializable {
 		
 		int yDir = currentColor == ColorType.WHITE ? 1 : -1;
 		
+		List<Point2D> points = new ArrayList<Point2D>();
+		
 		Point2D topLeft  = new Point2D(coordinate.x - 1 , coordinate.y + yDir);
-		LascaField topLeftField = board.getField(topLeft); 
-		if (board.isValidField(topLeft) && !topLeftField.isEmpty() && topLeftField.topFigure().color != currentColor) {
-			Point2D topLeftDestination  = new Point2D(coordinate.x - 2 , coordinate.y + (yDir * 2));
-			if (board.isValidField(topLeftDestination) && board.getField(topLeftDestination).isEmpty()) {
-				return true;
-			}
-		}
+		Point2D topLeftDestination  = new Point2D(coordinate.x - 2 , coordinate.y + (yDir * 2));
+		points.add(topLeft);
+		points.add(topLeftDestination);
 		
 		Point2D topRight  = new Point2D(coordinate.x + 1 , coordinate.y + yDir);
-		LascaField topRightField = board.getField(topRight);
-		if (board.isValidField(topRight) && !topRightField.isEmpty() && topRightField.topFigure().color != currentColor) {
-			Point2D topRightDestination  = new Point2D(coordinate.x + 2 , coordinate.y + (yDir * 2));
-			if (board.isValidField(topRightDestination) && board.getField(topRightDestination).isEmpty()) {
-				return true;
-			}
-		}
+		Point2D topRightDestination  = new Point2D(coordinate.x + 2 , coordinate.y + (yDir * 2));
+		points.add(topRight);
+		points.add(topRightDestination);
 		
 		if (currentFigure.type == FigureType.OFFICER) {
 			// TODO
+		}
+		
+		for (int i = 0; i <  points.size()-1; i = i+2) {
+			LascaField selectedField = board.getField(points.get(i));
+			if (selectedField != null && !selectedField.isEmpty() && selectedField.topFigure().color != currentColor) {
+				LascaField destination = board.getField(points.get(i+1));
+				if (destination != null && destination.isEmpty()) {
+					return true;
+				}
+			}
 		}
 		
 		return false;
@@ -390,7 +395,7 @@ public class LascaGame extends Game implements Serializable {
 		}
 
 		if (validMove) {
-			// TODO don't change next player if the alst move was a strike 
+			// TODO don't change next player if the last move was a strike 
 			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
 			history.add(move);
 		}
