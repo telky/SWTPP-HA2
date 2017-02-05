@@ -343,7 +343,15 @@ public class LascaGame extends Game implements Serializable {
 		points.add(topRightDestination);
 		
 		if (currentFigure.type == FigureType.OFFICER) {
-			// TODO
+			Point2D bottomLeft  = new Point2D(coordinate.x - 1 , coordinate.y - yDir);
+			Point2D bottomLeftDestination  = new Point2D(coordinate.x - 2 , coordinate.y - (yDir * 2));
+			points.add(bottomLeft);
+			points.add(bottomLeftDestination);
+			
+			Point2D bottomRight  = new Point2D(coordinate.x + 1 , coordinate.y - yDir);
+			Point2D bottomRightDestination  = new Point2D(coordinate.x + 2 , coordinate.y - (yDir * 2));
+			points.add(bottomRight);
+			points.add(bottomRightDestination);
 		}
 		
 		for (int i = 0; i <  points.size()-1; i = i+2) {
