@@ -1,6 +1,9 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.sun.javafx.geom.Point2D;
 
 import de.tuberlin.sese.swtpp.gameserver.model.Game;
 import de.tuberlin.sese.swtpp.gameserver.model.Player;
@@ -272,6 +275,7 @@ public class LascaGame extends Game implements Serializable {
 		if (diagonal && forward) {
 			// check: strike possible?
 			if (tryStrikeSoldier(move, origin, destination)) {
+				move.isStrike = true;
 				return true;
 			} else if (destination.isEmpty() && move.isSimpleMove()) {
 				// simple move without strike 
@@ -296,8 +300,10 @@ public class LascaGame extends Game implements Serializable {
 	private void checkUpgrade(LascaMove move, LascaField destination) {
 		if (destination.row == 7 && move.getPlayer() == whitePlayer) {
 			destination.topFigure().upgrade();
+			move.isUpgrade = true;
 		} else if (destination.row == 1 && move.getPlayer() == blackPlayer) {
 			destination.topFigure().upgrade();
+			move.isUpgrade = true;
 		}
 	}
 
@@ -315,11 +321,54 @@ public class LascaGame extends Game implements Serializable {
 		}
 		return false;
 	}
+	
+	private boolean canStrike(LascaField field) {
+		LascaFigure currentFigure = field.topFigure();
+		ColorType currentColor = currentFigure.color;
+		Point2D coordinate = field.getCoordinate();
+		
+		int yDir = currentColor == ColorType.WHITE ? 1 : -1;
+		
+		Point2D topLeft  = new Point2D(coordinate.x - 1 , coordinate.y + yDir);
+		LascaField topLeftField = board.getField(topLeft); 
+		if (board.isValidField(topLeft) && !topLeftField.isEmpty() && topLeftField.topFigure().color != currentColor) {
+			Point2D topLeftDestination  = new Point2D(coordinate.x - 2 , coordinate.y + (yDir * 2));
+			if (board.isValidField(topLeftDestination) && board.getField(topLeftDestination).isEmpty()) {
+				return true;
+			}
+		}
+		
+		Point2D topRight  = new Point2D(coordinate.x + 1 , coordinate.y + yDir);
+		LascaField topRightField = board.getField(topRight);
+		if (board.isValidField(topRight) && !topRightField.isEmpty() && topRightField.topFigure().color != currentColor) {
+			Point2D topRightDestination  = new Point2D(coordinate.x + 2 , coordinate.y + (yDir * 2));
+			if (board.isValidField(topRightDestination) && board.getField(topRightDestination).isEmpty()) {
+				return true;
+			}
+		}
+		
+		if (currentFigure.type == FigureType.OFFICER) {
+			// TODO
+		}
+		
+		return false;
+	}
+	
+	private boolean canStrike(Player player) {
+		List<LascaField> fields = board.figuresForColor(colorForPlayer(player));
+		for (LascaField field: fields) {
+			if (canStrike(field)) {
+				return true;
+			}	
+		}
+		return false;
+	}
 
 	@Override
 	public boolean tryMove(String moveString, Player player) {
+		Boolean canStrike = canStrike(player);
 		LascaMove move = new LascaMove(moveString, player);
-
+		
 		LascaField origin = board.getField(move.origin);
 		LascaField destination = board.getField(move.destination);
 
@@ -334,18 +383,27 @@ public class LascaGame extends Game implements Serializable {
 		LascaFigure selectedFigure = origin.topFigure();
 
 		boolean validMove = selectedFigure.type == FigureType.SOLDIER ? trySoldierMove(move, origin, destination) : tryOfficerMove(move, origin, destination);
+		
+		if (!move.isStrike && canStrike) {
+			validMove = false;
+			board.printBoard();
+		}
 
 		if (validMove) {
+			// TODO don't change next player if the alst move was a strike 
 			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
 			history.add(move);
 		}
 
 		return validMove;
 	}
-
+	
 	private boolean checkFieldFigure(LascaField field, Player player) {
-		return  !((field.topFigure().color == ColorType.BLACK && player != blackPlayer)
-				|| ((field.topFigure().color == ColorType.WHITE && player != whitePlayer)));
+		return (field.topFigure().color == colorForPlayer(player));
+	}
+	
+	private ColorType colorForPlayer(Player player) {
+		return player == blackPlayer ? ColorType.BLACK : ColorType.WHITE;
 	}
 
 	// TODO debugging purpose

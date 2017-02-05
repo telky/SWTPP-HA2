@@ -29,7 +29,6 @@ public class TryMoveTest {
 
 		game = (LascaGame) controller.getGame(gameID);
 		whitePlayer = game.getPlayer(user1);
-
 	}
 
 
@@ -188,12 +187,12 @@ public class TryMoveTest {
 		assertMove("e5-c7", true, true);
 		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
-
-
-
-
-
-
-	//TODO: implement test cases of same kind as example here
-
+	
+	@Test
+	public void testMoveBlackSoldierStrikePossible() {
+		startGame(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false);
+		assertMove("c5-b4", false, false);	
+		assertGameState(",,,/,,/,,,/b,w,/,,,/,,/w,w,w,w b", false, false, false);
+	}
+	
 }
