@@ -116,7 +116,7 @@ public class TryMoveTest {
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);
 		assertMove("a5-c3", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w b", false, false, false);
 	}
 
 	@Test

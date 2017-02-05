@@ -403,9 +403,10 @@ public class LascaGame extends Game implements Serializable {
 		}
 
 		if (validMove) {
-			// TODO don't change next player if the last move was a strike 
-			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
-			history.add(move);
+			// don't change next player if the last move was a strike
+			if ((!move.isUpgrade && !move.isStrike)|| move.isUpgrade) {
+				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
+			}
 		}
 
 		return validMove;
