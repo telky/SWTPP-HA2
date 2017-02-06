@@ -191,9 +191,32 @@ public class TryMoveTest {
 
 
 
+	@Test
+	public void testStrikeSoldierStack_completeHistory(){
+		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w", true);
+		assertMove("a3-b4", true, true);
+		assertMove("c5-a3", false, true);
+		assertMove("c3-b4", true, true);
+		assertMove("a5-c3", false, true);
+		assertMove("d2-b4", true, true);
+		assertMove("d6-c5", false, true);
+		assertGameState("b,b,b,b/b,,b/,b,b,b/wb,,/bw,w,w,w/w,,w/w,w,w,w w", false, false, false);
+	}
+	
+	@Test
+	// strike with white a stack of black - white - white 
+	public void testWhite_StrikeSoldierStack(){
+		startGame(",,,/,,/,,,/,,/,bww,,/w,,/w,w,w,w w", true);
+		assertMove("b2-d4", true, true);
+		assertGameState(",,,/,,/,,,/,wb,/,ww,,/,,/w,w,w,w w", false, false, false);
+	}
+	
+	@Test
+	public void testBlack_StrikeSoldierStack(){
+		startGame(",,,/,,/,,,/b,,/,wbb,,/,,/,,, b", false);
+		assertMove("b4-d2", true, true);
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,, w", true, false, false);
+	}
 
-
-
-	//TODO: implement test cases of same kind as example here
 
 }
