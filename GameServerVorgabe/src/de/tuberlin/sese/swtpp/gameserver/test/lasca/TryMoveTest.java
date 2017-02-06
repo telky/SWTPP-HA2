@@ -178,7 +178,9 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeUpgradeToOfficerBlack() {
 		startGame(",,,/,,/b,,,/b,,/,b,,/,w,/w,,,w b", false);
+		game.printBoard();
 		assertMove("c3-e1", false, true);
+		game.printBoard();
 		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,Bw,w w", true, false, false);
 	}
 
@@ -208,7 +210,8 @@ public class TryMoveTest {
 	public void testWhite_StrikeSoldierStack(){
 		startGame(",,,/,,/,,,/,,/,bww,,/w,,/w,w,w,w w", true);
 		assertMove("b2-d4", true, true);
-		assertGameState(",,,/,,/,,,/,wb,/,ww,,/,,/w,w,w,w w", false, false, false);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,wb,/,ww,,/,,/w,w,w,w b", false, false, false);
 	}
 	
 	@Test
@@ -216,6 +219,7 @@ public class TryMoveTest {
 	public void testBlack_StrikeSoldierStack(){
 		startGame(",,,/,,/,,,/b,,/,wbb,,/,,/,,, b", false);
 		assertMove("b4-d2", false, true);
+		game.printBoard();
 		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,, w", true, false, false);
 	}
 	
@@ -228,15 +232,15 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,,w w", true, false, false);
 		// white move - meaningless
 		assertMove("g1-f2", true, true);
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,w/,,, w", true, false, false);	
 		// move one of the freed soldiers
 		assertMove("c3-b2", false, true);
-		assertGameState(",,,/,,/,,,/,,/,b,,/b,bw,w/,,, w", true, false, false);
-		
+		assertGameState(",,,/,,/,,,/,,/,b,,/b,bw,w/,,, w", true, false, false);	
 	}
 	
 	@Test
 	public void testBlack_moveCapturedSoldier(){
-		
+		// TODO try to move a soldier while captured
 	}
 
 

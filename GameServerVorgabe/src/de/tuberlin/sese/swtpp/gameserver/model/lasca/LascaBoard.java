@@ -66,6 +66,9 @@ public class LascaBoard implements Serializable {
 		fenString = fenString.replaceAll(",,", ",-,");
 		fenString = fenString.replaceAll("/,", "/-,");
 		fenString = fenString.replaceAll(",/", ",-/");
+		if (fenString.endsWith(",")) {
+			fenString = fenString.substring(0, fenString.length() - 1) + "-,-";
+		}
 
 		List<String> fenRows = Arrays.asList(fenString.split("/"));
 
@@ -182,10 +185,9 @@ public class LascaBoard implements Serializable {
 				destinationPoint.y + (forward ? 1 : -1));
 		LascaField newDestination = getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
 
-		for (LascaFigure figure : destination.figures) {
-			newDestination.addFigure(figure);
-		}
-		destination.removeAllFigures();
+		newDestination.figures.set(0, destination.topFigure());
+		
+		destination.removeTopFigure();
 
 		moveFigure(origin, newDestination);
 	}
