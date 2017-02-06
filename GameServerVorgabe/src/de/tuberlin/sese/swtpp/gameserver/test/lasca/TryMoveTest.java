@@ -212,10 +212,31 @@ public class TryMoveTest {
 	}
 	
 	@Test
+	// strike with black a stack of white - black - black 
 	public void testBlack_StrikeSoldierStack(){
 		startGame(",,,/,,/,,,/b,,/,wbb,,/,,/,,, b", false);
-		assertMove("b4-d2", true, true);
+		assertMove("b4-d2", false, true);
 		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,, w", true, false, false);
+	}
+	
+	@Test
+	// move figure after
+	public void testBlack_moveFreedSoldierAfterStrike(){
+		// free black soldiers
+		startGame(",,,/,,/,,,/b,,/,wbb,,/,,/,,,w b", false);
+		assertMove("b4-d2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,,w w", true, false, false);
+		// white move - meaningless
+		assertMove("g1-f2", true, true);
+		// move one of the freed soldiers
+		assertMove("c3-b2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,b,,/b,bw,w/,,, w", true, false, false);
+		
+	}
+	
+	@Test
+	public void testBlack_moveCapturedSoldier(){
+		
 	}
 
 
