@@ -16,6 +16,8 @@ public class LascaMove extends Move {
 	private static final long serialVersionUID = 1L;
 	public Point2D origin;
 	public Point2D destination;
+	public Boolean isStrike;
+	public Boolean isUpgrade;
 
 	public LascaMove(String moveString, Player player) {
 		super(moveString, "TODO insert state here", player);
@@ -23,6 +25,8 @@ public class LascaMove extends Move {
 
 		origin = CoordinatesHelper.corrdinateForString(positionStrings.get(0));
 		destination = CoordinatesHelper.corrdinateForString(positionStrings.get(1));
+		isStrike = false;
+		isUpgrade = false;
 	}
 
 	public boolean isDiagonal() { // TODO only working for soldiers

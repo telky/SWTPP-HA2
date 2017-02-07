@@ -25,10 +25,12 @@ data Figure = Figure { figureType :: FigureType
 type Field = [Figure]
 type Row = [Field]
 type Board = [Row]
-
                            
 empty :: Field -> Bool
 empty f = length f == 0
+
+top :: Field -> Figure
+top f = last f 
              
 fieldAt :: Board -> Int -> Int -> Field
 fieldAt b x y  =  (b !! (y - 1) ) !! (x - 1)
@@ -39,6 +41,20 @@ fieldAt b x y  =  (b !! (y - 1) ) !! (x - 1)
 getMove   s = "g3-f4" -- Eigene Definition einfügen!
 listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
 
+canMoveSoldier :: Board -> Int -> Int -> Int -> Int -> Bool
+canMoveSoldier board xOrigin yOrigin xDestination yDestination = empty (fieldAt board xDestination yDestination) && (isDiagonalMove xOrigin yOrigin xDestination yDestination) && (isMovingCorrectDirection board xOrigin yOrigin xDestination yDestination)
+
+isDiagonalMove :: Int -> Int -> Int -> Int -> Bool 
+isDiagonalMove xOrigin yOrigin xDestination yDestination = xOrigin == xDestination + 1 || xOrigin == xDestination - 1
+
+isMovingCorrectDirection :: Board -> Int -> Int -> Int -> Int -> Bool
+isMovingCorrectDirection board xOrigin yOrigin xDestination yDestination = canMoveInThisDir (color (top (fieldAt board xOrigin yOrigin))) yOrigin yDestination
+
+canMoveInThisDir :: Color -> Int -> Int -> Bool
+canMoveInThisDir White yOrigin yDestination = yOrigin < yDestination
+canMoveInThisDir Black yOrigin yDestination = yOrigin > yDestination  
+  -- TODO add support for Officer
+  
     --- ... ---
 
 --- input (TODO)
