@@ -188,11 +188,20 @@ public class TryMoveTest {
 		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
 	
+	// Can Strike
+	
 	@Test
 	public void testMoveBlackSoldierStrikePossible() {
 		startGame(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false);
 		assertMove("c5-b4", false, false);	
-		assertGameState(",,,/,,/,,,/b,w,/,,,/,,/w,w,w,w b", false, false, false);
+		assertGameState(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false, false, false);
+	}
+	
+	@Test
+	public void testMoveWhiteSoldierStrikePossible() {
+		startGame(",,,/,,/,w,,/,b,/,,,/,,/w,w,w,w w", true);
+		assertMove("c5-b4", true, false);	
+		assertGameState(",,,/,,/,w,,/,b,/,,,/,,/w,w,w,w w", true, false, false);
 	}
 	
 }
