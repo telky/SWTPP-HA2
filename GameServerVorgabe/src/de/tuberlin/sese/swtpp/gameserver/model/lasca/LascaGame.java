@@ -431,11 +431,10 @@ public class LascaGame extends Game implements Serializable {
 		draw = !whiteCanMove && !blackCanMove;
 		finished = !whiteCanMove && !blackCanMove;
 		
-		if (!draw && whiteCanMove) {
-			whitePlayer.setWinner();
-		} else if (!draw && blackCanMove) {
-			blackPlayer.setWinner();
-		}
+		if (finished && !draw) {
+			Player winner = whiteCanMove ? whitePlayer : blackPlayer;
+			winner.setWinner();
+		} 
 	}
 
 	@Override
