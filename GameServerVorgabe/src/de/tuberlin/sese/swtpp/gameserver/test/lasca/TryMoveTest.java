@@ -199,9 +199,9 @@ public class TryMoveTest {
 	
 	@Test
 	public void testMoveWhiteSoldierStrikePossible() {
-		startGame(",,,/,,/,w,,/,b,/,,,/,,/w,w,w,w w", true);
-		assertMove("c5-b4", true, false);	
-		assertGameState(",,,/,,/,w,,/,b,/,,,/,,/w,w,w,w w", true, false, false);
+		startGame(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true);
+		assertMove("e3-f4", true, false);	
+		assertGameState(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true, false, false);
 	}
 	
 }
