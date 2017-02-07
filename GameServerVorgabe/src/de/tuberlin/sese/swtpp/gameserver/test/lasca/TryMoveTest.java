@@ -29,15 +29,14 @@ public class TryMoveTest {
 
 		game = (LascaGame) controller.getGame(gameID);
 		whitePlayer = game.getPlayer(user1);
-
 	}
 
 
 	public void startGame(String initialBoard, boolean whiteNext) {
 		controller.joinGame(user2);		
 		blackPlayer = game.getPlayer(user2);
-
 		game.setState(initialBoard);
+		game.printBoard();
 		game.setNextPlayer(whiteNext? whitePlayer:blackPlayer);
 	}
 
@@ -117,7 +116,7 @@ public class TryMoveTest {
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);
 		assertMove("a5-c3", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w b", false, false, false);
 	}
 
 	@Test
@@ -188,12 +187,35 @@ public class TryMoveTest {
 		assertMove("e5-c7", true, true);
 		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
-
-
-
-
-
-
-	//TODO: implement test cases of same kind as example here
-
+	
+	// Can Strike
+	
+	@Test
+	public void testMoveBlackSoldierStrikePossible() {
+		startGame(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false);
+		assertMove("c5-b4", false, false);	
+		assertGameState(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false, false, false);
+	}
+	
+	@Test
+	public void testMoveWhiteSoldierStrikePossible() {
+		startGame(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true);
+		assertMove("e3-f4", true, false);	
+		assertGameState(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	public void testMoveWhiteStrikePossible() {
+		startGame(",,,/,,/,W,,/,b,/,,,/,,/w,w,w,w b", false);
+		assertMove("c5-b4", false, false);	
+		assertGameState(",,,/,,/,W,,/,b,/,,,/,,/w,w,w,w b", false, false, false);
+	}
+	
+	@Test
+	public void testMoveBlackOfficerStrikePossible() {
+		startGame(",,,/,,/,,,/,w,/,,B,/,,/w,w,w,w w", true);
+		assertMove("e3-f4", true, false);	
+		assertGameState(",,,/,,/,,,/,w,/,,B,/,,/w,w,w,w w", true, false, false);
+	}
+	
 }

@@ -33,7 +33,7 @@ public class LascaField implements Serializable {
 	}
 
 	private String calculateID() {
-		Point2D tmp = new Point2D(col, row);
+		Point2D tmp = getCoordinate();
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 
@@ -64,6 +64,10 @@ public class LascaField implements Serializable {
 			newFigures.add(new LascaFigure(""));
 		}
 		figures = newFigures;
+	}
+	
+	public Point2D getCoordinate() {
+		return new Point2D(col, row);
 	}
 
 }

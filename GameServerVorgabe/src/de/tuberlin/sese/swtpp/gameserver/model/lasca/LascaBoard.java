@@ -8,6 +8,8 @@ import java.util.List;
 
 import com.sun.javafx.geom.Point2D;
 
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.ColorType;
+
 public class LascaBoard implements Serializable {
 
 	HashMap<String, LascaField> fields;
@@ -157,6 +159,10 @@ public class LascaBoard implements Serializable {
 	public LascaField getField(Point2D point) {
 		return getField(CoordinatesHelper.fenStringForCoordinate(point));
 	}
+	
+	public Boolean isValidField(Point2D point) {
+		return fields.containsKey(CoordinatesHelper.fenStringForCoordinate(point));
+	}
 
 	public LascaField getFieldBetween(LascaField source, LascaField destination) {
 		boolean left = source.col > destination.col;
@@ -188,6 +194,16 @@ public class LascaBoard implements Serializable {
 		destination.removeAllFigures();
 
 		moveFigure(origin, newDestination);
+	}
+	
+	public List<LascaField> figuresForColor(ColorType color) {
+		List<LascaField> result = new ArrayList<LascaField>();
+		for (LascaField field : fields.values()) {
+			if (!field.isEmpty() && field.topFigure().color == color) {
+				result.add(field);
+			}
+		}
+		return result;
 	}
 
 }
