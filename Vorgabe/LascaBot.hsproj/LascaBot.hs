@@ -42,13 +42,13 @@ getMove   s = "g3-f4" -- Eigene Definition einfügen!
 listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
 
 canMoveSoldier :: Board -> Int -> Int -> Int -> Int -> Bool
-canMoveSoldier board xOrigin yOrigin xDestination yDestination = empty (fieldAt board xDestination yDestination) && (isDiagonalMove xOrigin yOrigin xDestination yDestination) && (isMovingCorrectDirrection board xOrigin yOrigin xDestination yDestination)
+canMoveSoldier board xOrigin yOrigin xDestination yDestination = empty (fieldAt board xDestination yDestination) && (isDiagonalMove xOrigin yOrigin xDestination yDestination) && (isMovingCorrectDirection board xOrigin yOrigin xDestination yDestination)
 
 isDiagonalMove :: Int -> Int -> Int -> Int -> Bool 
 isDiagonalMove xOrigin yOrigin xDestination yDestination = xOrigin == xDestination + 1 || xOrigin == xDestination - 1
 
-isMovingCorrectDirrection :: Board -> Int -> Int -> Int -> Int -> Bool
-isMovingCorrectDirrection board xOrigin yOrigin xDestination yDestination = canMoveInThisDir (color (top (fieldAt board xOrigin yOrigin))) yOrigin yDestination
+isMovingCorrectDirection :: Board -> Int -> Int -> Int -> Int -> Bool
+isMovingCorrectDirection board xOrigin yOrigin xDestination yDestination = canMoveInThisDir (color (top (fieldAt board xOrigin yOrigin))) yOrigin yDestination
 
 canMoveInThisDir :: Color -> Int -> Int -> Bool
 canMoveInThisDir White yOrigin yDestination = yOrigin < yDestination
