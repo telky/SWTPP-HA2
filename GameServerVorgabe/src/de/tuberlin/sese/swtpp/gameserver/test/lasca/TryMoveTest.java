@@ -48,6 +48,7 @@ public class TryMoveTest {
 	}
 
 	public void assertGameState(String expectedBoard, boolean whiteNext, boolean finished, boolean whiteWon) {
+		System.out.print(game.getState());
 		assertEquals(game.getState(), expectedBoard);
 		assertEquals(game.isWhiteNext(), whiteNext);
 
@@ -220,6 +221,7 @@ public class TryMoveTest {
 		assertMove("b4-d2", false, true);
 		game.printBoard();
 		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,, w", true, false, false);
+		// TODO failing because of wrong next
 	}
 	
 	@Test
@@ -245,14 +247,14 @@ public class TryMoveTest {
 	// Can Strike
 	
 	@Test
-	public void testMoveBlackSoldierStrikePossible() {
+	public void testMoveBlackSoldier_StrikePossible() {
 		startGame(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false);
 		assertMove("c5-b4", false, false);	
 		assertGameState(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
 	@Test
-	public void testMoveWhiteSoldierStrikePossible() {
+	public void testMoveWhiteSoldier_StrikePossible() {
 		startGame(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true);
 		assertMove("e3-f4", true, false);	
 		assertGameState(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true, false, false);
