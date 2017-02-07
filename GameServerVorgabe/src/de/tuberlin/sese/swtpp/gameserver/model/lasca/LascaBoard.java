@@ -63,12 +63,6 @@ public class LascaBoard implements Serializable {
 		if (currentPlayer != null) {
 			fenString = fenString.substring(0, fenString.length() - 2);
 		}
-		fenString = fenString.replaceAll(",,", ",-,");
-		fenString = fenString.replaceAll("/,", "/-,");
-		fenString = fenString.replaceAll(",/", ",-/");
-		if (fenString.endsWith(",")) {
-			fenString = fenString.substring(0, fenString.length() - 1) + "-,-";
-		}
 
 		List<String> fenRows = Arrays.asList(fenString.split("/"));
 
@@ -81,6 +75,7 @@ public class LascaBoard implements Serializable {
 	}
 
 	private void parseRow(String row, int rowIndex) {
+		row = row.replaceAll(".(?=)", " $0 ");
 		List<String> columnList = Arrays.asList(row.split(","));
 		Boolean evenRow = rowIndex % 2 == 0;
 		int columnIndex = evenRow ? 2 : 1;
@@ -92,6 +87,7 @@ public class LascaBoard implements Serializable {
 	}
 
 	private void parseColumn(String component, int rowIndex, int columnIndex) {
+		component = component.replaceAll("\\s","");
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
 		List<LascaFigure> figuresOnCurrentField = new ArrayList<LascaFigure>();
