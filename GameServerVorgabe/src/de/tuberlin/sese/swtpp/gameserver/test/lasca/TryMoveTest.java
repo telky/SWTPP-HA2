@@ -35,8 +35,8 @@ public class TryMoveTest {
 	public void startGame(String initialBoard, boolean whiteNext) {
 		controller.joinGame(user2);		
 		blackPlayer = game.getPlayer(user2);
-
 		game.setState(initialBoard);
+		game.printBoard();
 		game.setNextPlayer(whiteNext? whitePlayer:blackPlayer);
 	}
 

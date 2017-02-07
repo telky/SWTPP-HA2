@@ -380,6 +380,7 @@ public class LascaGame extends Game implements Serializable {
 	@Override
 	public boolean tryMove(String moveString, Player player) {
 		Boolean canStrike = canStrike(player);
+		String oldState = getState();
 		LascaMove move = new LascaMove(moveString, player);
 		
 		LascaField origin = board.getField(move.origin);
@@ -399,7 +400,7 @@ public class LascaGame extends Game implements Serializable {
 		
 		if (!move.isStrike && canStrike) {
 			validMove = false;
-			board.printBoard();
+			setState(oldState);
 		}
 
 		if (validMove) {
