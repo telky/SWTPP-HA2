@@ -414,7 +414,7 @@ public class LascaGame extends Game implements Serializable {
 	}
 	
 	private boolean checkFieldFigure(LascaField field, Player player) {
-		return (field.topFigure().color == colorForPlayer(player));
+		return field.topFigure().color == colorForPlayer(player);
 	}
 	
 	private ColorType colorForPlayer(Player player) {
