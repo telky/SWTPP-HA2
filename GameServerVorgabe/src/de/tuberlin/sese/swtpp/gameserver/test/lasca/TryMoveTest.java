@@ -204,4 +204,18 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true, false, false);
 	}
 	
+	@Test
+	public void testMoveWhiteStrikePossible() {
+		startGame(",,,/,,/,W,,/,b,/,,,/,,/w,w,w,w b", false);
+		assertMove("c5-b4", false, false);	
+		assertGameState(",,,/,,/,W,,/,b,/,,,/,,/w,w,w,w b", false, false, false);
+	}
+	
+	@Test
+	public void testMoveBlackOfficerStrikePossible() {
+		startGame(",,,/,,/,,,/,w,/,,B,/,,/w,w,w,w w", true);
+		assertMove("e3-f4", true, false);	
+		assertGameState(",,,/,,/,,,/,w,/,,B,/,,/w,w,w,w w", true, false, false);
+	}
+	
 }
