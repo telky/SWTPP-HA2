@@ -117,7 +117,7 @@ public class TryMoveTest {
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);
 		assertMove("a5-c3", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w b", false, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
 	}
 
 	@Test
@@ -201,7 +201,7 @@ public class TryMoveTest {
 		assertMove("a5-c3", false, true);
 		assertMove("d2-b4", true, true);
 		assertMove("d6-c5", false, true);
-		assertGameState("b,b,b,b/b,,b/,b,b,b/wb,,/bw,w,w,w/w,,w/w,w,w,w w", false, false, false);
+		assertGameState("b,b,b,b/b,,b/,b,b,b/wb,,/bw,w,w,w/w,,w/w,w,w,w w", true, false, false);
 	}
 	
 	@Test
@@ -233,7 +233,7 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,,w w", true, false, false);
 		// white move - meaningless
 		assertMove("g1-f2", true, true);
-		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,w/,,, w", true, false, false);	
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,w/,,, b", false, false, false);	
 		// move one of the freed soldiers
 		assertMove("c3-b2", false, true);
 		assertGameState(",,,/,,/,,,/,,/,b,,/b,bw,w/,,, w", true, false, false);	
@@ -274,4 +274,13 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,w,/,,B,/,,/w,w,w,w w", true, false, false);
 	}
 	
+	
+	@Test
+	public void testMove_continueStrikeAfterSuccessfulStrike() {
+		startGame(",,,/,,/,b,,/,,/,,B,/,,w/w,w,w,w w", true);
+		assertMove("f2-d4", true, true);
+		assertGameState(",,,/,,/,b,,/,wB,/,,,/,,/w,w,w,w w", true, false, false);
+		assertMove("f4-b6", true, true);
+		assertGameState(",,,/wBb,,/,,,/,wB,/,,,/,,/w,w,w,w b", false, false, false);
+	}
 }
