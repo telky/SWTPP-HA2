@@ -367,6 +367,49 @@ public class LascaGame extends Game implements Serializable {
 		return false;
 	}
 	
+	private boolean canMove(LascaField field) {
+		LascaFigure currentFigure = field.topFigure();
+		ColorType currentColor = currentFigure.color;
+		Point2D coordinate = field.getCoordinate();
+		
+		int yDir = currentColor == ColorType.WHITE ? 1 : -1;
+		
+		List<Point2D> points = new ArrayList<Point2D>();
+		
+		Point2D topLeft  = new Point2D(coordinate.x - 1 , coordinate.y + yDir);
+		points.add(topLeft);
+		
+		Point2D topRight  = new Point2D(coordinate.x + 1 , coordinate.y + yDir);
+		points.add(topRight);
+		
+		if (currentFigure.type == FigureType.OFFICER) {
+			Point2D bottomLeft  = new Point2D(coordinate.x - 1 , coordinate.y - yDir);
+			points.add(bottomLeft);
+			
+			Point2D bottomRight  = new Point2D(coordinate.x + 1 , coordinate.y - yDir);
+			points.add(bottomRight);
+		}
+		
+		for (int i = 0; i <  points.size(); i++) {
+			LascaField selectedField = board.getField(points.get(i));
+			if (selectedField != null && selectedField.isEmpty()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	private boolean canMove(Player player) {
+		List<LascaField> fields = board.figuresForColor(colorForPlayer(player));
+		for (LascaField field: fields) {
+			if (canMove(field)) {
+				return true;
+			}	
+		}
+		return false;
+	}
+	
 	private boolean canStrike(Player player) {
 		List<LascaField> fields = board.figuresForColor(colorForPlayer(player));
 		for (LascaField field: fields) {
@@ -375,6 +418,24 @@ public class LascaGame extends Game implements Serializable {
 			}	
 		}
 		return false;
+	}
+	
+	private boolean canMoveOrStrike(Player player) {
+		return canMove(player) || canStrike(player);
+	}
+	
+	private void updateGameState() {
+		boolean whiteCanMove = canMoveOrStrike(whitePlayer);
+		boolean blackCanMove = canMove(blackPlayer);
+		
+		draw = !whiteCanMove && !blackCanMove;
+		finished = !whiteCanMove && !blackCanMove;
+		
+		if (!draw && whiteCanMove) {
+			whitePlayer.setWinner();
+		} else if (!draw && blackCanMove) {
+			blackPlayer.setWinner();
+		}
 	}
 
 	@Override
@@ -400,7 +461,6 @@ public class LascaGame extends Game implements Serializable {
 		
 		if (!move.isStrike && canStrike) {
 			validMove = false;
-			setState(oldState);
 		}
 
 		if (validMove) {
@@ -408,6 +468,11 @@ public class LascaGame extends Game implements Serializable {
 			if ((!move.isUpgrade && !move.isStrike)|| move.isUpgrade) {
 				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
 			}
+			
+			updateGameState();
+		} else {
+			// reset unvalid moves
+			setState(oldState);
 		}
 
 		return validMove;
