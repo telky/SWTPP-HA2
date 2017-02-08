@@ -15,6 +15,11 @@ public class LascaField implements Serializable {
 	String id;
 
 	ArrayList<LascaFigure> figures;
+	
+    public LascaField neighbourFieldTopLeft = null;
+    public LascaField neighbourFieldTopRight = null;
+    public LascaField neighbourFieldBottomRight = null;
+    public LascaField neighbourFieldBottomLeft = null;
 
 	public LascaField(int row, int col) {
 		this.row = row;
@@ -23,7 +28,7 @@ public class LascaField implements Serializable {
 
 		this.figures = new ArrayList<LascaFigure>();
 	}
-
+	
 	public String getFiguresOnField() {
 		String figuresOnField = "";
 		for (LascaFigure figure : this.figures) {

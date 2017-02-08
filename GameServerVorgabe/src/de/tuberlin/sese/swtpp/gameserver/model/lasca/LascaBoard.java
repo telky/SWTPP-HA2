@@ -21,6 +21,7 @@ public class LascaBoard implements Serializable {
 	public LascaBoard(String fenState) {
 		fields = new HashMap<String, LascaField>();
 		parseFen(fenState);
+		connectFields();
 	}
 
 	public String toFenString() {
@@ -186,7 +187,6 @@ public class LascaBoard implements Serializable {
 		Point2D newDestinationPoint = new Point2D(destinationPoint.x + (movingRight ? 1 : -1),
 				destinationPoint.y + (forward ? 1 : -1));
 		LascaField newDestination = getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
-
 		
 		newDestination.figures.add(destination.topFigure());
 		
@@ -204,5 +204,50 @@ public class LascaBoard implements Serializable {
 		}
 		return result;
 	}
+
+	// set the neighbours of every field on the board
+	private void connectFields() {
+		for (int rowIndex = fieldSize; rowIndex >= minFieldIndex; rowIndex--) {
+			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
+				if (validField(rowIndex, colIndex)) {
+					Point2D tmp = new Point2D(colIndex, rowIndex);
+					String fieldId = CoordinatesHelper.fenStringForCoordinate(tmp);
+					setNeighbours(fields.get(fieldId));
+				}
+
+			}
+		}
+	}
+	
+	private boolean validField(int row, int col){
+		Point2D tmp = new Point2D(col, row);
+		String fenStringIdentifier = CoordinatesHelper.fenStringForCoordinate(tmp);	
+		return fields.containsKey(fenStringIdentifier);
+	}
+	
+	private boolean validField(Point2D point){
+		return fields.containsKey(CoordinatesHelper.fenStringForCoordinate(point));	
+	}
+
+	// set each fields neighbours
+	private void setNeighbours(LascaField field) {
+		Point2D topLeft = new Point2D(field.col - 1, field.row + 1);
+		if (validField(topLeft)) {
+			field.neighbourFieldTopLeft = (fields.get(CoordinatesHelper.fenStringForCoordinate(topLeft)));
+		}
+		Point2D topRight = new Point2D(field.col + 1, field.row + 1);
+		if (validField(topRight)) {
+			field.neighbourFieldTopRight = (fields.get(CoordinatesHelper.fenStringForCoordinate(topRight)));
+		}
+		Point2D bottomLeft = new Point2D(field.col - 1, field.row - 1);
+		if (validField(bottomLeft)) {
+			field.neighbourFieldBottomLeft = (fields.get(CoordinatesHelper.fenStringForCoordinate(bottomLeft)));
+		}
+		Point2D bottomRight = new Point2D(field.col + 1, field.row - 1);
+		if (validField(bottomRight)) {
+			field.neighbourFieldBottomRight = (fields.get(CoordinatesHelper.fenStringForCoordinate(bottomRight)));
+		}
+	}
+
 
 }

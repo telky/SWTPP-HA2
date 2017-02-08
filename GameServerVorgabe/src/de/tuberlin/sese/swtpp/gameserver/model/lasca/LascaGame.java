@@ -210,6 +210,11 @@ public class LascaGame extends Game implements Serializable {
 	 * !!!!!!!!! To be implemented !!!!!!!!!!!!
 	 ******************************************/
 
+	// TODO Delete before publishing, only needed for internal tests
+	public LascaBoard getBoard(){
+		return this.board;
+	}
+	
 	private void setCurrentPlayer(Character charPlayer) {
 		if (charPlayer == 'w') {
 			this.nextPlayer = this.whitePlayer;
@@ -437,7 +442,11 @@ public class LascaGame extends Game implements Serializable {
 	
 	// calculate possible moves that the topFigure on currentField can perform, save to expectedMoves for nextMove
 	private void calculatePossibleDesintations(LascaField currentField){
-		
+		LascaFigure currentFigure = currentField.topFigure();
+		boolean checkDirection = true;
+		while(checkDirection){
+			
+		}
 	}
 	
 	private boolean checkFieldFigure(LascaField field, Player player) {
