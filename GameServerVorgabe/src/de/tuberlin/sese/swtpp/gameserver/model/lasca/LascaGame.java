@@ -386,6 +386,11 @@ public class LascaGame extends Game implements Serializable {
 
 	@Override
 	public boolean tryMove(String moveString, Player player) {
+		Boolean mustStrike = false;
+		if(expectedMoves.size() > 0){
+			mustStrike = true;
+			// TODO check if expectedMoves contains given move else return false
+		}
 		Boolean canStrike = canStrike(player);
 		String oldState = getState();
 		LascaMove move = new LascaMove(moveString, player);
@@ -404,7 +409,7 @@ public class LascaGame extends Game implements Serializable {
 		LascaFigure selectedFigure = origin.topFigure();
 
 		boolean validMove = selectedFigure.type == FigureType.SOLDIER ? trySoldierMove(move, origin, destination) : tryOfficerMove(move, origin, destination);
-		
+				
 		if (!move.isStrike && canStrike) {
 			validMove = false;
 			setState(oldState);
@@ -412,19 +417,12 @@ public class LascaGame extends Game implements Serializable {
 
 		if (validMove) {
 			// reset expectedMoves
-//			this.expectedMoves = new ArrayList<LascaMove>();
-//			if(move.isStrike && strikeCanBeContinued(move)){
-//				return validMove;
-//			} else {
-//				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
-//			}
-			
-			// TODO:  when move can be continued dont set nextPlayer
-			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
-			// don't change next player if the last move was a strike
-//			if ((!move.isUpgrade && !move.isStrike)|| move.isUpgrade) {
-//				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
-//			}
+			this.expectedMoves = new ArrayList<LascaMove>();
+			if(move.isStrike && strikeCanBeContinued(move)){
+				return validMove;
+			} else {
+				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
+			}
 		}
 
 		return validMove;
@@ -437,16 +435,27 @@ public class LascaGame extends Game implements Serializable {
 		}
 		LascaField currentField = board.getField(move.destination);
 		calculatePossibleDesintations(currentField);
-		return false;
+		return expectedMoves.size() > 0;
 	}
 	
 	// calculate possible moves that the topFigure on currentField can perform, save to expectedMoves for nextMove
-	private void calculatePossibleDesintations(LascaField currentField){
+	private void calculatePossibleDestintations(LascaField currentField){
 		LascaFigure currentFigure = currentField.topFigure();
-		boolean checkDirection = true;
-		while(checkDirection){
-			
+		switch(currentFigure.type){
+			case OFFICER:
+				// calculate officer move
+				break;
+			case SOLDIER:
+				// calculate possible soldier moves
+				calculatePossibleDestinations_SoldierMove(currentField);
+				break;
+			default:
+				break;
 		}
+	}
+	
+	private void calculatePossibleDestinations_SoldierMove(LascaField currentField){
+		
 	}
 	
 	private boolean checkFieldFigure(LascaField field, Player player) {
