@@ -33,6 +33,7 @@ public class LascaGame extends Game implements Serializable {
 	// TODO: insert additional game data here
 	LascaBoard board;
 	String state;
+	ArrayList<LascaMove> expectedMoves;
 
 	/************************
 	 * constructors
@@ -43,6 +44,7 @@ public class LascaGame extends Game implements Serializable {
 		this.board = new LascaBoard("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w");
 		// initialize internal game model (state/ board here)
 		setCurrentPlayer(board.currentPlayer);
+		expectedMoves = new ArrayList<LascaMove>();
 	}
 
 	/*******************************************
@@ -404,15 +406,38 @@ public class LascaGame extends Game implements Serializable {
 		}
 
 		if (validMove) {
+			// reset expectedMoves
+			this.expectedMoves = new ArrayList<LascaMove>();
+			if(move.isStrike && strikeCanBeContinued(move)){
+				return validMove;
+			} else {
+				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
+			}
+			
 			// TODO:  when move can be continued dont set nextPlayer
-			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
+//			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
 			// don't change next player if the last move was a strike
-//			if ((!move.isUpgrade && !move.isStrike)|| move.isUpgrade) {
-//				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
-//			}
+			if ((!move.isUpgrade && !move.isStrike)|| move.isUpgrade) {
+				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
+			}
 		}
 
 		return validMove;
+	}
+	
+	// check whether a strike must be continued, save possible moves to expectedMoves
+	private boolean strikeCanBeContinued(LascaMove move){
+		if(move.isUpgrade){
+			return false;
+		}
+		LascaField currentField = board.getField(move.destination);
+		calculatePossibleDesintations(currentField);
+		return false;
+	}
+	
+	// calculate possible moves that the topFigure on currentField can perform, save to expectedMoves for nextMove
+	private void calculatePossibleDesintations(LascaField currentField){
+		
 	}
 	
 	private boolean checkFieldFigure(LascaField field, Player player) {
