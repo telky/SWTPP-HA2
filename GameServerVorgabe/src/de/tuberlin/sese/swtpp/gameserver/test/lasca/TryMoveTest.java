@@ -280,8 +280,10 @@ public class TryMoveTest {
 		startGame(",,,/,,/,b,,/,,/,,B,/,,w/w,w,w,w w", true);
 		assertMove("f2-d4", true, true);
 		assertGameState(",,,/,,/,b,,/,wB,/,,,/,,/w,w,w,w w", true, false, false);
-		assertMove("f4-b6", true, true);
-		assertGameState(",,,/wBb,,/,,,/,wB,/,,,/,,/w,w,w,w b", false, false, false);
+		game.printBoard();
+		assertMove("d4-b6", true, true);
+		game.printBoard();
+		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
 	
