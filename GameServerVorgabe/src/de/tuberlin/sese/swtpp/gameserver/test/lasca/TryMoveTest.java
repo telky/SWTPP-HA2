@@ -137,15 +137,17 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeOfficerNormalLengthBackwards() {
 		startGame(",,,/,,/,,,/,,/,w,,/B,,/w,w,w,w b", false);
-		assertMove("d2-b4", false, true);
-		assertGameState(",,,/,,/,,,/Bw,,/,,,/,,/w,w,w,w w", true, false, false);
+		game.printBoard();
+		assertMove("b2-d4", false, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,Bw,/,,,/,,/w,w,w,w w", true, false, false);
 	}
 	
 	@Test
 	public void testStrikeSoldierNormalLengthBackwards() {
-		startGame(",,,/,,/,,,/,,/,w,,/b,,/w,w,w,w b", false);
-		assertMove("d2-b4", false, false);
-		assertGameState(",,,/,,/,,,/,,/,w,,/b,,/w,w,w,w b", false, false, false);
+		startGame(",,,/,,/,,,/,,/,w,,/b,,/,w,w,w b", false);
+		assertMove("c3-d4", false, false);
+		assertGameState(",,,/,,/,,,/,,/,w,,/b,,/,w,w,w b", false, false, false);
 	}
 	
 	@Test
