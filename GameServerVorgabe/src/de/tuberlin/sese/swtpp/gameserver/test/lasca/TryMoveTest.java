@@ -226,6 +226,29 @@ public class TryMoveTest {
 	}
 	
 	@Test
+	// strike with black a stack of white - black - black 
+	public void testBlack_StrikeSoldierStack2(){
+		startGame(",,,/,,/,,,/b,,/,wBb,,/,,/,,, b", false);
+		game.printBoard();
+		assertMove("b4-d2", false, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,,/,Bb,,/,bw,/,,, w", true, false, false);
+		game.printBoard();
+	}
+	
+	@Test
+	// strike with black a stack of white - black - black 
+	public void testBlack_StrikeOfficerStack(){
+		startGame(",,,/,,/,,,/B,,/,wbb,,/,,/,,, b", false);
+		game.printBoard();
+		assertMove("b4-d2", false, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,, w", true, false, false);
+		game.printBoard();
+	}
+
+	
+	@Test
 	// move figure after
 	public void testBlack_moveFreedSoldierAfterStrike(){
 		// free black soldiers
@@ -336,6 +359,7 @@ public class TryMoveTest {
 		assertMove("g7-f6", false, true);
 		assertGameState(",,,/,,b/,,,/,WB,/,,,/,,/w,w,w,w w", true, false, false);
 	}
+
 	
 	
 	
