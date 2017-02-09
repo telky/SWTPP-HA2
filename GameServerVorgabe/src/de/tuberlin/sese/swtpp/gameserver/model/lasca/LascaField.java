@@ -1,8 +1,8 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Stack;
+import java.util.Deque;
+import java.util.LinkedList;
 
 import com.sun.javafx.geom.Point2D;
 
@@ -14,8 +14,8 @@ public class LascaField implements Serializable {
 	int col;
 
 	String id;
-
-	Stack<LascaFigure> figures;
+	
+	Deque<LascaFigure> figures;
 	
 	
     public LascaField neighbourFieldTopLeft = null;
@@ -28,7 +28,7 @@ public class LascaField implements Serializable {
 		this.col = col;
 		this.id = this.calculateID();
 
-		this.figures = new Stack<LascaFigure>();
+		this.figures = new LinkedList<LascaFigure>();
 	}
 	
 	public String getFiguresOnField() {
@@ -44,12 +44,14 @@ public class LascaField implements Serializable {
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
  
+	// get first element without removing
 	public LascaFigure getTopFigure() {
-		return figures.peek();
+		return figures.element();
 	}
 	
-	public LascaFigure popTopFigure(){
-		return figures.pop();
+	// get first element and remove it
+	public LascaFigure removeTopFigure(){
+		return figures.remove();
 	}
 
 	public Boolean isEmpty() {
@@ -61,12 +63,8 @@ public class LascaField implements Serializable {
 		return true;
 	}
 
-	public void removeTopFigure() {
-		figures.remove(0);
-	}
-
 	public void addFigure(LascaFigure figure) {
-		figures.push(figure);
+		figures.add(figure);
 	}
 
 	public void removeAllFigures() {
