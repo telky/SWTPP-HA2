@@ -439,8 +439,6 @@ public class LascaGame extends Game implements Serializable {
 			move.isUpgrade = true;
 		}
 	}
-
-	
 	
 	private boolean canStrike(LascaField field) {
 		LascaFigure currentFigure = field.getTopFigure();
@@ -580,36 +578,39 @@ public class LascaGame extends Game implements Serializable {
 	
 	private void calculatePossibleDestinations_SoldierMove(LascaField currentField, Player player){
 		if(currentField.getTopFigure().color == ColorType.BLACK){
-			Boolean enemyOnBottomLeft = currentField.neighbourFieldBottomLeft != null && !currentField.neighbourFieldBottomLeft.isEmpty() && currentField.neighbourFieldBottomLeft.getTopFigure().color == ColorType.WHITE;
-			Boolean enemyOnBottomRight = currentField.neighbourFieldBottomRight != null && !currentField.neighbourFieldBottomRight.isEmpty() && currentField.neighbourFieldBottomRight.getTopFigure().color == ColorType.WHITE;
+			Boolean enemyOnBottomLeft =  this.isPossibleMove(currentField, MoveType.BOTTOMLEFT, ColorType.WHITE);
+			Boolean enemyOnBottomRight = this.isPossibleMove(currentField, MoveType.BOTTOMRIGHT, ColorType.WHITE);
 			
 			if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
 				// continuing strike posssible, add to expected moves
-				String moveString = currentField.id + "-" + currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.id;
-				LascaMove possibleMove = new LascaMove(moveString, player);
-				this.expectedMoves.add(possibleMove);
+				updateExpectedMoves(currentField, MoveType.BOTTOMLEFT, player);
 			}
 			if(enemyOnBottomRight && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
 				// continuing strike posssible, add to expected moves
-				String moveString = currentField.id + "-" + currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.id;
-				LascaMove possibleMove = new LascaMove(moveString, player);
-				this.expectedMoves.add(possibleMove);
+				updateExpectedMoves(currentField, MoveType.BOTTOMRIGHT, player);
 			}
 			
 		} else {
-			Boolean enemyOnTopLeft = currentField.neighbourFieldTopLeft != null && !currentField.neighbourFieldTopLeft.isEmpty() && currentField.neighbourFieldTopLeft.getTopFigure().color == ColorType.BLACK;
-			Boolean enemyOnTopRight = currentField.neighbourFieldTopRight != null && !currentField.neighbourFieldTopRight.isEmpty() && currentField.neighbourFieldTopRight.getTopFigure().color == ColorType.BLACK;
+			Boolean enemyOnTopLeft =  this.isPossibleMove(currentField, MoveType.TOPLEFT, ColorType.BLACK);
+			Boolean enemyOnTopRight =  this.isPossibleMove(currentField, MoveType.TOPRIGHT, ColorType.BLACK);
+			
 			if (enemyOnTopLeft && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft.isEmpty()){
-				String moveString = currentField.id + "-" + currentField.neighbourFieldTopLeft.neighbourFieldTopLeft.id;
-				LascaMove possibleMove = new LascaMove(moveString, player);
-				this.expectedMoves.add(possibleMove);
+				updateExpectedMoves(currentField, MoveType.TOPLEFT, player);
 			}
 			if (enemyOnTopRight && currentField.neighbourFieldTopRight.neighbourFieldTopRight.isEmpty()){
-				String moveString = currentField.id + "-" + currentField.neighbourFieldTopRight.neighbourFieldTopRight.id;
-				LascaMove possibleMove = new LascaMove(moveString, player);
-				this.expectedMoves.add(possibleMove);
+				updateExpectedMoves(currentField, MoveType.TOPRIGHT, player);
 			}
 		}
+	}
+	
+	private boolean isPossibleMove(LascaField field, MoveType moveType, ColorType opponentColor){
+		return field.getNeighbourByMoveType(moveType)  != null && !field.getNeighbourByMoveType(moveType).isEmpty() && field.getNeighbourByMoveType(moveType).getTopFigure().color == opponentColor;
+	}
+	
+	private void updateExpectedMoves(LascaField field, MoveType moveType, Player player){
+		String moveString = field.id + "-" + field.getNeighbourByMoveType(moveType).getNeighbourByMoveType(moveType) .id;
+		LascaMove possibleMove = new LascaMove(moveString, player);
+		this.expectedMoves.add(possibleMove);
 	}
 	
 	private void calculatePossibleDestinations_OfficerMove(LascaField currentField, Player player){
