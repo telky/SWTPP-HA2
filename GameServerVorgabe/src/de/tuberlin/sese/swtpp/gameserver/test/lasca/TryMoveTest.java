@@ -287,6 +287,20 @@ public class TryMoveTest {
 		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
+	@Test
+	public void testMove_continueStrikeAfterSuccessfulStrikeAndUpgrade() {
+		startGame(",,,/,b,b/,,,w/,,/,,,/,,/w,w,w,w w", true);
+		assertMove("g5-e7", true, true);
+		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
+		game.printBoard();
+		assertMove("e7-c5", true, false); // try to continue strike
+		game.printBoard();
+		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("d6-c5", false, true); // move with black
+		assertGameState(",,Wb,/,,/,b,,/,,/,,,/,,/w,w,w,w w", true, false, false);
+
+	}
+	
 	// strike with with white soldier, strike cant be continued, try to strike with white and black
 	@Test
 	public void testMove_continueStrikeAfterSuccessfulStrike_notPossible() {
@@ -298,6 +312,29 @@ public class TryMoveTest {
 		assertMove("g7-f6", false, true);
 		assertGameState(",,,/,,b/,,,/,wB,/,,,/,,/w,w,w,w w", true, false, false);
 
+	}
+	
+	@Test
+	public void testMove_continueStrikeWithOfficerAfterSuccessfulStrike() {
+		startGame(",,,/,,/,b,,/,,/,,B,/,,W/w,w,w,w w", true);
+		assertMove("f2-d4", true, true);
+		assertGameState(",,,/,,/,b,,/,WB,/,,,/,,/w,w,w,w w", true, false, false);
+		game.printBoard();
+		assertMove("d4-b6", true, true);
+		game.printBoard();
+		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
+	}
+	
+	// strike with with white officer, strike cant be continued, try to strike with white and black
+	@Test
+	public void testMove_continueStrikeWithOfficerAfterSuccessfulStrike_notPossible() {
+		startGame(",,,b/,,/,,,/,,/,,B,/,,W/w,w,w,w w", true);
+		assertMove("f2-d4", true, true);
+		assertGameState(",,,b/,,/,,,/,WB,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("d4-b6", false, false); // not white's turn
+		assertGameState(",,,b/,,/,,,/,WB,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("g7-f6", false, true);
+		assertGameState(",,,/,,b/,,,/,WB,/,,,/,,/w,w,w,w w", true, false, false);
 	}
 	
 	
