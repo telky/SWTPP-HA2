@@ -614,6 +614,12 @@ public class LascaGame extends Game implements Serializable {
 		this.expectedMoves.add(possibleMove);
 	}
 	
+	private void updateExpectedMovesOfficer(LascaField origin, LascaField destination, Player player){
+		String moveString = origin.id + "-" + destination.id;
+		LascaMove possibleMove = new LascaMove(moveString, player);
+		this.expectedMoves.add(possibleMove);
+	}
+	
 	private void calculatePossibleDestinations_OfficerMove(LascaField currentField, Player player){
 		MoveType[] moves = {MoveType.TOPLEFT, MoveType.TOPRIGHT, MoveType.BOTTOMLEFT, MoveType.BOTTOMRIGHT};
 		LascaField tmpField = currentField;
@@ -624,9 +630,7 @@ public class LascaGame extends Game implements Serializable {
 					tmpField = nextField;
 					nextField = nextField.getNeighbourByMoveType(moveType);
 					if(nextField != null && nextField.isEmpty()){ // found possible move
-						String moveString = currentField.id + "-" + nextField.id;
-						LascaMove possibleMove = new LascaMove(moveString, player);
-						this.expectedMoves.add(possibleMove);
+						updateExpectedMovesOfficer(currentField, nextField, player);
 						nextField = null;
 					}
 				} else if (nextField != null && !nextField.isEmpty()) {
