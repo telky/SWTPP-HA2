@@ -287,6 +287,18 @@ public class TryMoveTest {
 		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
+	@Test
+	public void testMove_continueStrikeAfterSuccessfulStrike_notPossible() {
+		startGame(",,,b/,,/,,,/,,/,,B,/,,w/w,w,w,w w", true);
+		assertMove("f2-d4", true, true);
+		assertGameState(",,,b/,,/,,,/,wB,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("d4-b6", false, false); // not white's turn
+		assertGameState(",,,b/,,/,,,/,wB,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("g7-f6", false, true);
+		assertGameState(",,,/,,b/,,,/,wB,/,,,/,,/w,w,w,w w", true, false, false);
+
+	}
+	
 	
 	
 }
