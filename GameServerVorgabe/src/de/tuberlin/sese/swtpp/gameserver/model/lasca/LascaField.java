@@ -87,7 +87,6 @@ public class LascaField implements Serializable {
 		}
 		
 	}
-	
 
 	public void removeAllFigures() {
 		figures.clear();
@@ -95,6 +94,13 @@ public class LascaField implements Serializable {
 	
 	public Point2D getCoordinate() {
 		return new Point2D(col, row);
+	}
+	
+	public Boolean hasOpponentFigure(LascaField field){
+		if (this.figures.isEmpty() || field.figures.isEmpty()){
+			return false;
+		}
+		return this.getTopFigure().color != field.getTopFigure().color;
 	}
 
 }

@@ -147,6 +147,15 @@ public class TryMoveTest {
 		assertMove("d2-b4", false, false);
 		assertGameState(",,,/,,/,,,/,,/,w,,/b,,/w,w,w,w b", false, false, false);
 	}
+	
+	@Test
+	public void testStrikeOfficerLengthTwoFields_CanContinue() {
+		startGame(",,,/,,/B,,,/,,w/,w,,/,,/w,w,w,w b", false);
+		assertMove("a5-d2", false, true);	
+		assertGameState(",,,/,,/,,,/,,w/,,,/,Bw,/w,w,w,w b", false, false, false);
+		assertMove("d2-g5", false, true);
+		assertGameState(",,,/,,/,,,Bww/,,/,,,/,,/w,w,w,w w", true, false, false);
+	}
 
 	@Test
 	public void testStrikeSoldierNotEmptyField() {

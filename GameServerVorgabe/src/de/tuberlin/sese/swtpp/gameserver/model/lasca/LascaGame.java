@@ -566,7 +566,8 @@ public class LascaGame extends Game implements Serializable {
 		LascaFigure currentFigure = currentField.getTopFigure();
 		switch(currentFigure.type){
 			case OFFICER:
-				calculatePossibleDestinations_SoldierMove(currentField, player);
+				// calculate possible soldier moves
+				calculatePossibleDestinations_OfficerMove(currentField, player);
 				break;
 			case SOLDIER:
 				// calculate possible soldier moves
@@ -581,6 +582,7 @@ public class LascaGame extends Game implements Serializable {
 		if(currentField.getTopFigure().color == ColorType.BLACK){
 			Boolean enemyOnBottomLeft = currentField.neighbourFieldBottomLeft != null && !currentField.neighbourFieldBottomLeft.isEmpty() && currentField.neighbourFieldBottomLeft.getTopFigure().color == ColorType.WHITE;
 			Boolean enemyOnBottomRight = currentField.neighbourFieldBottomRight != null && !currentField.neighbourFieldBottomRight.isEmpty() && currentField.neighbourFieldBottomRight.getTopFigure().color == ColorType.WHITE;
+			
 			if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
 				// continuing strike posssible, add to expected moves
 				String moveString = currentField.id + "-" + currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.id;
@@ -610,8 +612,28 @@ public class LascaGame extends Game implements Serializable {
 		}
 	}
 	
-	private void calculatePossibleDestinations_OfficerMove(LascaField currentField){
-		
+	private void calculatePossibleDestinations_OfficerMove(LascaField currentField, Player player){
+		MoveType[] moves = {MoveType.TOPLEFT, MoveType.TOPRIGHT, MoveType.BOTTOMLEFT, MoveType.BOTTOMRIGHT};
+		LascaField tmpField = currentField;
+		for(MoveType moveType: moves){
+			LascaField nextField = tmpField.getNeighbourByMoveType(moveType);
+			while(nextField != null){
+				if (!nextField.isEmpty() && nextField.hasOpponentFigure(currentField)){
+					tmpField = nextField;
+					nextField = nextField.getNeighbourByMoveType(moveType);
+					if(nextField != null && nextField.isEmpty()){ // found possible move
+						String moveString = currentField.id + "-" + nextField.id;
+						LascaMove possibleMove = new LascaMove(moveString, player);
+						this.expectedMoves.add(possibleMove);
+						nextField = null;
+					}
+				} else if (nextField != null && !nextField.isEmpty()) {
+					nextField = null;
+				} else {
+					nextField = nextField.getNeighbourByMoveType(moveType);
+				}
+			}
+		}
 	}
 	
 	private boolean checkFieldFigure(LascaField field, Player player) {
