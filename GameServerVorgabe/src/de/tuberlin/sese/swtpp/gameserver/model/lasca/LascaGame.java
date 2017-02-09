@@ -536,7 +536,7 @@ public class LascaGame extends Game implements Serializable {
 				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
 			}
 		}
-
+		
 		return validMove;
 	}
 	
@@ -582,11 +582,9 @@ public class LascaGame extends Game implements Serializable {
 			Boolean enemyOnBottomRight = this.isPossibleMove(currentField, MoveType.BOTTOMRIGHT, ColorType.WHITE);
 			
 			if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
-				// continuing strike posssible, add to expected moves
 				updateExpectedMovesSoldier(currentField, MoveType.BOTTOMLEFT, player);
 			}
 			if(enemyOnBottomRight && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
-				// continuing strike posssible, add to expected moves
 				updateExpectedMovesSoldier(currentField, MoveType.BOTTOMRIGHT, player);
 			}
 			
@@ -614,6 +612,7 @@ public class LascaGame extends Game implements Serializable {
 		this.expectedMoves.add(possibleMove);
 	}
 	
+	// update expected move for officer 
 	private void updateExpectedMovesOfficer(LascaField origin, LascaField destination, Player player){
 		String moveString = origin.id + "-" + destination.id;
 		LascaMove possibleMove = new LascaMove(moveString, player);

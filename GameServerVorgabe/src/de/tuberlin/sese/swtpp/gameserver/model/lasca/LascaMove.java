@@ -20,7 +20,7 @@ public class LascaMove extends Move {
 	public Boolean isUpgrade;
 
 	public LascaMove(String moveString, Player player) {
-		super(moveString, "TODO insert state here", player);
+		super(moveString, "TODO insert state here", player); //TODO What does this means??
 		List<String> positionStrings = Arrays.asList(moveString.split("-"));
 
 		origin = CoordinatesHelper.corrdinateForString(positionStrings.get(0));
@@ -32,20 +32,10 @@ public class LascaMove extends Move {
 	public boolean isDiagonal() { // TODO only working for soldiers
 		int lengthX = (int) Math.abs(this.destination.x - this.origin.x);
 		int lengthY = (int) Math.abs(this.destination.y - this.origin.y);
-		
+
 		if(lengthX == lengthY){
 			return true;
 		}
-//		if (this.origin.x + 1 == this.destination.x || this.origin.x - 1 == this.destination.x) {
-//			if (this.origin.y + 1 == this.destination.y || this.origin.y - 1 == this.destination.y) {
-//				return true;
-//			}
-//		}
-//		if (this.origin.x + 2 == this.destination.x || this.origin.x - 2 == this.destination.x) {
-//			if (this.origin.y + 2 == this.destination.y || this.origin.y - 2 == this.destination.y) {
-//				return true;
-//			}
-//		}
 		return false;
 	}
 
