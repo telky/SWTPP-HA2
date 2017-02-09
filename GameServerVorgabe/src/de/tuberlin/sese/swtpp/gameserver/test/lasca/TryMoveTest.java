@@ -287,6 +287,7 @@ public class TryMoveTest {
 		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
+	// strike with with white soldier, strike cant be continued, try to strike with white and black
 	@Test
 	public void testMove_continueStrikeAfterSuccessfulStrike_notPossible() {
 		startGame(",,,b/,,/,,,/,,/,,B,/,,w/w,w,w,w w", true);
