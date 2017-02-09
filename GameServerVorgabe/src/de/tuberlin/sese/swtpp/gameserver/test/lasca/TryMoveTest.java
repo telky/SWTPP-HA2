@@ -196,6 +196,7 @@ public class TryMoveTest {
 	public void testStrikeSoldierStack_completeHistory(){
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w", true);
 		assertMove("a3-b4", true, true);
+		game.printBoard();
 		assertMove("c5-a3", false, true);
 		assertMove("c3-b4", true, true);
 		assertMove("a5-c3", false, true);

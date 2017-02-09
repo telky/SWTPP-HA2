@@ -196,9 +196,10 @@ public class LascaBoard implements Serializable {
 		LascaField newDestination = getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
 		
 		//  move figure from origin (and prisoners if exist) to newDestination
+		ColorType saveOwnColor = origin.getTopFigure().color;
 		moveFigure(origin, newDestination);
 		// take all opponents figures from destination and move them to newDestination
-		while(destination.getTopFigure().color != origin.getTopFigure().color){
+		while(destination.figures.size() > 0 && destination.getTopFigure().color != saveOwnColor){
 			newDestination.figures.addLast(destination.removeTopFigure());
 		}
 	}
