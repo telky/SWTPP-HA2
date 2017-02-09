@@ -60,7 +60,7 @@ canMoveInThisDir Black yOrigin yDestination = yOrigin > yDestination
 --- input (TODO)
 
 parseBoard :: String -> Board 
-parseBoard s = map parseRow (splitOn "/" s)
+parseBoard s = map parseRow (reverseStringArray (splitOn "/" s))
 
 parseRow :: String -> Row 
 parseRow s = map parseField (splitOn "," s)
@@ -95,6 +95,9 @@ splitChars :: String -> [[Char]]
 splitChars [] = []
 splitChars s = [take 1 s] ++ splitChars (tail s)
 
+reverseStringArray :: [String] -> [String]
+reverseStringArray [] = []
+reverseStringArray a = reverse a
     --- ... ---
 
 --- output (TODO)
