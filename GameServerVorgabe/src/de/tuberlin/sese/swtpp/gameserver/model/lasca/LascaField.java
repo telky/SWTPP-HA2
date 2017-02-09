@@ -2,6 +2,7 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import com.sun.javafx.geom.Point2D;
 
@@ -14,7 +15,8 @@ public class LascaField implements Serializable {
 
 	String id;
 
-	ArrayList<LascaFigure> figures;
+	Stack<LascaFigure> figures;
+	
 	
     public LascaField neighbourFieldTopLeft = null;
     public LascaField neighbourFieldTopRight = null;
@@ -26,7 +28,7 @@ public class LascaField implements Serializable {
 		this.col = col;
 		this.id = this.calculateID();
 
-		this.figures = new ArrayList<LascaFigure>();
+		this.figures = new Stack<LascaFigure>();
 	}
 	
 	public String getFiguresOnField() {
@@ -41,9 +43,13 @@ public class LascaField implements Serializable {
 		Point2D tmp = getCoordinate();
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
-
-	public LascaFigure topFigure() {
-		return figures.get(0);
+ 
+	public LascaFigure getTopFigure() {
+		return figures.peek();
+	}
+	
+	public LascaFigure popTopFigure(){
+		return figures.pop();
 	}
 
 	public Boolean isEmpty() {
@@ -60,15 +66,11 @@ public class LascaField implements Serializable {
 	}
 
 	public void addFigure(LascaFigure figure) {
-		figures.add(0, figure);
+		figures.push(figure);
 	}
 
 	public void removeAllFigures() {
-		ArrayList<LascaFigure> newFigures = new ArrayList<LascaFigure>();
-		for (LascaFigure figure : figures) {
-			newFigures.add(new LascaFigure(""));
-		}
-		figures = newFigures;
+		figures.clear();
 	}
 	
 	public Point2D getCoordinate() {
