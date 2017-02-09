@@ -119,6 +119,13 @@ public class TryMoveTest {
 		assertMove("a5-c3", false, true);	
 		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
 	}
+	
+	@Test
+	public void testStrikeOfficer() {
+		startGame(",,,/,,/B,,,/w,,/,,,/,,/w,w,w,w b", false);
+		assertMove("a5-c3", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,Bw,,/,,/w,w,w,w w", true, false, false);
+	}
 
 	@Test
 	public void testStrikeSoldierNotEmptyField() {
@@ -166,7 +173,6 @@ public class TryMoveTest {
 		assertMove("a1-b2", false, true);
 		assertGameState(",,,/,,/,,,/,,/,,,/B,,/,w,w,w w", true, false, false);
 	}
-
 
 	@Test
 	public void testUpgradeToOfficerWhite() {
@@ -263,10 +269,6 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,,/,b,,/b,bw,w/,,, w", true, false, false);	
 	}
 	
-	@Test
-	public void testBlack_moveCapturedSoldier(){
-		// TODO try to move a soldier while captured
-	}
 	
 	// Can Strike
 	
@@ -359,8 +361,4 @@ public class TryMoveTest {
 		assertMove("g7-f6", false, true);
 		assertGameState(",,,/,,b/,,,/,WB,/,,,/,,/w,w,w,w w", true, false, false);
 	}
-
-	
-	
-	
 }
