@@ -583,11 +583,11 @@ public class LascaGame extends Game implements Serializable {
 			
 			if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
 				// continuing strike posssible, add to expected moves
-				updateExpectedMoves(currentField, MoveType.BOTTOMLEFT, player);
+				updateExpectedMovesSoldier(currentField, MoveType.BOTTOMLEFT, player);
 			}
 			if(enemyOnBottomRight && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
 				// continuing strike posssible, add to expected moves
-				updateExpectedMoves(currentField, MoveType.BOTTOMRIGHT, player);
+				updateExpectedMovesSoldier(currentField, MoveType.BOTTOMRIGHT, player);
 			}
 			
 		} else {
@@ -595,10 +595,10 @@ public class LascaGame extends Game implements Serializable {
 			Boolean enemyOnTopRight =  this.isPossibleMove(currentField, MoveType.TOPRIGHT, ColorType.BLACK);
 			
 			if (enemyOnTopLeft && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft.isEmpty()){
-				updateExpectedMoves(currentField, MoveType.TOPLEFT, player);
+				updateExpectedMovesSoldier(currentField, MoveType.TOPLEFT, player);
 			}
 			if (enemyOnTopRight && currentField.neighbourFieldTopRight.neighbourFieldTopRight.isEmpty()){
-				updateExpectedMoves(currentField, MoveType.TOPRIGHT, player);
+				updateExpectedMovesSoldier(currentField, MoveType.TOPRIGHT, player);
 			}
 		}
 	}
@@ -607,7 +607,8 @@ public class LascaGame extends Game implements Serializable {
 		return field.getNeighbourByMoveType(moveType)  != null && !field.getNeighbourByMoveType(moveType).isEmpty() && field.getNeighbourByMoveType(moveType).getTopFigure().color == opponentColor;
 	}
 	
-	private void updateExpectedMoves(LascaField field, MoveType moveType, Player player){
+	// update expected move for soldier strike length
+	private void updateExpectedMovesSoldier(LascaField field, MoveType moveType, Player player){
 		String moveString = field.id + "-" + field.getNeighbourByMoveType(moveType).getNeighbourByMoveType(moveType) .id;
 		LascaMove possibleMove = new LascaMove(moveString, player);
 		this.expectedMoves.add(possibleMove);

@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import com.sun.javafx.geom.Point2D;
 
+import de.tuberlin.sese.swtpp.gameserver.model.Player;
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.FigureType;
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaGame.MoveType;
 
