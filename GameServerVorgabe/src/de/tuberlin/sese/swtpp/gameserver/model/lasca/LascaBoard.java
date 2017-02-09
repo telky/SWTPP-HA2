@@ -95,7 +95,7 @@ public class LascaBoard implements Serializable {
 		component = component.replaceAll("\\s","");
 		Boolean evenColumn = columnIndex % 2 == 0;
 		Boolean evenRow = rowIndex % 2 == 0;
-		 Deque<LascaFigure> figuresOnCurrentField = new LinkedList<LascaFigure>();
+		Deque<LascaFigure> figuresOnCurrentField = new LinkedList<LascaFigure>();
 		// check if field is valid and can be used by figure
 		if (evenRow == evenColumn) { 
 			LascaField newField = new LascaField(rowIndex, columnIndex);
@@ -157,7 +157,7 @@ public class LascaBoard implements Serializable {
 	public LascaField getField(Point2D point) {
 		return getField(CoordinatesHelper.fenStringForCoordinate(point));
 	}
-	
+
 	public Boolean isValidField(Point2D point) {
 		return fields.containsKey(CoordinatesHelper.fenStringForCoordinate(point));
 	}
@@ -175,7 +175,7 @@ public class LascaBoard implements Serializable {
 	public void moveFigure(LascaField origin, LascaField destination) {
 		LascaFigure selectedSoldier = origin.removeTopFigure();
 		destination.addFigure(selectedSoldier);
-		
+
 		// if figure has prisoners, move prisoners as well
 		// if stack of figures of same color, move only top figure
 		if(origin.figures.size() > 0 && origin.getTopFigure().color != selectedSoldier.color){
@@ -195,7 +195,7 @@ public class LascaBoard implements Serializable {
 		Point2D newDestinationPoint = new Point2D(destinationPoint.x + (movingRight ? 1 : -1),
 				destinationPoint.y + (forward ? 1 : -1));
 		LascaField newDestination = getField(CoordinatesHelper.fenStringForCoordinate(newDestinationPoint));
-		
+
 		//  move figure from origin (and prisoners if exist) to newDestination
 		ColorType saveOwnColor = origin.getTopFigure().color;
 		moveFigure(origin, newDestination);
@@ -204,7 +204,7 @@ public class LascaBoard implements Serializable {
 			newDestination.figures.addLast(destination.removeTopFigure());
 		}
 	}
-	
+
 	public List<LascaField> figuresForColor(ColorType color) {
 		List<LascaField> result = new ArrayList<LascaField>();
 		for (LascaField field : fields.values()) {
@@ -228,13 +228,13 @@ public class LascaBoard implements Serializable {
 			}
 		}
 	}
-	
+
 	private boolean validField(int row, int col){
 		Point2D tmp = new Point2D(col, row);
 		String fenStringIdentifier = CoordinatesHelper.fenStringForCoordinate(tmp);	
 		return fields.containsKey(fenStringIdentifier);
 	}
-	
+
 	private boolean validField(Point2D point){
 		return fields.containsKey(CoordinatesHelper.fenStringForCoordinate(point));	
 	}
