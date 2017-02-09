@@ -170,6 +170,7 @@ public class LascaBoard implements Serializable {
 		return fieldBetween;
 	}
 
+	// only call for valid moves
 	// move top figure (and prisoners if they exist) from origin to destination
 	public void moveFigure(LascaField origin, LascaField destination) {
 		LascaFigure selectedSoldier = origin.removeTopFigure();

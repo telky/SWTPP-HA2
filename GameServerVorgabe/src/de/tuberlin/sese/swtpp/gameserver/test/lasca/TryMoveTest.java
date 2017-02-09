@@ -121,10 +121,31 @@ public class TryMoveTest {
 	}
 	
 	@Test
-	public void testStrikeOfficer() {
+	public void testStrikeOfficerNormalLength() {
 		startGame(",,,/,,/B,,,/w,,/,,,/,,/w,w,w,w b", false);
 		assertMove("a5-c3", false, true);	
 		assertGameState(",,,/,,/,,,/,,/,Bw,,/,,/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeOfficerLengthTwoFields() {
+		startGame(",,,/,,/B,,,/,,/,w,,/,,/w,w,w,w b", false);
+		assertMove("a5-d2", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,,,/,Bw,/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeOfficerNormalLengthBackwards() {
+		startGame(",,,/,,/,,,/,,/,w,,/B,,/w,w,w,w b", false);
+		assertMove("d2-b4", false, true);
+		assertGameState(",,,/,,/,,,/Bw,,/,,,/,,/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeSoldierNormalLengthBackwards() {
+		startGame(",,,/,,/,,,/,,/,w,,/b,,/w,w,w,w b", false);
+		assertMove("d2-b4", false, false);
+		assertGameState(",,,/,,/,,,/,,/,w,,/b,,/w,w,w,w b", false, false, false);
 	}
 
 	@Test

@@ -34,6 +34,30 @@ public class LascaGame extends Game implements Serializable {
 	LascaBoard board;
 	String state;
 	ArrayList<LascaMove> expectedMoves;
+	public enum MoveType{
+		TOPLEFT, TOPRIGHT, BOTTOMLEFT, BOTTOMRIGHT
+	}
+	public enum OfficerMove {
+		MAIN;
+		private MoveType moveType;
+		
+		private OfficerMove getMove(boolean top, boolean left){
+			if (top && left) 
+				this.moveType = MoveType.TOPLEFT;
+			else if(top && !left)
+				this.moveType = MoveType.TOPRIGHT;
+			else if(!top && !left)
+				this.moveType = MoveType.BOTTOMRIGHT;
+			else if(!top && left)
+				this.moveType = MoveType.BOTTOMLEFT;
+			return this;
+		}
+		
+		public MoveType getMoveType(boolean top, boolean left)
+		{
+			return getMove(top, left).moveType;
+		}
+	}
 
 	/************************
 	 * constructors
@@ -264,6 +288,107 @@ public class LascaGame extends Game implements Serializable {
 		System.out.println("Critical Error: Tried to get an invalid field in tryStrike"); // TODO
 		return false;
 	}
+	
+	private boolean tryStrikeOfficer(LascaMove move, MoveType moveType, LascaField origin, LascaField destination){
+		LascaField opponentField = origin.getNeighbourByMoveType(moveType);
+		LascaFigure figureToStrike = opponentField.getTopFigure();
+		
+		if(opponentField == null || opponentField.isEmpty()){
+			return false;
+		}
+		
+		if (figureIsStrikable(figureToStrike.color, move.getPlayer())) {
+			board.strike(origin, opponentField, move.origin.x < move.destination.x,
+					move.origin.y < move.destination.y);
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean tryOfficerMove(LascaMove move, LascaField origin, LascaField destination) {
+		boolean diagonal = move.isDiagonal();
+
+		if (diagonal) {
+			if (destination.isEmpty() && move.isSimpleMove()) {
+				board.moveFigure(origin, destination);
+				return true;
+			} 
+			if (tryStrikeSoldier(move, origin, destination)) {
+				move.isStrike = true;
+				return true;
+			}
+			LascaField newOrigin = this.validOfficerMove(origin, destination);
+			newOrigin.figures = origin.figures;
+			if (newOrigin != null){
+				// if newOrigin next is empty it is a move, make move and return true
+				MoveType officerMoveType = this.getOfficerMoveType(origin, destination);
+				if(newOrigin.getNeighbourByMoveType(officerMoveType).isEmpty()){
+					origin.figures.clear();
+					this.board.moveFigure(newOrigin, destination);
+					return true;
+				} else if (tryStrikeOfficer(move, officerMoveType, newOrigin, destination)){
+					origin.figures.clear();
+					move.isStrike = true;
+					return true;
+				}	
+			} 
+		}
+		return false;
+	}
+	
+	private MoveType getOfficerMoveType(LascaField origin, LascaField destination){
+		boolean topLeft, topRight, bottomLeft, bottomRight = false;
+		topLeft =  destination.col < origin.col && origin.row < destination.row;
+		topRight = destination.col > origin.col && origin.row < destination.row;
+		bottomLeft =  destination.col < origin.col && origin.row > destination.row;
+		bottomRight = destination.col > origin.col && origin.row > destination.row;
+		
+		return OfficerMove.MAIN.getMoveType(topLeft || topRight, topLeft || bottomLeft);
+	}
+	
+	// check if move is valid officer move, return position before opponent field if true, else return null
+	private LascaField validOfficerMove(LascaField origin, LascaField destination){
+		MoveType moveType = getOfficerMoveType(origin, destination);
+		LascaField newPosition = validOfficerMove_checkPath(moveType, origin, destination);
+		return newPosition;
+	}
+	
+	// check if the path between origin and destination is free/strikable, only call from validOfficerMove
+	private LascaField validOfficerMove_checkPath(MoveType moveType, LascaField origin, LascaField destination){
+		LascaField current = origin;
+		LascaField nextField = getNextFieldOfOfficerMove(moveType, current);
+		while( nextField != null){
+			if(nextField.equals(destination) && nextField.isEmpty()){
+				return current; // officer move
+			} else if(getNextFieldOfOfficerMove(moveType, nextField).equals(destination) && nextField.getTopFigure().color != origin.getTopFigure().color){
+				return current; // officer strike
+			} 
+			else {
+				if(nextField.isEmpty() ){
+					current = nextField;
+					nextField = getNextFieldOfOfficerMove(moveType, current);
+				} else{
+					return null;
+				}
+			}
+		}
+		return null;
+	}
+	
+	private LascaField getNextFieldOfOfficerMove(MoveType moveType, LascaField field){
+		switch(moveType){
+		case TOPRIGHT:
+			return field.neighbourFieldTopRight;
+		case TOPLEFT:
+			return field.neighbourFieldTopLeft;
+		case BOTTOMRIGHT:
+			return field.neighbourFieldBottomRight;
+		case BOTTOMLEFT:
+			return field.neighbourFieldBottomLeft;
+		default:
+			return null;
+		}
+	}
 
 	private boolean figureIsStrikable(ColorType figureColor, Player movePlayer) {
 		switch (figureColor) {
@@ -315,20 +440,7 @@ public class LascaGame extends Game implements Serializable {
 		}
 	}
 
-	private boolean tryOfficerMove(LascaMove move, LascaField origin, LascaField destination) {
-		boolean diagonal = move.isDiagonal();
-
-		if (diagonal) {
-			// todo try strike
-			if (destination.isEmpty()) {
-				board.moveFigure(origin, destination);
-				return true;
-			} else {
-				return false;
-			}
-		}
-		return false;
-	}
+	
 	
 	private boolean canStrike(LascaField field) {
 		LascaFigure currentFigure = field.getTopFigure();
@@ -454,7 +566,7 @@ public class LascaGame extends Game implements Serializable {
 		LascaFigure currentFigure = currentField.getTopFigure();
 		switch(currentFigure.type){
 			case OFFICER:
-				// calculate officer move
+				calculatePossibleDestinations_SoldierMove(currentField, player);
 				break;
 			case SOLDIER:
 				// calculate possible soldier moves

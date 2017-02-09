@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import com.sun.javafx.geom.Point2D;
 
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.FigureType;
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaGame.MoveType;
 
 public class LascaField implements Serializable {
 
@@ -71,6 +72,21 @@ public class LascaField implements Serializable {
 		figures.addLast(figure);
 	}
 	
+	public LascaField getNeighbourByMoveType(MoveType moveType){
+		switch(moveType){
+		case BOTTOMLEFT:
+			return this.neighbourFieldBottomLeft;
+		case TOPLEFT:
+			return this.neighbourFieldTopLeft;
+		case TOPRIGHT:
+			return this.neighbourFieldTopRight;
+		case BOTTOMRIGHT:
+			return this.neighbourFieldBottomRight;
+		default:
+			return null;
+		}
+		
+	}
 	
 
 	public void removeAllFigures() {

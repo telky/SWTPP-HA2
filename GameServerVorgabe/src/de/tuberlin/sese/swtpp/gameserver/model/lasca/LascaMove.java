@@ -30,16 +30,22 @@ public class LascaMove extends Move {
 	}
 
 	public boolean isDiagonal() { // TODO only working for soldiers
-		if (this.origin.x + 1 == this.destination.x || this.origin.x - 1 == this.destination.x) {
-			if (this.origin.y + 1 == this.destination.y || this.origin.y - 1 == this.destination.y) {
-				return true;
-			}
+		int lengthX = (int) Math.abs(this.destination.x - this.origin.x);
+		int lengthY = (int) Math.abs(this.destination.y - this.origin.y);
+		
+		if(lengthX == lengthY){
+			return true;
 		}
-		if (this.origin.x + 2 == this.destination.x || this.origin.x - 2 == this.destination.x) {
-			if (this.origin.y + 2 == this.destination.y || this.origin.y - 2 == this.destination.y) {
-				return true;
-			}
-		}
+//		if (this.origin.x + 1 == this.destination.x || this.origin.x - 1 == this.destination.x) {
+//			if (this.origin.y + 1 == this.destination.y || this.origin.y - 1 == this.destination.y) {
+//				return true;
+//			}
+//		}
+//		if (this.origin.x + 2 == this.destination.x || this.origin.x - 2 == this.destination.x) {
+//			if (this.origin.y + 2 == this.destination.y || this.origin.y - 2 == this.destination.y) {
+//				return true;
+//			}
+//		}
 		return false;
 	}
 
