@@ -526,7 +526,10 @@ public class LascaGame extends Game implements Serializable {
 			validMove = false;
 			setState(oldState);
 		}
-
+		return checkMoveStatus(validMove, move);
+	}
+	
+	private boolean checkMoveStatus(boolean validMove, LascaMove move){
 		if (validMove) {
 			// reset expectedMoves
 			this.expectedMoves = new ArrayList<LascaMove>();
@@ -534,10 +537,10 @@ public class LascaGame extends Game implements Serializable {
 				return validMove;
 			} else {
 				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
+				return true;
 			}
 		}
-		
-		return validMove;
+		return false;
 	}
 	
 	// check whether a strike must be continued, save possible moves to expectedMoves
