@@ -305,7 +305,7 @@ public class LascaGame extends Game implements Serializable {
 		return false;
 	}
 	
-	private boolean tryOfficerMove(LascaMove move, LascaField origin, LascaField destination) {
+	private boolean tryOfficerMove(LascaMove move, LascaField origin, LascaField destination, boolean canStrike) {
 		boolean diagonal = move.isDiagonal();
 
 		if (diagonal) {
@@ -313,7 +313,7 @@ public class LascaGame extends Game implements Serializable {
 				board.moveFigure(origin, destination);
 				return true;
 			} 
-			if (tryStrikeSoldier(move, origin, destination)) {
+			if (canStrike && tryStrikeSoldier(move, origin, destination)) {
 				move.isStrike = true;
 				return true;
 			}
@@ -401,15 +401,19 @@ public class LascaGame extends Game implements Serializable {
 
 	}
 
-	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination) {
+	private boolean trySoldierMove(LascaMove move, LascaField origin, LascaField destination, boolean canStrike) {
 		boolean diagonal = move.isDiagonal();
 		boolean forward = checkSoldierDirectionForward(move);
 
 		if (diagonal && forward) {
 			// check: strike possible?
-			if (tryStrikeSoldier(move, origin, destination)) {
+			boolean strike = tryStrikeSoldier(move, origin, destination);
+			if (canStrike && strike) {	
 				move.isStrike = true;
 				return true;
+			} else if(canStrike && !strike){
+				move.isStrike = false;
+				return false;
 			} else if (destination.isEmpty() && move.isSimpleMove()) {
 				// simple move without strike 
 				board.moveFigure(origin, destination);
@@ -485,7 +489,7 @@ public class LascaGame extends Game implements Serializable {
 	}
 	
 	private boolean canMove(LascaField field) {
-		LascaFigure currentFigure = field.topFigure();
+		LascaFigure currentFigure = field.getTopFigure();
 		ColorType currentColor = currentFigure.color;
 		Point2D coordinate = field.getCoordinate();
 		
@@ -580,11 +584,8 @@ public class LascaGame extends Game implements Serializable {
 
 		LascaFigure selectedFigure = origin.getTopFigure();
 
-		boolean validMove = selectedFigure.type == FigureType.SOLDIER ? trySoldierMove(move, origin, destination) : tryOfficerMove(move, origin, destination);
-				
-		if (!move.isStrike && canStrike) {
-			validMove = false;
-		}
+		boolean validMove = selectedFigure.type == FigureType.SOLDIER ? trySoldierMove(move, origin, destination, canStrike) : tryOfficerMove(move, origin, destination, canStrike);
+
 		return checkMoveStatus(validMove, move);
 	}
 	
@@ -702,9 +703,6 @@ public class LascaGame extends Game implements Serializable {
 			}
 			
 			updateGameState();
-		} else {
-			// reset unvalid moves
-			setState(oldState);
 		}
 	}
 	
