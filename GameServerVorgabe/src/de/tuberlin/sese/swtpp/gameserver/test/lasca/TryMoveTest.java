@@ -189,7 +189,7 @@ public class TryMoveTest {
 	public void testMoveWhiteOfficerBackward() {
 		startGame(",,,/,,/W,,,/,,/,,,/,,/w,w,w,w", true);
 		assertMove("a5-b4", true, true);
-		assertGameState(",,,/,,/,,,/W,,/,,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/,,/,,,/W,,/,,,/,,/w,w,w,w", false, true, true);
 	}
 
 	@Test
@@ -249,7 +249,7 @@ public class TryMoveTest {
 		startGame(",,,/,,/,,,/,,/,bww,,/w,,/w,w,w,w", true);
 		assertMove("b2-d4", true, true);
 		game.printBoard();
-		assertGameState(",,,/,,/,,,/,wb,/,ww,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/,,/,,,/,wb,/,ww,,/,,/w,w,w,w", false, true, true);
 	}
 	
 	@Test
@@ -259,7 +259,7 @@ public class TryMoveTest {
 		game.printBoard();
 		assertMove("b4-d2", false, true);
 		game.printBoard();
-		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,,", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,,", true, true, false);
 		game.printBoard();
 	}
 	
@@ -270,7 +270,7 @@ public class TryMoveTest {
 		game.printBoard();
 		assertMove("b4-d2", false, true);
 		game.printBoard();
-		assertGameState(",,,/,,/,,,/,,/,Bb,,/,bw,/,,,", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,Bb,,/,bw,/,,,", true, true, false);
 		game.printBoard();
 	}
 	
@@ -281,7 +281,7 @@ public class TryMoveTest {
 		game.printBoard();
 		assertMove("b4-d2", false, true);
 		game.printBoard();
-		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,,", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,,", true, true, false);
 		game.printBoard();
 	}
 
@@ -341,7 +341,7 @@ public class TryMoveTest {
 		game.printBoard();
 		assertMove("d4-b6", true, true);
 		game.printBoard();
-		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
 	}
 	
 	@Test
@@ -379,7 +379,7 @@ public class TryMoveTest {
 		game.printBoard();
 		assertMove("d4-b6", true, true);
 		game.printBoard();
-		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
 	}
 	
 	// strike with with white officer, strike cant be continued, try to strike with white and black
@@ -398,7 +398,11 @@ public class TryMoveTest {
 	// white has no figures, black won
 	public void testFinishedGame_NoFiguresWhite(){
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/,,,/,,/,,,", false);
-		assertGameState("b,b,b,b/b,b,b/b,b,b,b/,,/,,,/,,/,,,", false, true, false);
+		assertMove("a5-b4", false, true);
+		System.out.println(game.getState());
+		System.out.println(game.isWhiteNext());
+		System.out.println(game.isFinished());
+		assertGameState("b,b,b,b/b,b,b/,b,b,b/b,,/,,,/,,/,,,", true, true, false);
 	}
 	
 	@Test

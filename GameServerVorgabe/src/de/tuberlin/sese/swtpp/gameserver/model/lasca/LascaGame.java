@@ -560,7 +560,12 @@ public class LascaGame extends Game implements Serializable {
 			}
 			// TODO fix double checking
 		}
+		Boolean currentPlayerCanMoveOrSStrike = this.canMoveOrStrike(player);
+		if(!currentPlayerCanMoveOrSStrike) return false;
+		
+		
 		Boolean canStrike = canStrike(player);
+		
 		String oldState = getState();
 		LascaMove move = new LascaMove(moveString, player);
 		
@@ -578,7 +583,12 @@ public class LascaGame extends Game implements Serializable {
 		LascaFigure selectedFigure = origin.getTopFigure();
 
 		boolean validMove = selectedFigure.type == FigureType.SOLDIER ? trySoldierMove(move, origin, destination, canStrike) : tryOfficerMove(move, origin, destination, canStrike);
-
+		Boolean otherPlayerCanMoveOrStrike = this.canMoveOrStrike(isWhiteNext() ? blackPlayer : whitePlayer);
+		if (!otherPlayerCanMoveOrStrike){
+			this.finish(isWhiteNext() ? whitePlayer : blackPlayer);
+			// dont change next player if game is ended
+			this.nextPlayer = isWhiteNext() ? blackPlayer : whitePlayer;
+		}
 		return checkMoveStatus(validMove, move);
 	}
 	
@@ -588,6 +598,8 @@ public class LascaGame extends Game implements Serializable {
 			this.expectedMoves = new ArrayList<LascaMove>();
 			if(move.isStrike && strikeCanBeContinued(move)){
 				return validMove;
+			} else if(this.isFinished()) {
+				return true;
 			} else {
 				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
 				return true;
