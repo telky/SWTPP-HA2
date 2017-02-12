@@ -15,7 +15,6 @@ import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.ColorType;
 public class LascaBoard implements Serializable {
 
 	HashMap<String, LascaField> fields;
-	Character currentPlayer = null;
 
 	int fieldSize = 7;
 	int minFieldIndex = 1;
@@ -54,20 +53,8 @@ public class LascaBoard implements Serializable {
 		return fields;
 	}
 
-	private void setCurrentPlayer(String fen) {
-		String lastTwoCharacters = fen.substring(fen.length() - 2);
-		if (lastTwoCharacters.startsWith(" ")) {
-			this.currentPlayer = lastTwoCharacters.charAt(1);
-		} else {
-			System.out.println("FEN String is missing attribute for currentPlayer");
-		}
-	}
-
 	private void parseFen(String fenString) {
-		setCurrentPlayer(fenString);
-		if (currentPlayer != null) {
-			fenString = fenString.substring(0, fenString.length() - 2);
-		}
+		//setCurrentPlayer(fenString);
 
 		List<String> fenRows = Arrays.asList(fenString.split("/"));
 

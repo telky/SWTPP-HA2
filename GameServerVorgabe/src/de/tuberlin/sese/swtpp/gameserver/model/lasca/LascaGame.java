@@ -67,7 +67,7 @@ public class LascaGame extends Game implements Serializable {
 		super();
 		this.board = new LascaBoard("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w");
 		// initialize internal game model (state/ board here)
-		setCurrentPlayer(board.currentPlayer);
+		setCurrentPlayer(isWhiteNext() ? 'w' : 'b');
 		expectedMoves = new ArrayList<LascaMove>();
 	}
 
@@ -254,14 +254,7 @@ public class LascaGame extends Game implements Serializable {
 
 	@Override
 	public String getState() {
-		String fenStringState = board.toFenString();
-		String playerString = "";
-		if (this.nextPlayer == blackPlayer) {
-			playerString = " b";
-		} else {
-			playerString = " w";
-		}
-		return fenStringState = fenStringState + playerString;
+		return board.toFenString();
 	}
 
 	// only call for valid moves!
