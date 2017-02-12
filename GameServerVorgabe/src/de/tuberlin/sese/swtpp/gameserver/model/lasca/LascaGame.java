@@ -330,11 +330,10 @@ public class LascaGame extends Game implements Serializable {
 	}
 	
 	private MoveType getOfficerMoveType(LascaField origin, LascaField destination){
-		boolean topLeft, topRight, bottomLeft, bottomRight = false;
+		boolean topLeft, topRight, bottomLeft = false;
 		topLeft =  destination.col < origin.col && origin.row < destination.row;
 		topRight = destination.col > origin.col && origin.row < destination.row;
 		bottomLeft =  destination.col < origin.col && origin.row > destination.row;
-		bottomRight = destination.col > origin.col && origin.row > destination.row;
 		
 		return OfficerMove.MAIN.getMoveType(topLeft || topRight, topLeft || bottomLeft);
 	}
@@ -707,7 +706,6 @@ public class LascaGame extends Game implements Serializable {
 					nextField = nextField.getNeighbourByMoveType(moveType);
 				}
 			}
-			
 			updateGameState();
 		}
 	}
