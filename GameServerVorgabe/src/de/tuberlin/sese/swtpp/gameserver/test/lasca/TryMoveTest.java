@@ -423,6 +423,15 @@ public class TryMoveTest {
 		assertGameState(",,,/,wb,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
 	}
 	
+	@Test
+	public void testFinishedGame_TryToContinue(){
+		startGame(",,,/,,/,b,,/w,,/,,,/,,/w,w,w,w", true);
+		assertMove("b4-d6", true, true);	
+		assertGameState(",,,/,wb,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
+		assertMove("a1-b2", true, false);	
+		assertGameState(",,,/,wb,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
+	}
+	
 	
 	
 	// TODO Whole game
