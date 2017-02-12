@@ -1,11 +1,14 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 
 import com.sun.javafx.geom.Point2D;
 
+import de.tuberlin.sese.swtpp.gameserver.model.Player;
 import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.FigureType;
+import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaGame.MoveType;
 
 public class LascaField implements Serializable {
 
@@ -14,14 +17,19 @@ public class LascaField implements Serializable {
 
 	String id;
 
-	ArrayList<LascaFigure> figures;
+	Deque<LascaFigure> figures;
+
+	public LascaField neighbourFieldTopLeft = null;
+	public LascaField neighbourFieldTopRight = null;
+	public LascaField neighbourFieldBottomRight = null;
+	public LascaField neighbourFieldBottomLeft = null;
 
 	public LascaField(int row, int col) {
 		this.row = row;
 		this.col = col;
 		this.id = this.calculateID();
 
-		this.figures = new ArrayList<LascaFigure>();
+		this.figures = new LinkedList<LascaFigure>();
 	}
 
 	public String getFiguresOnField() {
@@ -37,8 +45,14 @@ public class LascaField implements Serializable {
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 
-	public LascaFigure topFigure() {
-		return figures.get(0);
+	// get first element without removing
+	public LascaFigure getTopFigure() {
+		return figures.element();
+	}
+
+	// get first element and remove it
+	public LascaFigure removeTopFigure(){
+		return figures.remove();
 	}
 
 	public Boolean isEmpty() {
@@ -50,24 +64,43 @@ public class LascaField implements Serializable {
 		return true;
 	}
 
-	public void removeTopFigure() {
-		figures.remove(0);
+	public void addFigure(LascaFigure figure) {
+		figures.add(figure);
 	}
 
-	public void addFigure(LascaFigure figure) {
-		figures.add(0, figure);
+	public void addLastFigure(LascaFigure figure){
+		figures.addLast(figure);
+	}
+
+	public LascaField getNeighbourByMoveType(MoveType moveType){
+		switch(moveType){
+		case BOTTOMLEFT:
+			return this.neighbourFieldBottomLeft;
+		case TOPLEFT:
+			return this.neighbourFieldTopLeft;
+		case TOPRIGHT:
+			return this.neighbourFieldTopRight;
+		case BOTTOMRIGHT:
+			return this.neighbourFieldBottomRight;
+		default:
+			return null;
+		}
+
 	}
 
 	public void removeAllFigures() {
-		ArrayList<LascaFigure> newFigures = new ArrayList<LascaFigure>();
-		for (LascaFigure figure : figures) {
-			newFigures.add(new LascaFigure(""));
-		}
-		figures = newFigures;
+		figures.clear();
 	}
-	
+
 	public Point2D getCoordinate() {
 		return new Point2D(col, row);
+	}
+
+	public Boolean hasOpponentFigure(LascaField field){
+		if (this.figures.isEmpty() || field.figures.isEmpty()){
+			return false;
+		}
+		return this.getTopFigure().color != field.getTopFigure().color;
 	}
 
 }

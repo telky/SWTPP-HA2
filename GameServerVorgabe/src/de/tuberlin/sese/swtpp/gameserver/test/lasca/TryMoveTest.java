@@ -48,6 +48,7 @@ public class TryMoveTest {
 	}
 
 	public void assertGameState(String expectedBoard, boolean whiteNext, boolean finished, boolean whiteWon) {
+		System.out.print(game.getState());
 		assertEquals(game.getState(), expectedBoard);
 		assertEquals(game.isWhiteNext(), whiteNext);
 
@@ -116,7 +117,46 @@ public class TryMoveTest {
 	public void testStrikeSoldier() {
 		startGame(",,,/,,/b,,,/w,,/,,,/,,/w,w,w,w b", false);
 		assertMove("a5-c3", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w b", false, false, false);
+		assertGameState(",,,/,,/,,,/,,/,bw,,/,,/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeOfficerNormalLength() {
+		startGame(",,,/,,/B,,,/w,,/,,,/,,/w,w,w,w b", false);
+		assertMove("a5-c3", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,Bw,,/,,/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeOfficerLengthTwoFields() {
+		startGame(",,,/,,/B,,,/,,/,w,,/,,/w,w,w,w b", false);
+		assertMove("a5-d2", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,,,/,Bw,/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeOfficerNormalLengthBackwards() {
+		startGame(",,,/,,/,,,/,,/,w,,/B,,/w,w,w,w b", false);
+		game.printBoard();
+		assertMove("b2-d4", false, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,Bw,/,,,/,,/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	public void testStrikeSoldierNormalLengthBackwards() {
+		startGame(",,,/,,/,,,/,,/,w,,/b,,/,w,w,w b", false);
+		assertMove("c3-d4", false, false);
+		assertGameState(",,,/,,/,,,/,,/,w,,/b,,/,w,w,w b", false, false, false);
+	}
+	
+	@Test
+	public void testStrikeOfficerLengthTwoFields_CanContinue() {
+		startGame(",,,/,,/B,,,/,,w/,w,,/,,/w,w,w,w b", false);
+		assertMove("a5-d2", false, true);	
+		assertGameState(",,,/,,/,,,/,,w/,,,/,Bw,/w,w,w,w b", false, false, false);
+		assertMove("d2-g5", false, true);
+		assertGameState(",,,/,,/,,,Bww/,,/,,,/,,/w,w,w,w w", true, false, false);
 	}
 
 	@Test
@@ -166,7 +206,6 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,,/,,,/B,,/,w,w,w w", true, false, false);
 	}
 
-
 	@Test
 	public void testUpgradeToOfficerWhite() {
 		startGame(",,,/,w,/b,,,/b,,/,,,/,b,/w,,,w w", true);
@@ -177,7 +216,9 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeUpgradeToOfficerBlack() {
 		startGame(",,,/,,/b,,,/b,,/,b,,/,w,/w,,,w b", false);
+		game.printBoard();
 		assertMove("c3-e1", false, true);
+		game.printBoard();
 		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,Bw,w w", true, false, false);
 	}
 
@@ -187,18 +228,91 @@ public class TryMoveTest {
 		assertMove("e5-c7", true, true);
 		assertGameState(",Wb,,/,,/b,,,/b,,/,,,/,b,/w,,,w b", false, false, false);
 	}
+
+
+	@Test
+	public void testStrikeSoldierStack_completeHistory(){
+		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w", true);
+		assertMove("a3-b4", true, true);
+		game.printBoard();
+		assertMove("c5-a3", false, true);
+		assertMove("c3-b4", true, true);
+		assertMove("a5-c3", false, true);
+		assertMove("d2-b4", true, true);
+		assertMove("d6-c5", false, true);
+		assertGameState("b,b,b,b/b,,b/,b,b,b/wb,,/bw,w,w,w/w,,w/w,w,w,w w", true, false, false);
+	}
+	
+	@Test
+	// strike with white a stack of black - white - white 
+	public void testWhite_StrikeSoldierStack(){
+		startGame(",,,/,,/,,,/,,/,bww,,/w,,/w,w,w,w w", true);
+		assertMove("b2-d4", true, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,wb,/,ww,,/,,/w,w,w,w b", false, false, false);
+	}
+	
+	@Test
+	// strike with black a stack of white - black - black 
+	public void testBlack_StrikeSoldierStack(){
+		startGame(",,,/,,/,,,/b,,/,wbb,,/,,/,,, b", false);
+		game.printBoard();
+		assertMove("b4-d2", false, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,, w", true, false, false);
+		game.printBoard();
+	}
+	
+	@Test
+	// strike with black a stack of white - black - black 
+	public void testBlack_StrikeSoldierStack2(){
+		startGame(",,,/,,/,,,/b,,/,wBb,,/,,/,,, b", false);
+		game.printBoard();
+		assertMove("b4-d2", false, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,,/,Bb,,/,bw,/,,, w", true, false, false);
+		game.printBoard();
+	}
+	
+	@Test
+	// strike with black a stack of white - black - black 
+	public void testBlack_StrikeOfficerStack(){
+		startGame(",,,/,,/,,,/B,,/,wbb,,/,,/,,, b", false);
+		game.printBoard();
+		assertMove("b4-d2", false, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,, w", true, false, false);
+		game.printBoard();
+	}
+
+	
+	@Test
+	// move figure after
+	public void testBlack_moveFreedSoldierAfterStrike(){
+		// free black soldiers
+		startGame(",,,/,,/,,,/b,,/,wbb,,/,,/,,,w b", false);
+		assertMove("b4-d2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,,w w", true, false, false);
+		// white move - meaningless
+		assertMove("g1-f2", true, true);
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,w/,,, b", false, false, false);	
+		// move one of the freed soldiers
+		assertMove("c3-b2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,b,,/b,bw,w/,,, w", true, false, false);	
+	}
+	
 	
 	// Can Strike
 	
 	@Test
-	public void testMoveBlackSoldierStrikePossible() {
+	public void testMoveBlackSoldier_StrikePossible() {
 		startGame(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false);
 		assertMove("c5-b4", false, false);	
 		assertGameState(",,,/,,/,b,,/,w,/,,,/,,/w,w,w,w b", false, false, false);
 	}
 	
 	@Test
-	public void testMoveWhiteSoldierStrikePossible() {
+	public void testMoveWhiteSoldier_StrikePossible() {
 		startGame(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true);
 		assertMove("e3-f4", true, false);	
 		assertGameState(",,,/,,/,,,/,b,/,,w,/,,/w,w,w,w w", true, false, false);
@@ -218,4 +332,65 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,w,/,,B,/,,/w,w,w,w w", true, false, false);
 	}
 	
+	
+	@Test
+	public void testMove_continueStrikeAfterSuccessfulStrike() {
+		startGame(",,,/,,/,b,,/,,/,,B,/,,w/w,w,w,w w", true);
+		assertMove("f2-d4", true, true);
+		assertGameState(",,,/,,/,b,,/,wB,/,,,/,,/w,w,w,w w", true, false, false);
+		game.printBoard();
+		assertMove("d4-b6", true, true);
+		game.printBoard();
+		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
+	}
+	
+	@Test
+	public void testMove_continueStrikeAfterSuccessfulStrikeAndUpgrade() {
+		startGame(",,,/,b,b/,,,w/,,/,,,/,,/w,w,w,w w", true);
+		assertMove("g5-e7", true, true);
+		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
+		game.printBoard();
+		assertMove("e7-c5", true, false); // try to continue strike
+		game.printBoard();
+		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("d6-c5", false, true); // move with black
+		assertGameState(",,Wb,/,,/,b,,/,,/,,,/,,/w,w,w,w w", true, false, false);
+
+	}
+	
+	// strike with with white soldier, strike cant be continued, try to strike with white and black
+	@Test
+	public void testMove_continueStrikeAfterSuccessfulStrike_notPossible() {
+		startGame(",,,b/,,/,,,/,,/,,B,/,,w/w,w,w,w w", true);
+		assertMove("f2-d4", true, true);
+		assertGameState(",,,b/,,/,,,/,wB,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("d4-b6", false, false); // not white's turn
+		assertGameState(",,,b/,,/,,,/,wB,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("g7-f6", false, true);
+		assertGameState(",,,/,,b/,,,/,wB,/,,,/,,/w,w,w,w w", true, false, false);
+
+	}
+	
+	@Test
+	public void testMove_continueStrikeWithOfficerAfterSuccessfulStrike() {
+		startGame(",,,/,,/,b,,/,,/,,B,/,,W/w,w,w,w w", true);
+		assertMove("f2-d4", true, true);
+		assertGameState(",,,/,,/,b,,/,WB,/,,,/,,/w,w,w,w w", true, false, false);
+		game.printBoard();
+		assertMove("d4-b6", true, true);
+		game.printBoard();
+		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w b", false, false, false);
+	}
+	
+	// strike with with white officer, strike cant be continued, try to strike with white and black
+	@Test
+	public void testMove_continueStrikeWithOfficerAfterSuccessfulStrike_notPossible() {
+		startGame(",,,b/,,/,,,/,,/,,B,/,,W/w,w,w,w w", true);
+		assertMove("f2-d4", true, true);
+		assertGameState(",,,b/,,/,,,/,WB,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("d4-b6", false, false); // not white's turn
+		assertGameState(",,,b/,,/,,,/,WB,/,,,/,,/w,w,w,w b", false, false, false);
+		assertMove("g7-f6", false, true);
+		assertGameState(",,,/,,b/,,,/,WB,/,,,/,,/w,w,w,w w", true, false, false);
+	}
 }
