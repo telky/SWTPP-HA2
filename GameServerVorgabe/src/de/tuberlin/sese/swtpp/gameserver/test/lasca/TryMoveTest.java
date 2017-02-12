@@ -393,4 +393,45 @@ public class TryMoveTest {
 		assertMove("g7-f6", false, true);
 		assertGameState(",,,/,,b/,,,/,WB,/,,,/,,/w,w,w,w w", true, false, false);
 	}
+	
+	@Test
+	// white has no figures, black won
+	public void testFinishedGame_NoFiguresWhite(){
+		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/,,,/,,/,,, b", false);
+		assertGameState("b,b,b,b/b,b,b/b,b,b,b/,,/,,,/,,/,,, b", false, true, false);
+	}
+	
+	@Test
+	// black has no figures, white won
+	public void testFinishedGame_NoFiguresBlack(){
+		startGame(",,,/,,/,,,/,,/,,,/b,,/w,w,w,w w", true);
+		assertMove("a1-c3", true, true);
+		System.out.println(game.getState());
+		System.out.println(game.isWhiteNext());
+		System.out.println(game.isFinished());
+		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/,w,w,w b", false, true, true);
+	}
+	
+	@Test
+	public void testFinishedGame_NoMovableFigureBlack(){
+		startGame(",,,/,,/,b,,/w,,/,,,/,,/w,w,w,w w", true);
+		assertMove("b4-d6", true, true);	
+		assertGameState(",,,/,wb,/,,,/,,/,,,/,,/w,w,w,w b", false, true, true);
+	}
+	
+	
+	
+	// TODO Whole game
+	@Test
+	public void testGame(){
+		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w", true);
+		assertMove("c3-b4", true, true);
+		assertMove("a5-c3", false, true);
+		assertGameState("b,b,b,b/b,b,b/,b,b,b/,,/w,bw,w,w/w,w,w/w,w,w,w w", true, false, false);
+		assertMove("d2-b4", true, true);
+		assertMove("c5-d4", false, true);
+		assertGameState("b,b,b,b/b,b,b/,,b,b/wb,b,/w,w,w,w/w,,w/w,w,w,w w", true, false, false);
+		
+	}
+
 }
