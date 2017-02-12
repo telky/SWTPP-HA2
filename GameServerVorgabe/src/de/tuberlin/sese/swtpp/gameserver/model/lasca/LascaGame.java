@@ -436,6 +436,7 @@ public class LascaGame extends Game implements Serializable {
 		}
 	}
 	
+	// TODO Refactoring
 	private boolean canStrike(LascaField field) {
 		LascaFigure currentFigure = field.getTopFigure();
 		ColorType currentColor = currentFigure.color;
@@ -560,17 +561,14 @@ public class LascaGame extends Game implements Serializable {
 			// TODO fix double checking
 		}
 		Boolean currentPlayerCanMoveOrSStrike = this.canMoveOrStrike(player);
-		if(!currentPlayerCanMoveOrSStrike) return false;
-		
+		if(!currentPlayerCanMoveOrSStrike) {
+			return false;
+		}
 		
 		Boolean canStrike = canStrike(player);
-		
-		String oldState = getState();
 		LascaMove move = new LascaMove(moveString, player);
-		
 		LascaField origin = board.getField(move.origin);
 		LascaField destination = board.getField(move.destination);
-
 		Boolean movingFieldEmpty = origin.isEmpty();
 		Boolean wrongPlayerIsMoving = this.nextPlayer != player;
 		Boolean currentPlayerCantMoveOrigin = !checkFieldFigure(origin, player);
