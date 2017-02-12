@@ -586,8 +586,9 @@ public class LascaGame extends Game implements Serializable {
 		Boolean otherPlayerCanMoveOrStrike = this.canMoveOrStrike(isWhiteNext() ? blackPlayer : whitePlayer);
 		if (!otherPlayerCanMoveOrStrike){
 			this.finish(isWhiteNext() ? whitePlayer : blackPlayer);
-			// dont change next player if game is ended
+			// reset next player if game is ended
 			this.nextPlayer = isWhiteNext() ? blackPlayer : whitePlayer;
+			
 		}
 		return checkMoveStatus(validMove, move);
 	}
@@ -610,7 +611,7 @@ public class LascaGame extends Game implements Serializable {
 	
 	// check whether a strike must be continued, save possible moves to expectedMoves
 	private boolean strikeCanBeContinued(LascaMove move){
-		if(move.isUpgrade){
+		if(move.isUpgrade || isFinished()){
 			return false;
 		}
 		LascaField currentField = board.getField(move.destination);

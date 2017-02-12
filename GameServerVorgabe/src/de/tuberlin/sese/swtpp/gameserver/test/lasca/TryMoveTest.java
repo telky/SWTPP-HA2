@@ -281,7 +281,10 @@ public class TryMoveTest {
 		game.printBoard();
 		assertMove("b4-d2", false, true);
 		game.printBoard();
-		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,,", true, true, false);
+		System.out.println(game.getState());
+		System.out.println(game.isWhiteNext());
+		System.out.println(game.isFinished());
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,,", true, true, false); // failing: returns whiteNext: false and isFinished: false
 		game.printBoard();
 	}
 
@@ -346,8 +349,12 @@ public class TryMoveTest {
 	
 	@Test
 	public void testMove_continueStrikeAfterSuccessfulStrikeAndUpgrade() {
-		startGame(",,,/,b,b/,,,w/,,/,,,/,,/w,w,w,w w", true);
+		startGame(",,,/,b,b/,,,w/,,/,,,/,,/w,w,w,w", true);
 		assertMove("g5-e7", true, true);
+		game.printBoard();
+		System.out.println(game.getState());
+		System.out.println(game.isWhiteNext());
+		System.out.println(game.isFinished());
 		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w", false, false, false);
 		game.printBoard();
 		assertMove("e7-c5", true, false); // try to continue strike
@@ -379,7 +386,10 @@ public class TryMoveTest {
 		game.printBoard();
 		assertMove("d4-b6", true, true);
 		game.printBoard();
-		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
+		System.out.println(game.getState());
+		System.out.println(game.isWhiteNext());
+		System.out.println(game.isFinished());
+		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true); // failing with isWhiteNext: true, isFinished:false
 	}
 	
 	// strike with with white officer, strike cant be continued, try to strike with white and black
