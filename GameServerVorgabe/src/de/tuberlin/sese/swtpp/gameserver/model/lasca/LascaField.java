@@ -73,19 +73,17 @@ public class LascaField implements Serializable {
 	}
 
 	public LascaField getNeighbourByMoveType(MoveType moveType){
-		switch(moveType){
-		case BOTTOMLEFT:
-			return this.neighbourFieldBottomLeft;
-		case TOPLEFT:
-			return this.neighbourFieldTopLeft;
-		case TOPRIGHT:
-			return this.neighbourFieldTopRight;
-		case BOTTOMRIGHT:
-			return this.neighbourFieldBottomRight;
-		default:
-			return null;
+		LascaField neighbour = null;
+		if(moveType.equals(MoveType.BOTTOMLEFT)){
+			neighbour = this.neighbourFieldBottomLeft;
+		} else if(moveType.equals(MoveType.BOTTOMRIGHT)){
+			neighbour = this.neighbourFieldBottomRight;
+		} else if(moveType.equals(MoveType.TOPLEFT)){
+			neighbour = this.neighbourFieldTopLeft;
+		} else if(moveType.equals(MoveType.TOPRIGHT)){
+			neighbour = this.neighbourFieldTopRight;
 		}
-
+		return neighbour;
 	}
 
 	public void removeAllFigures() {
