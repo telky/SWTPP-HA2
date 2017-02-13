@@ -475,6 +475,32 @@ public class TryMoveTest {
 		assertMove("e3-d4", true, true);
 		assertMove("d6-c5", false, true);
 		assertGameState("b,,b,b/bb,,b/bw,b,b,b/wb,w,/w,w,,w/w,w,/w,,w,w", true, false, false);
+		assertMove("d2-e3", true, false); 	// possible strike, moves should not work
+		assertMove("b4-d6", true, true);	
+		assertMove("e7-c5", false, true);	// black has strike flow
+		assertMove("c5-e3", false, true);
+		assertMove("e3-c1", false, true);
+		assertGameState("b,,,b/bb,bb,b/bw,,b,b/,,/w,w,,w/w,,/w,Bwww,w,w", true, false, false);
+		assertMove("a3-b4", true, true);	
+		assertMove("c1-a3", false, true);
+		assertMove("a3-c5", false, true);
+		assertGameState("b,,,b/bb,bb,b/bw,Bwwwww,b,b/,,/,w,,w/,,/w,,w,w", true, false, false);
+		assertMove("a1-b2", true, true);	
+		assertMove("c5-d4", false, true);
+		assertGameState("b,,,b/bb,bb,b/bw,,b,b/,Bwwwww,/,w,,w/w,,/,,w,w", true, false, false);
+		assertMove("e1-f2", true, true);	
+		assertMove("e5-f4", false, true);
+		assertGameState("b,,,b/bb,bb,b/bw,,,b/,Bwwwww,b/,w,,w/w,,w/,,,w", true, false, false);
+		assertMove("c3-e5", true, true);	// white has strike flow
+		assertMove("e5-c7", true, true);
+		assertMove("a5-b4", false, true);
+		System.out.println("//////////");
+		System.out.println(game.getState());
+		assertGameState("b,WBb,,b/bb,b,b/,,,b/bw,wwwww,b/,,,w/w,,w/,,,w", true, false, false);
+
+
+		
+
 
 
 
