@@ -454,6 +454,44 @@ public class TryMoveTest {
 		assertMove("d2-b4", true, true);
 		assertMove("c5-d4", false, true);
 		assertGameState("b,b,b,b/b,b,b/,,b,b/wb,b,/w,w,w,w/w,,w/w,w,w,w", true, false, false);
+		// e3 - c5 possible strike, other white moves must be invalid
+		assertMove("b4-a5", true, false);
+		assertMove("g3-f4", true, false);
+		assertMove("e3-f4", true, false);
+		assertMove("e1-d2", true, false);
+		// possible strike
+		assertMove("e3-c5", true, true);
+		assertMove("b6-d4", false, true);
+		assertGameState("b,b,b,b/,b,b/,b,b,b/wb,bw,/w,w,,w/w,,w/w,w,w,w", true, false, false);
+		assertMove("c1-d2", true, true);
+		assertMove("d4-e3", false, true);
+		assertGameState("b,b,b,b/,b,b/,b,b,b/wb,,/w,w,bw,w/w,w,w/w,,w,w", true, false, false);
+		assertMove("f2-d4", true, true); 	// white did strike and can continue strike
+		assertMove("g5-f4", false,false); 	// black move must fail
+		assertMove("g3-f4", true, false);	// white move with other figure must fail
+		assertMove("d4-b6", true, true);    // continue strike must succeed
+		assertMove("c7-a5", false, true);  
+		assertGameState("b,,b,b/bb,b,b/bw,,b,b/wb,,/w,w,w,w/w,w,/w,,w,w", true, false, false);
+		assertMove("e3-d4", true, true);
+		assertMove("d6-c5", false, true);
+		assertGameState("b,,b,b/bb,,b/bw,b,b,b/wb,w,/w,w,,w/w,w,/w,,w,w", true, false, false);
+
+
+
+
+
+
+
+
+
+		
+
+
+
+
+		
+
+		
 		
 	}
 

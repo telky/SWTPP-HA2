@@ -647,10 +647,10 @@ public class LascaGame extends Game implements Serializable {
 			Boolean enemyOnBottomLeft =  this.isPossibleMove(currentField, MoveType.BOTTOMLEFT, ColorType.WHITE);
 			Boolean enemyOnBottomRight = this.isPossibleMove(currentField, MoveType.BOTTOMRIGHT, ColorType.WHITE);
 			
-			if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
+			if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
 				updateExpectedMovesSoldier(currentField, MoveType.BOTTOMLEFT, player);
 			}
-			if(enemyOnBottomRight && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
+			if(enemyOnBottomRight && currentField.neighbourFieldBottomRight != null && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight != null &&currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
 				updateExpectedMovesSoldier(currentField, MoveType.BOTTOMRIGHT, player);
 			}
 			
@@ -658,10 +658,10 @@ public class LascaGame extends Game implements Serializable {
 			Boolean enemyOnTopLeft =  this.isPossibleMove(currentField, MoveType.TOPLEFT, ColorType.BLACK);
 			Boolean enemyOnTopRight =  this.isPossibleMove(currentField, MoveType.TOPRIGHT, ColorType.BLACK);
 			
-			if (enemyOnTopLeft && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft.isEmpty()){
+			if (enemyOnTopLeft && currentField.neighbourFieldTopLeft != null && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft != null && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft.isEmpty()){
 				updateExpectedMovesSoldier(currentField, MoveType.TOPLEFT, player);
 			}
-			if (enemyOnTopRight && currentField.neighbourFieldTopRight.neighbourFieldTopRight.isEmpty()){
+			if (enemyOnTopRight && currentField.neighbourFieldTopRight != null && currentField.neighbourFieldTopRight.neighbourFieldTopRight != null && currentField.neighbourFieldTopRight.neighbourFieldTopRight.isEmpty()){
 				updateExpectedMovesSoldier(currentField, MoveType.TOPRIGHT, player);
 			}
 		}
