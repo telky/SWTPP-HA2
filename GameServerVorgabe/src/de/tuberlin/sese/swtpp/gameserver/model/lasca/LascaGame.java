@@ -642,26 +642,33 @@ public class LascaGame extends Game implements Serializable {
 	
 	private void calculatePossibleDestinations_SoldierMove(LascaField currentField, Player player){
 		if(currentField.getTopFigure().color == ColorType.BLACK){
-			Boolean enemyOnBottomLeft =  this.isPossibleMove(currentField, MoveType.BOTTOMLEFT, ColorType.WHITE);
-			Boolean enemyOnBottomRight = this.isPossibleMove(currentField, MoveType.BOTTOMRIGHT, ColorType.WHITE);
-			
-			if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
-				updateExpectedMovesSoldier(currentField, MoveType.BOTTOMLEFT, player);
-			}
-			if(enemyOnBottomRight && currentField.neighbourFieldBottomRight != null && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight != null &&currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
-				updateExpectedMovesSoldier(currentField, MoveType.BOTTOMRIGHT, player);
-			}
-			
+			calculatePossibleDestinations_SoldierBlack(currentField, player);
 		} else {
-			Boolean enemyOnTopLeft =  this.isPossibleMove(currentField, MoveType.TOPLEFT, ColorType.BLACK);
-			Boolean enemyOnTopRight =  this.isPossibleMove(currentField, MoveType.TOPRIGHT, ColorType.BLACK);
-			
-			if (enemyOnTopLeft && currentField.neighbourFieldTopLeft != null && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft != null && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft.isEmpty()){
-				updateExpectedMovesSoldier(currentField, MoveType.TOPLEFT, player);
-			}
-			if (enemyOnTopRight && currentField.neighbourFieldTopRight != null && currentField.neighbourFieldTopRight.neighbourFieldTopRight != null && currentField.neighbourFieldTopRight.neighbourFieldTopRight.isEmpty()){
-				updateExpectedMovesSoldier(currentField, MoveType.TOPRIGHT, player);
-			}
+			calculatePossibleDestinations_SoldierWhite(currentField, player);
+		}
+	}
+	
+	private void calculatePossibleDestinations_SoldierBlack(LascaField currentField, Player player){
+		Boolean enemyOnBottomLeft =  this.isPossibleMove(currentField, MoveType.BOTTOMLEFT, ColorType.WHITE);
+		Boolean enemyOnBottomRight = this.isPossibleMove(currentField, MoveType.BOTTOMRIGHT, ColorType.WHITE);
+		
+		if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
+			updateExpectedMovesSoldier(currentField, MoveType.BOTTOMLEFT, player);
+		}
+		if(enemyOnBottomRight && currentField.neighbourFieldBottomRight != null && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight != null &&currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
+			updateExpectedMovesSoldier(currentField, MoveType.BOTTOMRIGHT, player);
+		}
+	}
+	
+	private void calculatePossibleDestinations_SoldierWhite(LascaField currentField, Player player){
+		Boolean enemyOnTopLeft =  this.isPossibleMove(currentField, MoveType.TOPLEFT, ColorType.BLACK);
+		Boolean enemyOnTopRight =  this.isPossibleMove(currentField, MoveType.TOPRIGHT, ColorType.BLACK);
+		
+		if (enemyOnTopLeft && currentField.neighbourFieldTopLeft != null && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft != null && currentField.neighbourFieldTopLeft.neighbourFieldTopLeft.isEmpty()){
+			updateExpectedMovesSoldier(currentField, MoveType.TOPLEFT, player);
+		}
+		if (enemyOnTopRight && currentField.neighbourFieldTopRight != null && currentField.neighbourFieldTopRight.neighbourFieldTopRight != null && currentField.neighbourFieldTopRight.neighbourFieldTopRight.isEmpty()){
+			updateExpectedMovesSoldier(currentField, MoveType.TOPRIGHT, player);
 		}
 	}
 	
