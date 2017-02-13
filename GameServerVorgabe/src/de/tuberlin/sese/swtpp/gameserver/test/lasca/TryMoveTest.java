@@ -500,7 +500,6 @@ public class TryMoveTest {
 		assertMove("a5-b4", false, true);
 		assertGameState("b,WBb,,b/bb,b,b/,,,b/bw,wwwww,b/,,,w/w,,w/,,,w", true, false, false);
 		assertMove("c7-a5", true, true);	// white has strike flow
-		game.printBoard();
 		assertMove("a5-c3", true, true);	
 		assertMove("f4-e3", false, true);
 		assertGameState("b,,,b/b,b,b/,,,b/w,wwwww,/,WBbbb,b,w/w,,w/,,,w", true, false, false);
@@ -515,18 +514,33 @@ public class TryMoveTest {
 		assertGameState(",,,b/,b,/Wbb,,b,b/,wwwww,/,WBbbb,,w/w,b,w/,,,w", true, false, false);
 		assertMove("d4-f6", true, true);
 		assertMove("g7-e5", false, true);
-		game.printBoard();
 		assertGameState(",,,/,b,wwwwb/Wbb,,bw,b/,,/,WBbbb,,w/w,b,w/,,,w", true, false, false);
-		game.printBoard();
 		assertMove("a5-b6", true, false); // should fail because white can strike
-		game.printBoard();
 		assertMove("c3-e1", true, true);
-		game.printBoard();
 		assertMove("d6-c5", false, true);
-		game.printBoard();
 		assertGameState(",,,/,,wwwwb/Wbb,b,bw,b/,,/,,,w/w,,w/,,WBbbbb,w", true, false, false);
-
-
+		assertMove("a5-b6", true, true);
+		assertMove("g5-f4", false, true);
+		assertGameState(",,,/Wbb,,wwwwb/,b,bw,/,,b/,,,w/w,,w/,,WBbbbb,w", true, false, false);
+		assertMove("b6-d4", true, true);
+		assertMove("e5-c3", false, true);	// black has strike flow
+		assertMove("c3-a1", false, true);
+		assertGameState(",,,/,,wwwwb/,,,/,bbb,b/,,,w/,,w/BwWw,,WBbbbb,w", true, false, false);
+		assertMove("g3-e5", true, true);
+		assertMove("a1-b2", false, true);
+		assertGameState(",,,/,,wwwwb/,,wb,/,bbb,/,,,/BwWw,,w/,,WBbbbb,w", true, false, false);
+		assertMove("e5-d6", true, true);
+		assertMove("d4-e3", false, true);
+		assertGameState(",,,/,wb,wwwwb/,,,/,,/,,bbb,/BwWw,,w/,,WBbbbb,w", true, false, false);
+		assertMove("f2-d4", true, true);
+		assertMove("e3-f2", false, true);
+		assertGameState(",,,/,wb,wwwwb/,,,/,wb,/,,,/BwWw,,bb/,,WBbbbb,w", true, false, false);
+		assertMove("g1-e3", true, true);
+		assertMove("f2-g1", false, true);
+		assertGameState(",,,/,wb,wwwwb/,,,/,wb,/,,wb,/BwWw,,/,,WBbbbb,B", true, false, false);
+		assertMove("d6-c7", true, true);
+		assertMove("b2-c3", false, true);
+		assertGameState(",Wb,,/,,wwwwb/,,,/,wb,/,BwWw,wb,/,,/,,WBbbbb,B", true, false, false);
 
 
 		
