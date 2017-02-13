@@ -545,18 +545,6 @@ public class LascaGame extends Game implements Serializable {
 		return canMove(player) || canStrike(player);
 	}
 	
-	private void updateGameState() {
-		boolean whiteCanMove = canMoveOrStrike(whitePlayer);
-		boolean blackCanMove = canMove(blackPlayer);
-		
-		draw = !whiteCanMove && !blackCanMove;
-		finished = !whiteCanMove && !blackCanMove;
-		
-		if (finished && !draw) {
-			Player winner = whiteCanMove ? whitePlayer : blackPlayer;
-			winner.setWinner();
-		} 
-	}
 
 	@Override
 	public boolean tryMove(String moveString, Player player) {

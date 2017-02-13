@@ -49,10 +49,6 @@ public class LascaBoard implements Serializable {
 		return str.substring(0, str.length() - 1);
 	}
 
-	public HashMap<String, LascaField> getFields() {
-		return fields;
-	}
-
 	private void parseFen(String fenString) {
 		//setCurrentPlayer(fenString);
 
@@ -117,10 +113,7 @@ public class LascaBoard implements Serializable {
 				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { 
 					// determine whether it is a 4 field or 3 field row 
 					String fieldID = idFor(rowIndex, colIndex);
-					if (!fields.containsKey(fieldID)) { 
-						// invalid field
-						System.out.print("[/]");
-					} else if (!fields.get(fieldID).isEmpty()) { 
+					if (!fields.get(fieldID).isEmpty()) { 
 						// field with figures
 						// print figure stack
 						System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
@@ -160,10 +153,10 @@ public class LascaBoard implements Serializable {
 	// only call for valid moves
 	// move top figure (and prisoners if they exist) from origin to destination
 	public void moveFigure(LascaField origin, LascaField destination, boolean strike) {
+		// case 1: origin single figure
 		LascaFigure selectedSoldier = origin.removeTopFigure();
 		destination.addFigure(selectedSoldier);
 		
-		// case 1: origin single figure
 		
 		// case 2" origin figure with stack 
 		if(origin.figures.size() > 0){
@@ -172,18 +165,6 @@ public class LascaBoard implements Serializable {
 			}
 			origin.removeAllFigures();
 		}
-		
-		
-		
-//		// if figure has prisoners, move prisoners as well
-//		// if stack of figures of same color, move only top figure
-//		 if(!strike && origin.figures.size() > 0 && origin.getTopFigure().color == selectedSoldier.color){
-//			for(LascaFigure figure: origin.figures){
-//				destination.addLastFigure(figure);
-//			}
-//			// remove all figures from origin, as all figures must have been moved
-//			origin.removeAllFigures();
-//		}
 		fields.put(origin.id, origin);
 		fields.put(destination.id, destination);
 	}
