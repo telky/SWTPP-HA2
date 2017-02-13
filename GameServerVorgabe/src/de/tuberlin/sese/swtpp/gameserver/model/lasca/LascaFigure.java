@@ -13,29 +13,19 @@ public class LascaFigure {
 	}
 
 	public LascaFigure(String fenString) {
-
-		switch (fenString) {
-		case "b":
+		if(fenString.equals("b")){
 			type = FigureType.SOLDIER;
 			color = ColorType.BLACK;
-			break;
-		case "B":
+		} else if(fenString.equals("B")){
 			color = ColorType.BLACK;
 			type = FigureType.OFFICER;
-			break;
-		case "w":
+		} else if(fenString.equals("w")){
 			type = FigureType.SOLDIER;
 			color = ColorType.WHITE;
-			break;
-		case "W":
+		} else if(fenString.equals("W")){
 			type = FigureType.OFFICER;
 			color = ColorType.WHITE;
-			break;
-		default:
-			type = FigureType.Empty;
 		}
-
-		// TODO remove empty state
 	}
 
 	public String toFenString() {

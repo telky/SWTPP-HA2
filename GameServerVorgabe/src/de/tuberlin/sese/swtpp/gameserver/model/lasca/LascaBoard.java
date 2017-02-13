@@ -76,17 +76,13 @@ public class LascaBoard implements Serializable {
 
 	private void parseColumn(String component, int rowIndex, int columnIndex) {
 		component = component.replaceAll("\\s","");
-		Boolean evenColumn = columnIndex % 2 == 0;
-		Boolean evenRow = rowIndex % 2 == 0;
 		Deque<LascaFigure> figuresOnCurrentField = new LinkedList<LascaFigure>();
 		// check if field is valid and can be used by figure
-		if (evenRow == evenColumn) { 
 			LascaField newField = new LascaField(rowIndex, columnIndex);
 			// only valid fields are added
 			figuresOnCurrentField = parseFigures(component);
 			newField.figures = figuresOnCurrentField;
 			fields.put(newField.id, newField);
-		}
 	}
 
 	private LinkedList<LascaFigure> parseFigures(String figureString) {
@@ -136,10 +132,6 @@ public class LascaBoard implements Serializable {
 
 	public LascaField getField(Point2D point) {
 		return getField(CoordinatesHelper.fenStringForCoordinate(point));
-	}
-
-	public Boolean isValidField(Point2D point) {
-		return fields.containsKey(CoordinatesHelper.fenStringForCoordinate(point));
 	}
 
 	public LascaField getFieldBetween(LascaField source, LascaField destination) {
