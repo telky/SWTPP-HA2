@@ -302,13 +302,15 @@ public class LascaGame extends Game implements Serializable {
 		boolean diagonal = move.isDiagonal();
 
 		if (diagonal) {
-			if (destination.isEmpty() && move.isSimpleMove()) {
+			if (destination.isEmpty() && move.isSimpleMove() && !canStrike) {
 				board.moveFigure(origin, destination, false);
 				return true;
 			} 
 			if (canStrike && tryStrikeSoldier(move, origin, destination)) {
 				move.isStrike = true;
 				return true;
+			} else if(canStrike){
+				return false;
 			}
 			LascaField newOrigin = this.validOfficerMove(origin, destination);
 			newOrigin.figures = origin.figures;
@@ -581,6 +583,7 @@ public class LascaGame extends Game implements Serializable {
 
 		boolean validMove = selectedFigure.type == FigureType.SOLDIER ? trySoldierMove(move, origin, destination, canStrike) : tryOfficerMove(move, origin, destination, canStrike);
 		Boolean otherPlayerCanMoveOrStrike = this.canMoveOrStrike(isWhiteNext() ? blackPlayer : whitePlayer);
+	
 		if (!otherPlayerCanMoveOrStrike){
 			this.finish(isWhiteNext() ? whitePlayer : blackPlayer);
 			// reset next player if game is ended
@@ -687,9 +690,9 @@ public class LascaGame extends Game implements Serializable {
 	
 	private void calculatePossibleDestinations_OfficerMove(LascaField currentField, Player player){
 		MoveType[] moves = {MoveType.TOPLEFT, MoveType.TOPRIGHT, MoveType.BOTTOMLEFT, MoveType.BOTTOMRIGHT};
-		LascaField tmpField = currentField;
+		LascaField tmpField = null;
 		for(MoveType moveType: moves){
-			LascaField nextField = tmpField.getNeighbourByMoveType(moveType);
+			LascaField nextField = currentField.getNeighbourByMoveType(moveType);
 			while(nextField != null){
 				if (!nextField.isEmpty() && nextField.hasOpponentFigure(currentField)){
 					tmpField = nextField;

@@ -498,9 +498,37 @@ public class TryMoveTest {
 		assertMove("c3-e5", true, true);	// white has strike flow
 		assertMove("e5-c7", true, true);
 		assertMove("a5-b4", false, true);
-		//failing, is:   b,WBbb,,b/bb,,b/,,,b/bw,wwwww,b/,,,w/w,,w/,,,w
 		assertGameState("b,WBb,,b/bb,b,b/,,,b/bw,wwwww,b/,,,w/w,,w/,,,w", true, false, false);
-		
+		assertMove("c7-a5", true, true);	// white has strike flow
+		game.printBoard();
+		assertMove("a5-c3", true, true);	
+		assertMove("f4-e3", false, true);
+		assertGameState("b,,,b/b,b,b/,,,b/w,wwwww,/,WBbbb,b,w/w,,w/,,,w", true, false, false);
+		assertMove("b4-a5", true, true);	
+		assertMove("f6-e5", false, true);
+		assertGameState("b,,,b/b,b,/w,,b,b/,wwwww,/,WBbbb,b,w/w,,w/,,,w", true, false, false);
+		assertMove("a5-c7", true, true);
+		assertMove("a7-b6", false, true);
+		assertGameState(",Wb,,b/b,b,/,,b,b/,wwwww,/,WBbbb,b,w/w,,w/,,,w", true, false, false);
+		assertMove("c7-a5", true, true);
+		assertMove("e3-d2", false, true);
+		assertGameState(",,,b/,b,/Wbb,,b,b/,wwwww,/,WBbbb,,w/w,b,w/,,,w", true, false, false);
+		assertMove("d4-f6", true, true);
+		assertMove("g7-e5", false, true);
+		game.printBoard();
+		assertGameState(",,,/,b,wwwwb/Wbb,,bw,b/,,/,WBbbb,,w/w,b,w/,,,w", true, false, false);
+		game.printBoard();
+		assertMove("a5-b6", true, false); // should fail because white can strike
+		game.printBoard();
+		assertMove("c3-e1", true, true);
+		game.printBoard();
+		assertMove("d6-c5", false, true);
+		game.printBoard();
+		assertGameState(",,,/,,wwwwb/Wbb,b,bw,b/,,/,,,w/w,,w/,,WBbbbb,w", true, false, false);
+
+
+
+
 		
 	}
 
