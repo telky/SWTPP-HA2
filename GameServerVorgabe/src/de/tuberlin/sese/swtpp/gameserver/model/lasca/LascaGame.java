@@ -303,7 +303,7 @@ public class LascaGame extends Game implements Serializable {
 
 		if (diagonal) {
 			if (destination.isEmpty() && move.isSimpleMove()) {
-				board.moveFigure(origin, destination);
+				board.moveFigure(origin, destination, false);
 				return true;
 			} 
 			if (canStrike && tryStrikeSoldier(move, origin, destination)) {
@@ -317,7 +317,7 @@ public class LascaGame extends Game implements Serializable {
 				MoveType officerMoveType = this.getOfficerMoveType(origin, destination);
 				if(newOrigin.getNeighbourByMoveType(officerMoveType).isEmpty()){
 					origin.figures.clear();
-					this.board.moveFigure(newOrigin, destination);
+					this.board.moveFigure(newOrigin, destination, false);
 					return true;
 				} else if (tryStrikeOfficer(move, officerMoveType, newOrigin, destination)){
 					origin.figures.clear();
@@ -408,7 +408,7 @@ public class LascaGame extends Game implements Serializable {
 				return false;
 			} else if (destination.isEmpty() && move.isSimpleMove()) {
 				// simple move without strike 
-				board.moveFigure(origin, destination);
+				board.moveFigure(origin, destination, false);
 				checkUpgrade(move, destination);
 				return true;
 			}

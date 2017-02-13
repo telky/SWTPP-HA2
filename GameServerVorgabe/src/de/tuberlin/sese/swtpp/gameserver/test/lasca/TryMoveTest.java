@@ -278,14 +278,18 @@ public class TryMoveTest {
 	// strike with black a stack of white - black - black 
 	public void testBlack_StrikeOfficerStack(){
 		startGame(",,,/,,/,,,/B,,/,wbb,,/,,/,,,", false);
-		game.printBoard();
 		assertMove("b4-d2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,,", true, true, false);
 		game.printBoard();
-		System.out.println(game.getState());
-		System.out.println(game.isWhiteNext());
-		System.out.println(game.isFinished());
-		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,,", true, true, false); // failing: returns whiteNext: false and isFinished: false
+	}
+	
+	// should move complete stack
+	@Test
+	public void testMoveStack(){
+		startGame(",,,/,,/,,,/B,,/,bb,,/,,/,,,", false);
+		assertMove("c3-b2", false, true);
 		game.printBoard();
+		assertGameState(",,,/,,/,,,/B,,/,,,/bb,,/,,,", true, true, false);
 	}
 
 	
@@ -301,7 +305,7 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,w/,,,", false, false, false);	
 		// move one of the freed soldiers
 		assertMove("c3-b2", false, true);
-		assertGameState(",,,/,,/,,,/,,/,b,,/b,bw,w/,,,", true, false, false);	
+		assertGameState(",,,/,,/,,,/,,/,,,/bb,bw,w/,,,", true, false, false);	
 	}
 	
 	
@@ -494,29 +498,8 @@ public class TryMoveTest {
 		assertMove("c3-e5", true, true);	// white has strike flow
 		assertMove("e5-c7", true, true);
 		assertMove("a5-b4", false, true);
-		System.out.println("//////////");
-		System.out.println(game.getState());
+		//failing, is:   b,WBbb,,b/bb,,b/,,,b/bw,wwwww,b/,,,w/w,,w/,,,w
 		assertGameState("b,WBb,,b/bb,b,b/,,,b/bw,wwwww,b/,,,w/w,,w/,,,w", true, false, false);
-
-
-		
-
-
-
-
-
-
-
-
-
-
-		
-
-
-
-
-		
-
 		
 		
 	}

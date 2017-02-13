@@ -159,25 +159,37 @@ public class LascaBoard implements Serializable {
 
 	// only call for valid moves
 	// move top figure (and prisoners if they exist) from origin to destination
-	public void moveFigure(LascaField origin, LascaField destination) {
+	public void moveFigure(LascaField origin, LascaField destination, boolean strike) {
 		LascaFigure selectedSoldier = origin.removeTopFigure();
 		destination.addFigure(selectedSoldier);
-
-		// if figure has prisoners, move prisoners as well
-		// if stack of figures of same color, move only top figure
-		if(origin.figures.size() > 0 && origin.getTopFigure().color != selectedSoldier.color){
+		
+		// case 1: origin single figure
+		
+		// case 2" origin figure with stack 
+		if(origin.figures.size() > 0){
 			for(LascaFigure figure: origin.figures){
 				destination.addLastFigure(figure);
 			}
-			// remove all figures from origin, as all figures must have been moved
 			origin.removeAllFigures();
 		}
+		
+		
+		
+//		// if figure has prisoners, move prisoners as well
+//		// if stack of figures of same color, move only top figure
+//		 if(!strike && origin.figures.size() > 0 && origin.getTopFigure().color == selectedSoldier.color){
+//			for(LascaFigure figure: origin.figures){
+//				destination.addLastFigure(figure);
+//			}
+//			// remove all figures from origin, as all figures must have been moved
+//			origin.removeAllFigures();
+//		}
 		fields.put(origin.id, origin);
 		fields.put(destination.id, destination);
 	}
 
-	public void strike(LascaField origin, LascaField destination, boolean movingRight, boolean forward) {
-		Point2D destinationPoint = CoordinatesHelper.corrdinateForString(destination.id);
+	public void strike(LascaField origin, LascaField opponentField, boolean movingRight, boolean forward) {
+		Point2D destinationPoint = CoordinatesHelper.corrdinateForString(opponentField.id);
 
 		Point2D newDestinationPoint = new Point2D(destinationPoint.x + (movingRight ? 1 : -1),
 				destinationPoint.y + (forward ? 1 : -1));
@@ -185,10 +197,10 @@ public class LascaBoard implements Serializable {
 
 		//  move figure from origin (and prisoners if exist) to newDestination
 		ColorType saveOwnColor = origin.getTopFigure().color;
-		moveFigure(origin, newDestination);
-		// take all opponents figures from destination and move them to newDestination
-		while(destination.figures.size() > 0 && destination.getTopFigure().color != saveOwnColor){
-			newDestination.figures.addLast(destination.removeTopFigure());
+		moveFigure(origin, newDestination, true);
+		// take opponent figure from opponentField and move them to newDestination
+		if(opponentField.figures.size() > 0 && opponentField.getTopFigure().color != saveOwnColor){
+			newDestination.figures.addLast(opponentField.removeTopFigure());
 		}
 	}
 
