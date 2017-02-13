@@ -130,8 +130,8 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeOfficerLengthTwoFields() {
 		startGame(",,,/,,/B,,,/,,/,w,,/,,/w,w,w,w", false);
-		assertMove("a5-d2", false, true);	
-		assertGameState(",,,/,,/,,,/,,/,,,/,Bw,/w,w,w,w", true, false, false);
+		assertMove("a5-d2", false, false);	
+		assertGameState(",,,/,,/B,,,/,,/,w,,/,,/w,w,w,w", false, false, false);
 	}
 	
 	@Test
@@ -148,15 +148,6 @@ public class TryMoveTest {
 		startGame(",,,/,,/,,,/,,/,w,,/b,,/,w,w,w", false);
 		assertMove("c3-d4", false, false);
 		assertGameState(",,,/,,/,,,/,,/,w,,/b,,/,w,w,w", false, false, false);
-	}
-	
-	@Test
-	public void testStrikeOfficerLengthTwoFields_CanContinue() {
-		startGame(",,,/,,/B,,,/,,w/,w,,/,,/w,w,w,w", false);
-		assertMove("a5-d2", false, true);	
-		assertGameState(",,,/,,/,,,/,,w/,,,/,Bw,/w,w,w,w", false, false, false);
-		assertMove("d2-g5", false, true);
-		assertGameState(",,,/,,/,,,Bww/,,/,,,/,,/w,w,w,w", true, false, false);
 	}
 
 	@Test
@@ -446,9 +437,18 @@ public class TryMoveTest {
 		assertGameState(",,,/,wb,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
 	}
 	
+	@Test
+	public void testStrikeFlow_GoBack(){
+		startGame(",,,/,,Wwwwb/,bb,b,/BwWwwWw,,/,,,/,,/,,WBbbbb,B", true);
+		assertMove("f6-d4", true, true);
+		assertMove("d4-b6", true, true);
+		assertMove("g1-f2", false, true);
+		
+	}
 	
 	
-	// TODO Whole game
+	
+	// TODO Whole game for testing, split
 	@Test
 	public void testGame(){
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);
@@ -541,9 +541,47 @@ public class TryMoveTest {
 		assertMove("d6-c7", true, true);
 		assertMove("b2-c3", false, true);
 		assertGameState(",Wb,,/,,wwwwb/,,,/,wb,/,BwWw,wb,/,,/,,WBbbbb,B", true, false, false);
-
-
-		
+		assertMove("f6-e7", true, true);
+		assertMove("c3-e5", false, true);
+		assertGameState(",Wb,Wwwwb,/,,/,,BwWww,/,b,/,,wb,/,,/,,WBbbbb,B", true, false, false);
+		assertMove("e3-f5", true, false); // strike possible
+		assertMove("e3-c5", true, true);
+		assertMove("e5-f4", false, true);
+		assertGameState(",Wb,Wwwwb,/,,/,wbb,,/,,BwWww/,,,/,,/,,WBbbbb,B", true, false, false);
+		assertMove("c7-d6", true, true);
+		assertMove("f4-e3", false, true);
+		assertGameState(",,Wwwwb,/,Wb,/,wbb,,/,,/,,BwWww,/,,/,,WBbbbb,B", true, false, false);
+		assertMove("e7-f6", true, true);
+		assertMove("e3-f4", false, true);
+		assertMove("d6-e5", true, true);
+		assertMove("f4-d6", false, true);
+		assertMove("d6-b4", false, true);
+		assertGameState(",,,/,,Wwwwb/,bb,b,/BwWwwWw,,/,,,/,,/,,WBbbbb,B", true, false, false);
+		assertMove("f6-d4", true, true);
+		assertMove("d4-b6", true, true);
+		assertMove("g1-f2", false, true); // fails, tries to continue strike by going back
+		game.printBoard();
+		assertMove("e1-g3", true, true);
+		assertMove("c5-d4", false, true);
+		assertGameState(",,,/Wwwwbbb,,/,,,/BwWwwWw,b,/,,,WBbbbbB/,,/,,,", true,false, false);
+		assertMove("g3-f4", true, true);
+		assertMove("d4-c3", false, true);
+		assertGameState(",,,/Wwwwbbb,,/,,,/BwWwwWw,,WBbbbbB/,b,,/,,/,,,", true, false, false);
+		assertMove("b6-c7", true, true);
+		assertMove("b4-c5", false, true);
+		assertGameState(",Wwwwbbb,,/,,/,BwWwwWw,,/,,WBbbbbB/,b,,/,,/,,,", true, false, false);
+		assertMove("f4-e5", true, true);
+		assertMove("c5-d6", false, true);
+		assertGameState(",Wwwwbbb,,/,BwWwwWw,/,,WBbbbbB,/,,/,b,,/,,/,,,", true, false, false);
+		assertMove("e5-d4", true, true);
+		assertMove("d6-c5", false, true);
+		assertGameState(",Wwwwbbb,,/,,/,BwWwwWw,,/,WBbbbbB,/,b,,/,,/,,,", true, false, false);
+		assertMove("d4-b6", true, true);
+		assertMove("c3-b2", false, true);
+		assertGameState(",Wwwwbbb,,/WBbbbbBB,,/,wWwwWw,,/,,/,,,/b,,/,,,", true, false, false);
+		assertMove("c5-d6", true, true);
+		assertMove("b2-c1", false, true);
+		assertGameState(",Wwwwbbb,,/WBbbbbBB,wWwwWw,/,,,/,,/,,,/,,/,B,,", true, false, false);	
 	}
 
 }
