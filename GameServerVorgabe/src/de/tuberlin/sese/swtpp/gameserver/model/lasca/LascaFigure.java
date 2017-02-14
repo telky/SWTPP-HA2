@@ -36,7 +36,7 @@ public class LascaFigure {
 			} else {
 				fenString = "B";
 			}
-		} else if(this.type.equals(FigureType.SOLDIER)){
+		} else{
 			if (color == ColorType.WHITE) {
 				fenString = "w";
 			} else {
