@@ -5,7 +5,7 @@ public class LascaFigure {
 	public ColorType color;
 
 	public enum FigureType {
-		SOLDIER, OFFICER, Empty
+		SOLDIER, OFFICER
 	}
 
 	public enum ColorType {

@@ -56,12 +56,7 @@ public class LascaField implements Serializable {
 	}
 
 	public Boolean isEmpty() {
-		for (LascaFigure figure : figures) {
-			if (figure.type != FigureType.Empty) {
-				return false;
-			}
-		}
-		return true;
+		return this.figures.size()==0;
 	}
 
 	public void addFigure(LascaFigure figure) {
