@@ -469,7 +469,12 @@ public class LascaGame extends Game implements Serializable {
 	}
 	
 	private boolean canMoveOrStrike(Player player) {
-		return canMove(player) || canStrike(player);
+		if(canMove(player)){
+			return true;
+		} else {
+			return canStrike(player);
+		}
+//		return canMove(player) || canStrike(player);
 	}
 	
 
@@ -545,7 +550,7 @@ public class LascaGame extends Game implements Serializable {
 	
 	private boolean checkExpectedMoveContains(LascaMove move){
 		for(LascaMove current: this.expectedMoves){
-			if(current.origin.equals(move.origin) && current.destination.equals(move.destination) && current.getPlayer().equals(move.getPlayer())){
+			if(current.origin.equals(move.origin) && current.destination.equals(move.destination)){
 				return true;
 			}
 		}
