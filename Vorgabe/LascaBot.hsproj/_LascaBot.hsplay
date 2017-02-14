@@ -2,5 +2,10 @@
 
 let b = parseBoard "w,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w"
 
+splitChars "asdasdda"
 
-fieldAt b 1 1
+let test = createPoint 0 
+
+fieldAt b 3 
+
+getNotEmptyCoordinates b 

@@ -20,8 +20,10 @@ data FigureType = Soldier | Officer
 
 data Figure = Figure { figureType :: FigureType  
                                 , color :: Color
-                            } 
-
+                            }
+                            
+data Point = Point { x:: Int, y::Int}
+ 
 type Field = [Figure]
 type Row = [Field]
 type Board = [Row]
@@ -33,12 +35,35 @@ top :: Field -> Figure
 top f = last f 
              
 fieldAt :: Board -> Int -> Int -> Field
-fieldAt b x y  =  (b !! (y - 1) ) !! (x - 1)
+fieldAt b x y  =  (b !! (y ) ) !! (x )
+
+fieldAtCoordinate :: Board -> Point -> Field 
+fieldAtCoordinate b p = fieldAt b (x p) (y p)
+
+fieldSize :: Int 
+fieldSize = 7
+
+createPoint :: Int -> Int -> Point
+createPoint a b= Point {x = a, y = b}
+
+getBoardCoordinates :: [Point]
+getBoardCoordinates = foldr (++) [] (map getRowCoordinates [0..fieldSize])
+
+getRowCoordinates :: Int -> [Point]
+getRowCoordinates a = map (createPoint a) [0..fieldSize]
+
+getNotEmptyCoordinates :: Board -> [Point]
+getNotEmptyCoordinates b = filter (\x -> not (empty (fieldAtCoordinate b x))) getBoardCoordinates
+
+getCoordinatesForColor :: Board -> Color -> [Point]
+getCoordinatesForColor b c = filter (\x -> color (top (fieldAtCoordinate b x)) == c) (getNotEmptyCoordinates b)
 
     --- ... ---
+    
+-- TODO add Data type for move which implements show
 
 --- logic (TODO)
-getMove   s = "g3-f4" -- Eigene Definition einfügen!
+getMove   s = listMoves s
 listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
 
 canMoveSoldier :: Board -> Int -> Int -> Int -> Int -> Bool
@@ -59,6 +84,11 @@ canMoveInThisDir Black yOrigin yDestination = yOrigin > yDestination
 
 --- input (TODO)
 
+--parseInput :: [String] -> ...
+--parseInput (board:color:[])   = ... (parseColor color) ...
+--parseInput (board:color:move:[]) = ... (parseColor color) ...
+
+
 parseBoard :: String -> Board 
 parseBoard s = map parseRow (splitOn "/" s)
 
@@ -67,10 +97,6 @@ parseRow s = map parseField (splitOn "," s)
 
 parseField :: String -> Field
 parseField s = map parseFigure (splitChars s)
-
---parseInput :: [String] -> ...
---parseInput (board:color:[])   = ... (parseColor color) ...
---parseInput (board:color:move:[]) = ... (parseColor color) ...
 
 parseFigure :: String -> Figure
 parseFigure s = Figure{ figureType = (parseFigureType s), color = (parseColor s) }
@@ -111,6 +137,10 @@ figureToString (Figure{color = Black, figureType = Officer}) = "B"
 
 instance Show Figure where 
   show = figureToString 
+  
+instance Show Point where 
+  show (Point{x = xVar, y = yVar}) = " x: "++(show xVar) ++ ", y:" ++ (show yVar)
+
                                                        
 instance Show Color where
     show = colorToString
