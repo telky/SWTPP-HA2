@@ -506,7 +506,7 @@ public class LascaGame extends Game implements Serializable {
 		if (!otherPlayerCanMoveOrStrike){
 			this.finish(isWhiteNext() ? whitePlayer : blackPlayer);
 			// reset next player if game is ended
-			this.nextPlayer = isWhiteNext() ? blackPlayer : whitePlayer;
+			setCurrentPlayer(isWhiteNext() ? 'b' : 'w');
 		}
 		if(validMove){
 			  this.history.add(move);
