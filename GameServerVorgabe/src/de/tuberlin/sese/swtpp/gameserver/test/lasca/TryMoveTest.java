@@ -170,10 +170,12 @@ public class TryMoveTest {
 		assertMove("d2-e1", false, true);
 		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,B,w", true, false, false);
 	}
+	
+	@Test
 	public void testMoveWhiteOfficerForward() {
 		startGame(",,,/,,/,,,/,,/,,,/,,/W,w,w,w", true);
 		assertMove("a1-b2", true, true);
-		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,B,w", true, false, false);
+		assertGameState(",,,/,,/,,,/,,/,,,/W,,/,w,w,w", false, true, true);
 	}
 
 	@Test 
@@ -182,7 +184,16 @@ public class TryMoveTest {
 		assertMove("a5-b4", true, true);
 		assertGameState(",,,/,,/,,,/W,,/,,,/,,/w,w,w,w", false, true, true);
 	}
-
+	
+	@Test
+	public void testStrikeWithOfficerWhite_Continue(){
+		startGame(",,,/,,/,W,,/,b,b/,,,/,,/w,w,w,w", true);
+		assertMove("c5-e3", true, true);
+		assertGameState(",,,/,,/,,,/,,b/,,Wb,/,,/w,w,w,w", true, false, false);
+		assertMove("e3-g5", true, true);
+		assertGameState(",,,/,,/,,,Wbb/,,/,,,/,,/w,w,w,w", false, true, true);
+	}
+	
 	@Test
 	public void testMoveBlackOfficerForward() {
 		startGame(",,,/,,/B,,,/,,/,,,/,,/w,w,w,w", false);
