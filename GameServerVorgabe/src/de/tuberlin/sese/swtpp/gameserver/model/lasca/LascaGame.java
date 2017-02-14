@@ -511,26 +511,30 @@ public class LascaGame extends Game implements Serializable {
 			// reset next player if game is ended
 			this.nextPlayer = isWhiteNext() ? blackPlayer : whitePlayer;
 		}
-		return checkMoveStatus(validMove, move);
+		if(validMove){
+			  this.history.add(move);
+			  checkMoveStatus(move);
+			  return true;
+		} else {
+			return false;
+		}
 	}
 	
-	private boolean checkMoveStatus(boolean validMove, LascaMove move){
-		if (validMove) {
-			// reset expectedMoves
-			LascaField origin = board.getField(move.origin);
-			LascaField destination = board.getField(move.destination);
-			MoveType currentMoveType = move.isStrike ? this.getMoveType(origin, destination): null;
-			this.expectedMoves = new ArrayList<LascaMove>();
-			if(move.isStrike && strikeCanBeContinued(move, currentMoveType)){
-				return validMove;
-			} else if(this.isFinished()) {
-				return true;
-			} else {
-				setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
-				return true;
-			}
+	private void checkMoveStatus(LascaMove move){
+
+		// reset expectedMoves
+		LascaField origin = board.getField(move.origin);
+		LascaField destination = board.getField(move.destination);
+		MoveType currentMoveType = move.isStrike ? this.getMoveType(origin, destination): null;
+		this.expectedMoves = new ArrayList<LascaMove>();
+		if(move.isStrike && strikeCanBeContinued(move, currentMoveType)){
+			return;
+		} else if(this.isFinished()) {
+			return;
+		} else {
+			setNextPlayer(isWhiteNext() ? blackPlayer : whitePlayer);
+			return;
 		}
-		return false;
 	}
 	
 	// check whether a strike must be continued, save possible moves to expectedMoves
