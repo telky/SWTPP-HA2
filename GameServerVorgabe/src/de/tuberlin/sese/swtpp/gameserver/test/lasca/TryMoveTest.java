@@ -412,12 +412,8 @@ public class TryMoveTest {
 		startGame(",,,/,,/,b,,/,,/,,B,/,,W/w,w,w,w", true);
 		assertMove("f2-d4", true, true);
 		assertGameState(",,,/,,/,b,,/,WB,/,,,/,,/w,w,w,w", true, false, false);
-		game.printBoard();
+		assertMove("d4-e6", true, false);
 		assertMove("d4-b6", true, true);
-		game.printBoard();
-		System.out.println(game.getState());
-		System.out.println(game.isWhiteNext());
-		System.out.println(game.isFinished());
 		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true); // failing with isWhiteNext: true, isFinished:false
 	}
 	
