@@ -1,11 +1,17 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
-public class LascaFigure {
+import java.io.Serializable;
+
+public class LascaFigure implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4253148302473496147L;
 	public FigureType type;
 	public ColorType color;
 
 	public enum FigureType {
-		SOLDIER, OFFICER, Empty
+		SOLDIER, OFFICER
 	}
 
 	public enum ColorType {
@@ -13,48 +19,37 @@ public class LascaFigure {
 	}
 
 	public LascaFigure(String fenString) {
-
-		switch (fenString) {
-		case "b":
+		if(fenString.equals("b")){
 			type = FigureType.SOLDIER;
 			color = ColorType.BLACK;
-			break;
-		case "B":
+		} else if(fenString.equals("B")){
 			color = ColorType.BLACK;
 			type = FigureType.OFFICER;
-			break;
-		case "w":
+		} else if(fenString.equals("w")){
 			type = FigureType.SOLDIER;
 			color = ColorType.WHITE;
-			break;
-		case "W":
+		} else{
 			type = FigureType.OFFICER;
 			color = ColorType.WHITE;
-			break;
-		default:
-			type = FigureType.Empty;
 		}
-
-		// TODO remove empty state
 	}
 
 	public String toFenString() {
-		switch (type) {
-		case OFFICER:
+		String fenString = null;
+		if(this.type.equals(FigureType.OFFICER)){
 			if (color == ColorType.WHITE) {
-				return "W";
+				fenString = "W";
 			} else {
-				return "B";
+				fenString = "B";
 			}
-		case SOLDIER:
+		} else{
 			if (color == ColorType.WHITE) {
-				return "w";
+				fenString = "w";
 			} else {
-				return "b";
+				fenString = "b";
 			}
-		default:
-			return "";
 		}
+		return fenString;
 	}
 
 	public void upgrade() {
