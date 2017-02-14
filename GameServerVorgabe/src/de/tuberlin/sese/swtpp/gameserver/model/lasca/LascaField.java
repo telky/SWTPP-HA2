@@ -75,7 +75,7 @@ public class LascaField implements Serializable {
 			neighbour = this.neighbourFieldBottomRight;
 		} else if(moveType.equals(MoveType.TOPLEFT)){
 			neighbour = this.neighbourFieldTopLeft;
-		} else if(moveType.equals(MoveType.TOPRIGHT)){
+		} else {
 			neighbour = this.neighbourFieldTopRight;
 		}
 		return neighbour;
