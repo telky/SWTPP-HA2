@@ -500,6 +500,15 @@ public class TryMoveTest {
 		assertGameState(",,b,/,Wb,/,,,/,,/,,,b/,,/,,,w", false, false , false);
 	}
 	
+	@Test
+	public void testMove_NonDiagonalMove(){
+		startGame(",,b,/,,/,b,,/W,,/,,,b/,,/,,,W", true);
+		assertMove("g1-e1", true, false);
+		assertGameState(",,b,/,,/,b,,/W,,/,,,b/,,/,,,W", true, false , false);
+	}
+	
+	
+	
 	
 	
 	// TODO Whole game for testing, split

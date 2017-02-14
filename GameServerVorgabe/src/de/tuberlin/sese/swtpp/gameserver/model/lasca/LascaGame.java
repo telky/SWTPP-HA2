@@ -245,11 +245,6 @@ public class LascaGame extends Game implements Serializable {
 	/*******************************************
 	 * !!!!!!!!! To be implemented !!!!!!!!!!!!
 	 ******************************************/
-
-	// TODO Delete before publishing, only needed for internal tests
-	public LascaBoard getBoard(){
-		return this.board;
-	}
 	
 	private void setCurrentPlayer(Character charPlayer) {
 		if (charPlayer == 'w') {
@@ -320,13 +315,11 @@ public class LascaGame extends Game implements Serializable {
 	
 
 	private boolean figureIsStrikable(ColorType figureColor, Player movePlayer) {
-		switch (figureColor) {
-		case WHITE:
+		if(figureColor == ColorType.WHITE){
 			return movePlayer == blackPlayer;
-		case BLACK:
+		} else {
 			return movePlayer == whitePlayer;
 		}
-		return false;
 
 	}
 
@@ -357,22 +350,24 @@ public class LascaGame extends Game implements Serializable {
 	private boolean checkSoldierDirectionForward(LascaMove move) {
 		if (move.getPlayer() == whitePlayer) {
 			return move.origin.y < move.destination.y;
-		} else if (move.getPlayer() == blackPlayer) {
+		} else {
 			return move.origin.y > move.destination.y;
 		}
-		return false;
 	}
 
 	private void checkUpgrade(LascaMove move, LascaField destination) {
 		if(destination.getTopFigure().type == FigureType.OFFICER){
 			return;
-		} else if (destination.row == 7 && move.getPlayer() == whitePlayer) {
-			destination.getTopFigure().upgrade();
-			move.isUpgrade = true;
+		} else if (destination.row == 7 && move.getPlayer() == whitePlayer) { 
+			upgrade(move, destination);
 		} else if (destination.row == 1 && move.getPlayer() == blackPlayer) {
-			destination.getTopFigure().upgrade();
-			move.isUpgrade = true;
+			upgrade(move, destination);
 		}
+	}
+	
+	private void upgrade(LascaMove move, LascaField destination){
+		destination.getTopFigure().upgrade();
+		move.isUpgrade = true;
 	}
 	
 	// TODO Refactoring
@@ -523,7 +518,6 @@ public class LascaGame extends Game implements Serializable {
 	}
 	
 	private void checkMoveStatus(LascaMove move){
-
 		// reset expectedMoves
 		LascaField origin = board.getField(move.origin);
 		LascaField destination = board.getField(move.destination);
@@ -561,17 +555,12 @@ public class LascaGame extends Game implements Serializable {
 	// calculate possible moves that the topFigure on currentField can perform, save to expectedMoves for nextMove
 	private void calculatePossibleDestintations(LascaField currentField, Player player, MoveType currentMoveType){
 		LascaFigure currentFigure = currentField.getTopFigure();
-		switch(currentFigure.type){
-			case OFFICER:
-				// calculate possible soldier moves
-				calculatePossibleDestinations_OfficerMove(currentField, player, currentMoveType);
-				break;
-			case SOLDIER:
-				// calculate possible soldier moves
-				calculatePossibleDestinations_SoldierMove(currentField, player);
-				break;
-			default:
-				break;
+		if(currentFigure.type == FigureType.OFFICER){
+			// calculate possible officer moves
+			calculatePossibleDestinations_OfficerMove(currentField, player, currentMoveType);
+		} else {
+			// calculate possible soldier moves
+			calculatePossibleDestinations_SoldierMove(currentField, player);
 		}
 	}
 	
