@@ -1,8 +1,14 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
 import com.sun.javafx.geom.Point2D;
+import java.io.Serializable;
 
-public class CoordinatesHelper {
+public class CoordinatesHelper implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 232464158468576215L;
 
 	public static Point2D corrdinateForString(String stringValue) {
 		char first = stringValue.charAt(0);

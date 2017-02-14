@@ -8,7 +8,7 @@ import com.sun.javafx.geom.Point2D;
 import de.tuberlin.sese.swtpp.gameserver.model.Move;
 import de.tuberlin.sese.swtpp.gameserver.model.Player;
 
-public class LascaMove extends Move {
+public class LascaMove extends Move  {
 
 	/**
 	 * 

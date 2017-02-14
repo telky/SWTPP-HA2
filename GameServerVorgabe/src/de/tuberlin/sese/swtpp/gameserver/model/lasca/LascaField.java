@@ -12,6 +12,10 @@ import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaGame.MoveType;
 
 public class LascaField implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7368301156185041682L;
 	int row;
 	int col;
 

@@ -14,6 +14,11 @@ import de.tuberlin.sese.swtpp.gameserver.model.lasca.LascaFigure.ColorType;
 
 public class LascaBoard implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8219639108541663998L;
+
 	HashMap<String, LascaField> fields;
 
 	int fieldSize = 7;

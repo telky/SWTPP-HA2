@@ -3,6 +3,10 @@ package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 import java.io.Serializable;
 
 public class LascaFigure implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4253148302473496147L;
 	public FigureType type;
 	public ColorType color;
 
