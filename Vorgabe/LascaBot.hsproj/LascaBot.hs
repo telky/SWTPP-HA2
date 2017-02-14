@@ -92,20 +92,6 @@ reachablePointsAll b p
 addToPoint :: Point -> Int -> Int -> Point 
 addToPoint p xVar yVar = Point{x = ((x p) + xVar) , y = ((y p) + yVar)}  
 
-canMoveSoldier :: Board -> Int -> Int -> Int -> Int -> Bool
-canMoveSoldier board xOrigin yOrigin xDestination yDestination = empty (fieldAt board xDestination yDestination) && (isDiagonalMove xOrigin yOrigin xDestination yDestination) && (isMovingCorrectDirection board xOrigin yOrigin xDestination yDestination)
-
-isDiagonalMove :: Int -> Int -> Int -> Int -> Bool 
-isDiagonalMove xOrigin yOrigin xDestination yDestination = xOrigin == xDestination + 1 || xOrigin == xDestination - 1
-
-isMovingCorrectDirection :: Board -> Int -> Int -> Int -> Int -> Bool
-isMovingCorrectDirection board xOrigin yOrigin xDestination yDestination = canMoveInThisDir (color (top (fieldAt board xOrigin yOrigin))) yOrigin yDestination
-
-canMoveInThisDir :: Color -> Int -> Int -> Bool
-canMoveInThisDir White yOrigin yDestination = yOrigin < yDestination
-canMoveInThisDir Black yOrigin yDestination = yOrigin > yDestination  
-
-
 findPos :: Eq a => a -> [a] -> [Int]
 findPos elem = reverse . fst . foldl step ([],0) where
     step (is,i) e = (if e == elem then i:is else is, succ i) 
@@ -113,7 +99,6 @@ findPos elem = reverse . fst . foldl step ([],0) where
 movingDirForColor :: Color -> Int 
 movingDirForColor White = 1
 movingDirForColor Black = -1
-  -- TODO add support for Officer
   
     --- ... ---
 
