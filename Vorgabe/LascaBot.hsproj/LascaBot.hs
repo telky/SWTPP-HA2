@@ -28,36 +28,35 @@ data Move = Move { from :: Point, to :: Point }
 type Field = [Figure]
 type Row = [Field]
 type Board = [Row]
-                           
+
+fieldSize :: Int 
+fieldSize = 7
+
+getMove   s 
+  | not (listMoves s == "[]") = show (possibleMovesForColor (getBoardFromInput s) (getColorFromInput s) !! 0)
+  | otherwise = ""
+
+listMoves s =  show (possibleMovesForColor (getBoardFromInput s) (getColorFromInput s))
+   
+    
+-- Field functions 
+
 empty :: Field -> Bool
 empty f = length f == 0
 
 top :: Field -> Figure
 top f = last f 
-             
-fieldAt :: Board -> Int -> Int -> Field
-fieldAt b x y  =  (b !! (y-1) ) !! (x)
+    
+-- Board functions 
 
 fieldAtCoordinate :: Board -> Point -> Field 
 fieldAtCoordinate b p 
       | mod (y p) 2 == 0, mod (x p) 2 == 0 = fieldAt b (((findPos (x p) [2,4..6])!!0)) (y p)
       | mod (y p) 2 == 1, mod (x p) 2 == 1 = fieldAt b (((findPos (x p) [1,3..7])!!0)) (y p)
       | otherwise = []
-     
-      
-fieldSize :: Int 
-fieldSize = 7
 
-createPoint :: Int -> Int -> Point
-createPoint a b= Point {x = a, y = b}
-
-getBoardCoordinates :: [Point]
-getBoardCoordinates = foldr (++) [] (map (\y -> getRowCoordinates y) [1..fieldSize])
-
-getRowCoordinates :: Int -> [Point]
-getRowCoordinates y 
-  | mod y 2 == 0 = map (\x -> createPoint x y) [2,4..6]
-  | otherwise = map (\x -> createPoint x y) [1,3..7]
+fieldAt :: Board -> Int -> Int -> Field
+fieldAt b x y  =  (b !! (y-1) ) !! (x)
 
 getNotEmptyCoordinates :: Board -> [Point]
 getNotEmptyCoordinates b = filter (\x -> not (empty (fieldAtCoordinate b x))) getBoardCoordinates
@@ -65,23 +64,6 @@ getNotEmptyCoordinates b = filter (\x -> not (empty (fieldAtCoordinate b x))) ge
 getCoordinatesForColor :: Board -> Color -> [Point]
 getCoordinatesForColor b c = filter (\x -> color (top (fieldAtCoordinate b x)) == c) (getNotEmptyCoordinates b)
 
-    --- ... ---
--- TODO add Data type for move which implements show
-
---- logic (TODO)
-getMove   s 
-  | not (listMoves s == "[]") = show (possibleMovesForColor (getBoardFromInput s) (getColorFromInput s) !! 0)
-  | otherwise = ""
-
-listMoves s =  show (possibleMovesForColor (getBoardFromInput s) (getColorFromInput s))
-
-getBoardFromInput :: String -> Board
-getBoardFromInput a = parseBoard ((splitOn " " a) !! 0)
-
-getColorFromInput :: String -> Color
-getColorFromInput a = parseColor ((splitOn " " a) !! 1)
-
---getMovesForColor :: Board -> Color -> String 
 
 possibleMovesForColor :: Board -> Color -> [Move]
 possibleMovesForColor b c = foldr  (++) [] (map (\w -> map (\x -> Move {from = w, to = x}) (emptyReachablePoints b w)) (getCoordinatesForColor b c))
@@ -97,24 +79,35 @@ reachablePointsAll b p
   | figureType (top (fieldAtCoordinate b p)) == Officer = [ addToPoint p 1 1 , addToPoint p (-1) 1, addToPoint p 1 (-1) , addToPoint p (-1) (-1)]
   | otherwise = [ addToPoint p 1 (movingDirForColor(color (top (fieldAtCoordinate b p)))) , addToPoint p (-1) (movingDirForColor (color (top (fieldAtCoordinate b p))))]
   
-addToPoint :: Point -> Int -> Int -> Point 
-addToPoint p xVar yVar = Point{x = ((x p) + xVar) , y = ((y p) + yVar)}  
+-- Color functions 
 
-findPos :: Eq a => a -> [a] -> [Int]
-findPos elem = reverse . fst . foldl step ([],0) where
-    step (is,i) e = (if e == elem then i:is else is, succ i) 
-    
 movingDirForColor :: Color -> Int 
 movingDirForColor White = 1
 movingDirForColor Black = -1
-  
-    --- ... ---
 
---- input (TODO)
+-- Point functions 
 
---parseInput :: [String] -> ...
---parseInput (board:color:[])   = ... (parseColor color) ...
---parseInput (board:color:move:[]) = ... (parseColor color) ...
+createPoint :: Int -> Int -> Point
+createPoint a b= Point {x = a, y = b}
+
+getBoardCoordinates :: [Point]
+getBoardCoordinates = foldr (++) [] (map (\y -> getRowCoordinates y) [1..fieldSize])
+
+getRowCoordinates :: Int -> [Point]
+getRowCoordinates y 
+  | mod y 2 == 0 = map (\x -> createPoint x y) [2,4..6]
+  | otherwise = map (\x -> createPoint x y) [1,3..7]
+
+addToPoint :: Point -> Int -> Int -> Point 
+addToPoint p xVar yVar = Point{x = ((x p) + xVar) , y = ((y p) + yVar)}  
+
+--- Parser 
+
+getBoardFromInput :: String -> Board
+getBoardFromInput a = parseBoard ((splitOn " " a) !! 0)
+
+getColorFromInput :: String -> Color
+getColorFromInput a = parseColor ((splitOn " " a) !! 1)
 
 
 parseBoard :: String -> Board 
@@ -140,6 +133,12 @@ parseFigureType "w" = Soldier
 parseFigureType "b" = Soldier
 parseFigureType "W" = Officer
 parseFigureType "B" = Officer
+
+-- Helper
+
+findPos :: Eq a => a -> [a] -> [Int]
+findPos elem = reverse . fst . foldl step ([],0) where
+    step (is,i) e = (if e == elem then i:is else is, succ i) 
 
 toInt :: Char -> Int
 toInt c = ((ord c) - (ord 'a') + 1)
