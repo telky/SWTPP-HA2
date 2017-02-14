@@ -186,12 +186,35 @@ public class TryMoveTest {
 	}
 	
 	@Test
-	public void testStrikeWithOfficerWhite_Continue(){
+	public void testStrikeWithOfficerWhite_ContinueTopRight(){
 		startGame(",,,/,,/,W,,/,b,b/,,,/,,/w,w,w,w", true);
 		assertMove("c5-e3", true, true);
 		assertGameState(",,,/,,/,,,/,,b/,,Wb,/,,/w,w,w,w", true, false, false);
 		assertMove("e3-g5", true, true);
 		assertGameState(",,,/,,/,,,Wbb/,,/,,,/,,/w,w,w,w", false, true, true);
+	}
+	@Test
+	public void testStrikeWithOfficerWhite_ContinuationNotPossible(){
+		startGame(",,,/,,/,W,,/,bb,/,,,/,,/w,w,w,w", true);
+		assertMove("c5-e3", true, true);
+		assertGameState(",,,/,,/,,,/,b,/,,Wb,/,,/w,w,w,w", false, false, false);
+	}
+	@Test
+	public void testStrikeWithOfficerWhite_ContinueBottomLeft(){
+		startGame(",,,/,,/,W,,/,b,/,,,/,b,/w,,w,w", true);
+		assertMove("c5-e3", true, true);
+		assertGameState(",,,/,,/,,,/,,/,,Wb,/,b,/w,,w,w", true, false, false);
+		assertMove("e3-c1", true, true);
+		assertGameState(",,,/,,/,,,/,,/,,,/,,/w,Wbb,w,w", false, true, true);
+	}
+	
+	@Test
+	public void testStrikeWithOfficerWhite_ContinueBottomRight(){
+		startGame(",,,/,,/,W,,/,b,/,,,/,,b/w,,,", true);
+		assertMove("c5-e3", true, true);
+		assertGameState(",,,/,,/,,,/,,/,,Wb,/,,b/w,,,", true, false, false);
+		assertMove("e3-g1", true, true);
+		assertGameState(",,,/,,/,,,/,,/,,,/,,/w,,,Wbb", false, true, true);
 	}
 	
 	@Test

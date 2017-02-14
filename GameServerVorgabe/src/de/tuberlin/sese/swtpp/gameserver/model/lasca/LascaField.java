@@ -90,9 +90,6 @@ public class LascaField implements Serializable {
 	}
 
 	public Boolean hasOpponentFigure(LascaField field){
-		if (this.figures.isEmpty() || field.figures.isEmpty()){
-			return false;
-		}
 		return this.getTopFigure().color != field.getTopFigure().color;
 	}
 
