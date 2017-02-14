@@ -22,6 +22,8 @@ data Figure = Figure { figureType :: FigureType
                                 , color :: Color }
                             
 data Point = Point { x:: Int, y::Int}
+
+data Move = Move { from :: Point, to :: Point }
  
 type Field = [Figure]
 type Row = [Field]
@@ -72,6 +74,8 @@ listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
 
 --getMovesForColor :: Board -> Color -> String 
 
+possibleMovesForColor :: Board -> Color -> [Move]
+possibleMovesForColor b c = foldr  (++) [] (map (\w -> map (\x -> Move {from = w, to = x}) (emptyReachablePoints b w)) (getCoordinatesForColor b c))
 
 emptyReachablePoints :: Board -> Point -> [Point]
 emptyReachablePoints b p = filter (\x -> empty (fieldAtCoordinate b x)) (reachablePoints b p)
@@ -173,6 +177,10 @@ instance Show Figure where
   
 instance Show Point where 
   show (Point{x = xVar, y = yVar}) = " x: "++(show xVar) ++ ", y:" ++ (show yVar)
+  
+instance Show Move where 
+  show (Move{from = f, to = t}) = " from: "++(show f) ++ ", to:" ++ (show t)
+
 
                                                        
 instance Show Color where

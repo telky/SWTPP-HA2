@@ -33,3 +33,9 @@ addToPoint p 4 5
 let test = filter (\p -> (length (emptyReachablePoints b p)) > 0) (getCoordinatesForColor b White)
 
 map (\p -> fieldAtCoordinate b p) test
+
+
+
+let possibleMoves = foldr  (++) [] (map (\w -> map (\x -> Move {from = w, to = x}) (emptyReachablePoints b w)) (getCoordinatesForColor b White))
+
+length possibleMoves
