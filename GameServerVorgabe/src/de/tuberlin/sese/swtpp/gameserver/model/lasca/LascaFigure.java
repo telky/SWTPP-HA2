@@ -24,7 +24,7 @@ public class LascaFigure implements Serializable{
 		} else if(fenString.equals("w")){
 			type = FigureType.SOLDIER;
 			color = ColorType.WHITE;
-		} else if(fenString.equals("W")){
+		} else{
 			type = FigureType.OFFICER;
 			color = ColorType.WHITE;
 		}
