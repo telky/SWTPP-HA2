@@ -477,7 +477,13 @@ public class TryMoveTest {
 		assertMove("f6-d4", true, true);
 		assertMove("d4-b6", true, true);
 		assertMove("g1-f2", false, true);
-		
+	}
+	
+	@Test
+	public void testMove_EmptyField(){
+		startGame(",,,/,,/,,,/,,/,,,/b,,/w,w,w,w", true);
+		assertMove("a7-b6", true, false);
+		assertGameState(",,,/,,/,,,/,,/,,,/b,,/w,w,w,w", true, false , false);
 	}
 	
 	

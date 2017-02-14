@@ -478,26 +478,26 @@ public class LascaGame extends Game implements Serializable {
 
 	@Override
 	public boolean tryMove(String moveString, Player player) {
+		if(this.nextPlayer != player){
+			return false;
+		}
 		if(expectedMoves.size() > 0){
 			LascaMove tmpMove = new LascaMove(moveString, player);
 			if(!checkExpectedMoveContains(tmpMove)){
 				return false;
 			}
 		}
-		Boolean currentPlayerCanMoveOrSStrike = this.canMoveOrStrike(player);
-		if(!currentPlayerCanMoveOrSStrike) {
-			return false;
-		}
 		
 		Boolean canStrike = canStrike(player);
 		LascaMove move = new LascaMove(moveString, player);
 		LascaField origin = board.getField(move.origin);
 		LascaField destination = board.getField(move.destination);
-		Boolean movingFieldEmpty = origin.isEmpty();
-		Boolean wrongPlayerIsMoving = this.nextPlayer != player;
+		if(origin.isEmpty()){
+			return false;
+		}
 		Boolean currentPlayerCantMoveOrigin = !checkFieldFigure(origin, player);
 		
-		if (movingFieldEmpty || wrongPlayerIsMoving || currentPlayerCantMoveOrigin) {
+		if (currentPlayerCantMoveOrigin) {
 			return false;
 		} 
 
