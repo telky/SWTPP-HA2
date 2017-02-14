@@ -69,8 +69,17 @@ getCoordinatesForColor b c = filter (\x -> color (top (fieldAtCoordinate b x)) =
 -- TODO add Data type for move which implements show
 
 --- logic (TODO)
-getMove   s = listMoves s
-listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
+getMove   s 
+  | not (listMoves s == "[]") = show (possibleMovesForColor (getBoardFromInput s) (getColorFromInput s) !! 0)
+  | otherwise = ""
+
+listMoves s =  show (possibleMovesForColor (getBoardFromInput s) (getColorFromInput s))
+
+getBoardFromInput :: String -> Board
+getBoardFromInput a = parseBoard ((splitOn " " a) !! 0)
+
+getColorFromInput :: String -> Color
+getColorFromInput a = parseColor ((splitOn " " a) !! 1)
 
 --getMovesForColor :: Board -> Color -> String 
 
@@ -87,7 +96,6 @@ reachablePointsAll :: Board -> Point -> [Point]
 reachablePointsAll b p 
   | figureType (top (fieldAtCoordinate b p)) == Officer = [ addToPoint p 1 1 , addToPoint p (-1) 1, addToPoint p 1 (-1) , addToPoint p (-1) (-1)]
   | otherwise = [ addToPoint p 1 (movingDirForColor(color (top (fieldAtCoordinate b p)))) , addToPoint p (-1) (movingDirForColor (color (top (fieldAtCoordinate b p))))]
-
   
 addToPoint :: Point -> Int -> Int -> Point 
 addToPoint p xVar yVar = Point{x = ((x p) + xVar) , y = ((y p) + yVar)}  
@@ -157,14 +165,24 @@ figureToString (Figure{color = White, figureType = Officer}) = "W"
 figureToString (Figure{color = Black, figureType = Soldier}) = "b"
 figureToString (Figure{color = Black, figureType = Officer}) = "B"
 
+intToChar :: Int -> String
+intToChar 1 = "a"
+intToChar 2 = "b"
+intToChar 3 = "c"
+intToChar 4 = "d"
+intToChar 5 = "e"
+intToChar 6 = "f"
+intToChar 7 = "g"
+intToChar _ = "out of bounds"
+
 instance Show Figure where 
   show = figureToString 
   
 instance Show Point where 
-  show (Point{x = xVar, y = yVar}) = " x: "++(show xVar) ++ ", y:" ++ (show yVar)
+  show (Point{x = xVar, y = yVar}) = (show xVar) ++ (intToChar yVar)
   
 instance Show Move where 
-  show (Move{from = f, to = t}) = " from: "++(show f) ++ ", to:" ++ (show t)
+  show (Move{from = f, to = t}) = (show f) ++ "-" ++ (show t)
 
 
                                                        
