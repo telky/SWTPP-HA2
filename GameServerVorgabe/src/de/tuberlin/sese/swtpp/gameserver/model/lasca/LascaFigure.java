@@ -29,21 +29,21 @@ public class LascaFigure {
 	}
 
 	public String toFenString() {
-		String returnString = null;
+		String fenString = null;
 		if(this.type.equals(FigureType.OFFICER)){
 			if (color == ColorType.WHITE) {
-				returnString = "W";
+				fenString = "W";
 			} else {
-				returnString = "B";
+				fenString = "B";
 			}
 		} else if(this.type.equals(FigureType.SOLDIER)){
 			if (color == ColorType.WHITE) {
-				returnString = "w";
+				fenString = "w";
 			} else {
-				returnString = "b";
+				fenString = "b";
 			}
 		}
-		return returnString;
+		return fenString;
 	}
 
 	public void upgrade() {
