@@ -1,11 +1,25 @@
 -- Haskell Playground 1.0
 
-let b = parseBoard "w,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w"
+let b = parseBoard "b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w"
 
 splitChars "asdasdda"
 
 let test = createPoint 0 
 
-fieldAt b 3 
+show b 
 
-getNotEmptyCoordinates b 
+getBoardCoordinates
+
+
+
+-- getNotEmptyCoordinatesTest
+map (\p -> fieldAtCoordinate b p) (getNotEmptyCoordinates b)
+
+-- getCoordinatesForColorTEst
+
+map (\p -> fieldAtCoordinate b p) (getCoordinatesForColor b Black)
+
+map (\p -> fieldAtCoordinate b p) (getCoordinatesForColor b White)
+
+
+

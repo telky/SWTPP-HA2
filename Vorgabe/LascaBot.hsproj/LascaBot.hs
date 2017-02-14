@@ -35,7 +35,7 @@ top :: Field -> Figure
 top f = last f 
              
 fieldAt :: Board -> Int -> Int -> Field
-fieldAt b x y  =  (b !! (y ) ) !! (x )
+fieldAt b x y  =  (b !! (y - 1) ) !! (x - 1)
 
 fieldAtCoordinate :: Board -> Point -> Field 
 fieldAtCoordinate b p = fieldAt b (x p) (y p)
@@ -47,10 +47,12 @@ createPoint :: Int -> Int -> Point
 createPoint a b= Point {x = a, y = b}
 
 getBoardCoordinates :: [Point]
-getBoardCoordinates = foldr (++) [] (map getRowCoordinates [0..fieldSize])
+getBoardCoordinates = foldr (++) [] (map (\y -> getRowCoordinates y) [1..fieldSize])
 
 getRowCoordinates :: Int -> [Point]
-getRowCoordinates a = map (createPoint a) [0..fieldSize]
+getRowCoordinates y
+  |  mod y 2 == 0 = map (\x -> createPoint x y) [1..3]
+  |  otherwise = map (\x -> createPoint x y) [1..4]
 
 getNotEmptyCoordinates :: Board -> [Point]
 getNotEmptyCoordinates b = filter (\x -> not (empty (fieldAtCoordinate b x))) getBoardCoordinates
