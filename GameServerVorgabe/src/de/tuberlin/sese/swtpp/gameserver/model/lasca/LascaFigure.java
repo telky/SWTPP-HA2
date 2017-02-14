@@ -1,6 +1,8 @@
 package de.tuberlin.sese.swtpp.gameserver.model.lasca;
 
-public class LascaFigure {
+import java.io.Serializable;
+
+public class LascaFigure implements Serializable{
 	public FigureType type;
 	public ColorType color;
 
