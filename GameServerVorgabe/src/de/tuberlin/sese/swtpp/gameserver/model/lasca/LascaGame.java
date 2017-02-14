@@ -64,10 +64,9 @@ public class LascaGame extends Game implements Serializable {
 				return MoveType.TOPLEFT;
 			} else if(currentMoveType == MoveType.TOPLEFT){
 				return MoveType.BOTTOMRIGHT;
-			} else if(currentMoveType == MoveType.TOPRIGHT){
+			} else {
 				return MoveType.BOTTOMLEFT;
 			}
-			return MoveType.BOTTOMLEFT;
 		}
 		
 	}
