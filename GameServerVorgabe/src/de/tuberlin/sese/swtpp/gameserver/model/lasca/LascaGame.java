@@ -374,19 +374,20 @@ public class LascaGame extends Game implements Serializable {
 		return null;
 	}
 	
+	
+	
 	private LascaField getNextFieldOfOfficerMove(MoveType moveType, LascaField field){
-		switch(moveType){
-		case TOPRIGHT:
-			return field.neighbourFieldTopRight;
-		case TOPLEFT:
-			return field.neighbourFieldTopLeft;
-		case BOTTOMRIGHT:
-			return field.neighbourFieldBottomRight;
-		case BOTTOMLEFT:
-			return field.neighbourFieldBottomLeft;
-		default:
-			return null;
+		LascaField nextField = null;
+		if(moveType.equals(MoveType.TOPRIGHT)){
+			nextField = field.neighbourFieldTopRight;
+		} else if(moveType.equals(MoveType.TOPLEFT)){
+			nextField = field.neighbourFieldTopLeft;
+		} else if(moveType.equals(MoveType.BOTTOMRIGHT)){
+			nextField =  field.neighbourFieldBottomRight;
+		} else if(moveType.equals(MoveType.BOTTOMLEFT)){
+			nextField = field.neighbourFieldBottomLeft;
 		}
+		return nextField;
 	}
 
 	private boolean figureIsStrikable(ColorType figureColor, Player movePlayer) {
@@ -553,7 +554,6 @@ public class LascaGame extends Game implements Serializable {
 			if(!checkExpectedMoveContains(tmpMove)){
 				return false;
 			}
-			// TODO fix double checking
 		}
 		Boolean currentPlayerCanMoveOrSStrike = this.canMoveOrStrike(player);
 		if(!currentPlayerCanMoveOrSStrike) {
