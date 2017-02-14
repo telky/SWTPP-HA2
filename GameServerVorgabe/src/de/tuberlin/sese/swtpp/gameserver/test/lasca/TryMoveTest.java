@@ -486,6 +486,20 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,,/,,,/b,,/w,w,w,w", true, false , false);
 	}
 	
+	@Test
+	public void testMove_nullNeighbour(){
+		startGame(",,,/,,/,,,/,,/B,,,/w,,/,,,w", false);
+		assertMove("a3-c1", false, true);
+		assertGameState(",,,/,,/,,,/,,/,,,/,,/,Bw,,w", true, false , false);
+	}
+	
+	@Test
+	public void testMove_nullNeighbour2(){
+		startGame(",,b,/,,/,b,,/W,,/,,,b/,,/,,,w", true);
+		assertMove("b4-d6", true, true);
+		assertGameState(",,b,/,Wb,/,,,/,,/,,,b/,,/,,,w", false, false , false);
+	}
+	
 	
 	
 	// TODO Whole game for testing, split

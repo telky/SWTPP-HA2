@@ -364,7 +364,9 @@ public class LascaGame extends Game implements Serializable {
 	}
 
 	private void checkUpgrade(LascaMove move, LascaField destination) {
-		if (destination.row == 7 && move.getPlayer() == whitePlayer) {
+		if(destination.getTopFigure().type == FigureType.OFFICER){
+			return;
+		} else if (destination.row == 7 && move.getPlayer() == whitePlayer) {
 			destination.getTopFigure().upgrade();
 			move.isUpgrade = true;
 		} else if (destination.row == 1 && move.getPlayer() == blackPlayer) {
