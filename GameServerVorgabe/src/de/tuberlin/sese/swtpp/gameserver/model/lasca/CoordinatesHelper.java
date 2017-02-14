@@ -11,34 +11,26 @@ public class CoordinatesHelper implements Serializable{
 	private static final long serialVersionUID = 232464158468576215L;
 
 	public static Point2D corrdinateForString(String stringValue) {
-		char first = stringValue.charAt(0);
+		Character first = stringValue.charAt(0);
 		int secondInt = Character.getNumericValue(stringValue.charAt(1));
 		int firstInt = 0;
 
-		switch (first) {
-		case 'a':
+		
+		if(first.equals('a')){
 			firstInt = 1;
-			break;
-		case 'b':
+		} else if(first.equals('b')){
 			firstInt = 2;
-			break;
-		case 'c':
+		} else if(first.equals('c')){
 			firstInt = 3;
-			break;
-		case 'd':
+		} else if(first.equals('d')){
 			firstInt = 4;
-			break;
-		case 'e':
+		} else if(first.equals('e')){
 			firstInt = 5;
-			break;
-		case 'f':
+		} else if(first.equals('f')){
 			firstInt = 6;
-			break;
-		case 'g':
+		} else{
 			firstInt = 7;
-			break;
 		}
-
 		return new Point2D(firstInt, secondInt);
 	}
 
