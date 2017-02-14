@@ -477,8 +477,37 @@ public class TryMoveTest {
 		assertMove("f6-d4", true, true);
 		assertMove("d4-b6", true, true);
 		assertMove("g1-f2", false, true);
-		
 	}
+	
+	@Test
+	public void testMove_EmptyField(){
+		startGame(",,,/,,/,,,/,,/,,,/b,,/w,w,w,w", true);
+		assertMove("a7-b6", true, false);
+		assertGameState(",,,/,,/,,,/,,/,,,/b,,/w,w,w,w", true, false , false);
+	}
+	
+	@Test
+	public void testMove_nullNeighbour(){
+		startGame(",,,/,,/,,,/,,/B,,,/w,,/,,,w", false);
+		assertMove("a3-c1", false, true);
+		assertGameState(",,,/,,/,,,/,,/,,,/,,/,Bw,,w", true, false , false);
+	}
+	
+	@Test
+	public void testMove_nullNeighbour2(){
+		startGame(",,b,/,,/,b,,/W,,/,,,b/,,/,,,w", true);
+		assertMove("b4-d6", true, true);
+		assertGameState(",,b,/,Wb,/,,,/,,/,,,b/,,/,,,w", false, false , false);
+	}
+	
+	@Test
+	public void testMove_NonDiagonalMove(){
+		startGame(",,b,/,,/,b,,/W,,/,,,b/,,/,,,W", true);
+		assertMove("g1-e1", true, false);
+		assertGameState(",,b,/,,/,b,,/W,,/,,,b/,,/,,,W", true, false , false);
+	}
+	
+	
 	
 	
 	
