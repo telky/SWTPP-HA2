@@ -19,8 +19,7 @@ data FigureType = Soldier | Officer
 
 
 data Figure = Figure { figureType :: FigureType  
-                                , color :: Color
-                            }
+                                , color :: Color }
                             
 data Point = Point { x:: Int, y::Int}
  
@@ -35,11 +34,15 @@ top :: Field -> Figure
 top f = last f 
              
 fieldAt :: Board -> Int -> Int -> Field
-fieldAt b x y  =  (b !! (y - 1) ) !! (x - 1)
+fieldAt b x y  =  (b !! (y-1) ) !! (x)
 
 fieldAtCoordinate :: Board -> Point -> Field 
-fieldAtCoordinate b p = fieldAt b (x p) (y p)
-
+fieldAtCoordinate b p 
+      | mod (y p) 2 == 0, mod (x p) 2 == 0 = fieldAt b (((findPos (x p) [2,4..6])!!0)) (y p)
+      | mod (y p) 2 == 1, mod (x p) 2 == 1 = fieldAt b (((findPos (x p) [1,3..7])!!0)) (y p)
+      | otherwise = []
+     
+      
 fieldSize :: Int 
 fieldSize = 7
 
@@ -50,9 +53,9 @@ getBoardCoordinates :: [Point]
 getBoardCoordinates = foldr (++) [] (map (\y -> getRowCoordinates y) [1..fieldSize])
 
 getRowCoordinates :: Int -> [Point]
-getRowCoordinates y
-  |  mod y 2 == 0 = map (\x -> createPoint x y) [1..3]
-  |  otherwise = map (\x -> createPoint x y) [1..4]
+getRowCoordinates y 
+  | mod y 2 == 0 = map (\x -> createPoint x y) [2,4..6]
+  | otherwise = map (\x -> createPoint x y) [1,3..7]
 
 getNotEmptyCoordinates :: Board -> [Point]
 getNotEmptyCoordinates b = filter (\x -> not (empty (fieldAtCoordinate b x))) getBoardCoordinates
@@ -61,12 +64,29 @@ getCoordinatesForColor :: Board -> Color -> [Point]
 getCoordinatesForColor b c = filter (\x -> color (top (fieldAtCoordinate b x)) == c) (getNotEmptyCoordinates b)
 
     --- ... ---
-    
 -- TODO add Data type for move which implements show
 
 --- logic (TODO)
 getMove   s = listMoves s
 listMoves s = "[g3-f4,...]" -- Eigene Definition einfügen!
+
+--getMovesForColor :: Board -> Color -> String 
+
+
+emptyReachablePoints :: Board -> Point -> [Point]
+emptyReachablePoints b p = filter (\x -> empty (fieldAtCoordinate b x)) (reachablePoints b p)
+
+reachablePoints :: Board -> Point -> [Point]
+reachablePoints b p = filter (\v ->  (x v < 8 && y v < 8 && x v > 0 && y v > 0)) (reachablePointsAll b p) 
+
+reachablePointsAll :: Board -> Point -> [Point]
+reachablePointsAll b p 
+  | figureType (top (fieldAtCoordinate b p)) == Officer = [ addToPoint p 1 1 , addToPoint p (-1) 1, addToPoint p 1 (-1) , addToPoint p (-1) (-1)]
+  | otherwise = [ addToPoint p 1 (movingDirForColor(color (top (fieldAtCoordinate b p)))) , addToPoint p (-1) (movingDirForColor (color (top (fieldAtCoordinate b p))))]
+
+  
+addToPoint :: Point -> Int -> Int -> Point 
+addToPoint p xVar yVar = Point{x = ((x p) + xVar) , y = ((y p) + yVar)}  
 
 canMoveSoldier :: Board -> Int -> Int -> Int -> Int -> Bool
 canMoveSoldier board xOrigin yOrigin xDestination yDestination = empty (fieldAt board xDestination yDestination) && (isDiagonalMove xOrigin yOrigin xDestination yDestination) && (isMovingCorrectDirection board xOrigin yOrigin xDestination yDestination)
@@ -80,6 +100,15 @@ isMovingCorrectDirection board xOrigin yOrigin xDestination yDestination = canMo
 canMoveInThisDir :: Color -> Int -> Int -> Bool
 canMoveInThisDir White yOrigin yDestination = yOrigin < yDestination
 canMoveInThisDir Black yOrigin yDestination = yOrigin > yDestination  
+
+
+findPos :: Eq a => a -> [a] -> [Int]
+findPos elem = reverse . fst . foldl step ([],0) where
+    step (is,i) e = (if e == elem then i:is else is, succ i) 
+    
+movingDirForColor :: Color -> Int 
+movingDirForColor White = 1
+movingDirForColor Black = -1
   -- TODO add support for Officer
   
     --- ... ---
@@ -115,7 +144,6 @@ parseFigureType "b" = Soldier
 parseFigureType "W" = Officer
 parseFigureType "B" = Officer
 
-
 toInt :: Char -> Int
 toInt c = ((ord c) - (ord 'a') + 1)
 
@@ -149,6 +177,11 @@ instance Show Point where
                                                        
 instance Show Color where
     show = colorToString
+    
+instance Eq FigureType where
+    (==) Officer Officer = True
+    (==) Soldier Soldier = True
+    (==) _ _ = False   
     
 instance Eq Color where
     (==) White White = True
