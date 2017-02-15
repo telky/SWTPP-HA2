@@ -105,23 +105,15 @@ public class LascaBoard implements Serializable {
 		return CoordinatesHelper.fenStringForCoordinate(tmp);
 	}
 
-	// for debugging
+	//  for debugging
+	// TODO delete before shipping
 	public void printBoard() {
 		System.out.println("Current board:");
 		for (int rowIndex = fieldSize; rowIndex >= minFieldIndex; rowIndex--) {
 
 			for (int colIndex = minFieldIndex; colIndex <= fieldSize; colIndex++) {
 				if (rowIndex % 2 != 0 && colIndex % 2 != 0 || rowIndex % 2 == 0 && colIndex % 2 == 0) { 
-					// determine whether it is a 4 field or 3 field row 
-					String fieldID = idFor(rowIndex, colIndex);
-					if (!fields.get(fieldID).isEmpty()) { 
-						// field with figures
-						// print figure stack
-						System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
-					} else {
-						// print empty field
-						System.out.print("[_]");
-					}
+					printColumn(rowIndex, colIndex);
 				} else {
 					System.out.print("[ ]");
 				}
@@ -129,6 +121,21 @@ public class LascaBoard implements Serializable {
 			System.out.println("\n");
 		}
 		System.out.print(" ---------------------- \n");
+	}
+	
+	// for debugging
+	//TODO delete before shipping
+	public void printColumn(int rowIndex, int colIndex){
+		// determine whether it is a 4 field or 3 field row 
+		String fieldID = idFor(rowIndex, colIndex);
+		if (!fields.get(fieldID).isEmpty()) { 
+			// field with figures
+			// print figure stack
+			System.out.print("[" + fields.get(fieldID).getFiguresOnField() + "]");
+		} else {
+			// print empty field
+			System.out.print("[_]");
+		}
 	}
 
 	public LascaField getField(String fenPoint) {
