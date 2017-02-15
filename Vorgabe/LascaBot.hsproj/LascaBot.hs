@@ -53,7 +53,7 @@ canStrikeForColor :: Board -> Color -> Bool
 canStrikeForColor b c =  length (possibleStrikesForColor b c) > 0 
 
 possibleStrikesForColor :: Board -> Color -> [Move]
-possibleStrikesForColor b c = []
+possibleStrikesForColor b c = foldr (++) [] (map (\(o, dest) -> map (\d -> Move{from = o, to = d, isStrike = True}) dest ) (strikeWrongFormatForColor b c))
 
 fieldAtCoordinate :: Board -> Point -> Field 
 fieldAtCoordinate b p 
@@ -75,6 +75,9 @@ possibleMovesForColor :: Board -> Color -> [Move]
 possibleMovesForColor b c = foldr  (++) [] (map (\w -> map (\x -> Move {from = w, to = x, isStrike = False }) (emptyReachablePoints b w)) (getCoordinatesForColor b c))
 
 -- TODO check if the point next to the strike candidate is empty 
+
+strikeWrongFormatForColor :: Board -> Color -> [(Point, [Point])]
+strikeWrongFormatForColor n c = map (\(o, dest) -> (o, (map (\d -> (nextPoint o d)) dest ))) (filter (\(o, dest) -> length dest > 0) (map (\(o, dest) -> (o, filter (\d -> empty (fieldAtCoordinate n (nextPoint o d)) ) dest))(strikeCandidatesForColor n c)))
 
 strikeCandidatesForColor :: Board -> Color -> [(Point, [Point])]
 strikeCandidatesForColor b c = filter (\(o, d) -> length d > 0) (map (\p -> (p, (notEmptyReachablePointWithColor b p (oppColor c))))  (getCoordinatesForColor b c))

@@ -40,9 +40,22 @@ map (\p -> fieldAtCoordinate b p) test
 
 let possibleMoves = foldr  (++) [] (map (\w -> map (\x -> Move {from = w, to = x, isStrike = False}) (emptyReachablePoints b w)) (getCoordinatesForColor b White))
 
-show possibleMoves
 
 
 listMoves "b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w"
 
 map (\p -> (p, (notEmptyReachablePointWithColor b p (oppColor White))))  (getCoordinatesForColor b White)
+
+
+-- "b4-d2"
+
+let n = parseBoard ",,,/,,/,,,/b,,/,wbb,,/,,/,,,"
+
+getCoordinatesForColor n Black
+
+fieldAtCoordinate n Point{x = 2, y = 3}
+
+map (\(o, dest) -> (o, (map (\d -> (nextPoint o d)) dest ))) (filter (\(o, dest) -> length dest > 0) (map (\(o, dest) -> (o, filter (\d -> empty (fieldAtCoordinate n (nextPoint o d)) ) dest))(strikeCandidatesForColor n Black)))
+
+fieldAtCoordinate
+(map (\(o, dest) -> nextPoint o (dest !! 0))(strikeCandidatesForColor n Black)) !! 0 
