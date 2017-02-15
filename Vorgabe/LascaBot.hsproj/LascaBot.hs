@@ -133,7 +133,9 @@ addToPoint :: Point -> Int -> Int -> Point
 addToPoint p xVar yVar = Point{x = ((x p) + xVar) , y = ((y p) + yVar)}  
 
 nextPoint :: Point -> Point -> Point 
-nextPoint a b = Point{ x = (x b)+((x b)-(x a)) , y = (y b) + ((y b)-(y a))}
+nextPoint a b 
+  | ((x b)+((x b)-(x a)) < fieldSize && (y b)+((y b)-(y a)) < fieldSize) && ((x b)+((x b)-(x a)) > 0 && (y b)+((y b)-(y a)) > 0) = Point{ x = (x b)+((x b)-(x a)) , y = (y b) + ((y b)-(y a))}
+  | otherwise = b
 
 --- Parser 
 
@@ -142,7 +144,6 @@ getBoardFromInput a = parseBoard ((splitOn " " a) !! 0)
 
 getColorFromInput :: String -> Color
 getColorFromInput a = parseColor ((splitOn " " a) !! 1)
-
 
 parseBoard :: String -> Board 
 parseBoard s = map parseRow (reverseStringArray (splitOn "/" s))
