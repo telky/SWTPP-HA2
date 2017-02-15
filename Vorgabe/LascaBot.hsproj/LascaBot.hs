@@ -134,7 +134,7 @@ addToPoint p xVar yVar = Point{x = ((x p) + xVar) , y = ((y p) + yVar)}
 
 nextPoint :: Point -> Point -> Point 
 nextPoint a b 
-  | ((x b)+((x b)-(x a)) < fieldSize && (y b)+((y b)-(y a)) < fieldSize) && ((x b)+((x b)-(x a)) > 0 && (y b)+((y b)-(y a)) > 0) = Point{ x = (x b)+((x b)-(x a)) , y = (y b) + ((y b)-(y a))}
+  | ((x b)+((x b)-(x a)) < 8 && (y b)+((y b)-(y a)) < 8) && ((x b)+((x b)-(x a)) > 0 && (y b)+((y b)-(y a)) > 0) = Point{ x = (x b)+((x b)-(x a)) , y = (y b) + ((y b)-(y a))}
   | otherwise = b
 
 --- Parser 
