@@ -489,7 +489,7 @@ public class LascaGame extends Game implements Serializable {
 
 	@Override
 	public boolean tryMove(String moveString, Player player) {
-		LascaMove move = new LascaMove(moveString, player);
+		LascaMove move = new LascaMove(moveString, board.toFenString(),  player);
 		if(checkExpectedMoves(move)){
 			return false;
 		}
@@ -649,14 +649,14 @@ public class LascaGame extends Game implements Serializable {
 	// update expected move for soldier strike length
 	private void updateExpectedMovesSoldier(LascaField field, MoveType moveType, Player player){
 		String moveString = field.id + "-" + field.getNeighbourByMoveType(moveType).getNeighbourByMoveType(moveType) .id;
-		LascaMove possibleMove = new LascaMove(moveString, player);
+		LascaMove possibleMove = new LascaMove(moveString, board.toFenString(), player);
 		this.expectedMoves.add(possibleMove);
 	}
 
 	// update expected move for officer 
 	private void updateExpectedMovesOfficer(LascaField origin, LascaField destination, Player player){
 		String moveString = origin.id + "-" + destination.id;
-		LascaMove possibleMove = new LascaMove(moveString, player);
+		LascaMove possibleMove = new LascaMove(moveString, board.toFenString(), player);
 		this.expectedMoves.add(possibleMove);
 	}
 
