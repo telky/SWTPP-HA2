@@ -515,6 +515,10 @@ public class LascaGame extends Game implements Serializable {
 			// reset next player if game is ended
 			setCurrentPlayer(isWhiteNext() ? 'b' : 'w');
 		}
+		System.out.println("---------------");
+		System.out.println(this.getState());
+		System.out.println("---------------");
+
 		return finalizeMove(validMove, move);
 	}
 
