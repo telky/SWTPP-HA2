@@ -33,10 +33,10 @@ fieldSize :: Int
 fieldSize = 7
 
 getMove   s 
-  | not (listMoves s == "[]") = show (possibleMovesForColor (getBoardFromInput s) (getColorFromInput s) !! 0)
+  | not (listMoves s == "[]") = show (getRealMoves (getBoardFromInput s) (getColorFromInput s) !! 0)
   | otherwise = ""
 
-listMoves s =  show (possibleMovesForColor (getBoardFromInput s) (getColorFromInput s))
+listMoves s =  show (getRealMoves (getBoardFromInput s) (getColorFromInput s))
    
     
 -- Field functions 
@@ -48,6 +48,13 @@ top :: Field -> Figure
 top f = f !! 0
     
 -- Board functions 
+
+getRealMoves :: Board -> Color -> [Move]
+getRealMoves b c 
+          | canStrikeForColor b c  = possibleStrikesForColor b c 
+          | otherwise = possibleMovesForColor b c
+
+
 
 canStrikeForColor :: Board -> Color -> Bool
 canStrikeForColor b c =  length (possibleStrikesForColor b c) > 0 
