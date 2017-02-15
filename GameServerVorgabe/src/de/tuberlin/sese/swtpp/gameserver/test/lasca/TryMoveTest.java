@@ -159,9 +159,13 @@ public class TryMoveTest {
 
 	@Test
 	public void testStrikeOwnSoldier() {
-		startGame(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false);
+		startGame(",,,/,,/b,,,/b,,/,,,/,,w/w,w,w,w", false);
 		assertMove("a5-c3", false, false);
-		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,w/w,w,w,w", false, false, false);
+		assertMove("b4-a3", false, true);
+		assertGameState(",,,/,,/b,,,/,,/b,,,/,,w/w,w,w,w", true, false, false);
+		assertMove("g1-e3", true, false);
+		assertGameState(",,,/,,/b,,,/,,/b,,,/,,w/w,w,w,w", true, false, false);
 	}
 	
 	@Test
