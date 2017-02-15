@@ -38,7 +38,9 @@ let test = filter (\p -> (length (emptyReachablePoints b p)) > 0) (getCoordinate
 map (\p -> fieldAtCoordinate b p) test
 
 
-
 let possibleMoves = foldr  (++) [] (map (\w -> map (\x -> Move {from = w, to = x}) (emptyReachablePoints b w)) (getCoordinatesForColor b White))
 
 show possibleMoves
+
+
+listMoves "b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w w"
