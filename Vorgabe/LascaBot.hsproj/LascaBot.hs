@@ -77,7 +77,7 @@ possibleMovesForColor b c = foldr  (++) [] (map (\w -> map (\x -> Move {from = w
 -- TODO check if the point next to the strike candidate is empty 
 
 strikeCandidatesForColor :: Board -> Color -> [(Point, [Point])]
-strikeCandidatesForColor b c = map (\p -> (p, (notEmptyReachablePointWithColor b p (oppColor c))))  (getCoordinatesForColor b c)
+strikeCandidatesForColor b c = filter (\(o, d) -> length d > 0) (map (\p -> (p, (notEmptyReachablePointWithColor b p (oppColor c))))  (getCoordinatesForColor b c))
 
 notEmptyReachablePointWithColor :: Board -> Point -> Color -> [Point]
 notEmptyReachablePointWithColor b p c = filter (\x -> color (top (fieldAtCoordinate b x)) == c ) (notEmptyReachablePoint b p)
@@ -121,6 +121,9 @@ getRowCoordinates y
 
 addToPoint :: Point -> Int -> Int -> Point 
 addToPoint p xVar yVar = Point{x = ((x p) + xVar) , y = ((y p) + yVar)}  
+
+nextPoint :: Point -> Point -> Point 
+nextPoint a b = Point{ x = (x b)+((x b)-(x a)) , y = (y b) + ((y b)-(y a))}
 
 --- Parser 
 
@@ -199,7 +202,7 @@ instance Show Figure where
   show = figureToString 
   
 instance Show Point where 
-  show (Point{x = xVar, y = yVar}) = (show xVar) ++ (intToChar yVar)
+  show (Point{x = xVar, y = yVar}) = (intToChar xVar) ++ (show yVar)
   
 instance Show Move where 
   show (Move{from = f, to = t}) = (show f) ++ "-" ++ (show t)
