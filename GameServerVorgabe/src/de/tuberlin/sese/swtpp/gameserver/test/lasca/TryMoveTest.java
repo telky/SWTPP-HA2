@@ -553,6 +553,14 @@ public class TryMoveTest {
 	}
 	
 	@Test
+	public void testContinue_AfterStrikeAndUpgrade(){
+		startGame(",,,/b,b,b/,w,,/,,/,,w,b/,,/w,,,", true);
+		assertMove("c5-e7", true, true);
+		game.printBoard();
+		assertGameState(",,Wb,/b,,b/,,,/,,/,,w,b/,,/w,,,", false, false , false);
+	}
+	
+	@Test
 	public void testGame_Part1(){
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);
 		assertMove("c3-b4", true, true);
