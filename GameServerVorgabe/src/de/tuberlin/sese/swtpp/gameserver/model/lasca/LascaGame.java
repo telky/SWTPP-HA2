@@ -296,19 +296,10 @@ public class LascaGame extends Game implements Serializable {
 	private boolean tryOfficerMove(LascaMove move, LascaField origin, LascaField destination, boolean canStrike) {
 		boolean diagonal = move.isDiagonal();
 		if (diagonal) {
-			if(!canStrike){
-				if(destination.isEmpty()){
-					if(move.isSimpleMove()){
-						board.moveFigure(origin, destination, false);
-						return true;
-					}
-				}
-			}
-			
-//			if (!canStrike && destination.isEmpty() && move.isSimpleMove()) {
-//				board.moveFigure(origin, destination, false);
-//				return true;
-//			} 
+			if (!canStrike && destination.isEmpty() && move.isSimpleMove()) {
+				board.moveFigure(origin, destination, false);
+				return true;
+			} 
 			if (canStrike && tryStrikeSoldier(move, origin, destination)) {
 				move.isStrike = true;
 				return true;
