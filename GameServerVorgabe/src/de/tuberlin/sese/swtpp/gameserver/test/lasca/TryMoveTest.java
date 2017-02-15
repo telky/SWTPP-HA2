@@ -226,9 +226,19 @@ public class TryMoveTest {
 	
 	@Test
 	public void testMoveBlackOfficerForward() {
-		startGame(",,,/,,/B,,,/,,/,,,/,,/w,w,w,w", false);
+		startGame(",,,/,,/B,,,/,,/,,,/w,w,/w,w,w,w", false);
 		assertMove("a5-b4", false, true);
-		assertGameState(",,,/,,/,,,/B,,/,,,/,,/w,w,w,w", true, false, false);
+		assertGameState(",,,/,,/,,,/B,,/,,,/w,w,/w,w,w,w", true, false, false);
+		game.printBoard();
+		assertMove("b2-c3", true, true);
+		game.printBoard();
+		assertGameState(",,,/,,/,,,/B,,/,w,,/,w,/w,w,w,w", false, false, false);
+		assertMove("b4-c3", false, false);
+		assertMove("b4-d2", false, false);
+		assertGameState(",,,/,,/,,,/B,,/,w,,/,w,/w,w,w,w", false, false, false);
+		assertMove("b4-a3", false, true);
+		assertGameState(",,,/,,/,,,/,,/B,w,,/,w,/w,w,w,w", true, false, false);
+
 	}
 
 	@Test 
