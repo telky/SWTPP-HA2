@@ -69,3 +69,7 @@ strikeCandidatesForColor n Black
 
 listMoves "b,b,b,b/b,b,b/,,wb,b/b,wb,/w,w,w,w/,,w/w,w,w,w b" 
 getMove ",,,/,,/,,,/b,,/,wbb,,/,,/,,, b" 
+
+
+listMoves "b,b,,b/,,b/,Wbbbb,wb,/w,w,w/,wb,,/ww,,w/,,Bw,w b"
+getMove "b,b,,b/,,b/,Wbbbb,wb,/w,w,w/,wb,,/ww,,w/,,Bw,w b"
