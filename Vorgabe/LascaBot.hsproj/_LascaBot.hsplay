@@ -1,6 +1,6 @@
 -- Haskell Playground 1.0
 
-let b = parseBoard "b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w"
+let b = parseBoard "b,b,b,b/b,b,b/,,wb,b/b,wb,/w,w,w,w/,,w/w,w,w,w"
 
 splitChars "asdasdda"
 
@@ -49,7 +49,11 @@ map (\p -> (p, (notEmptyReachablePointWithColor b p (oppColor White))))  (getCoo
 
 -- "b4-d2"
 
-let n = parseBoard ",,,/,,/,,,/b,,/,wbb,,/,,/,,,"
+let n = parseBoard "b,b,b,b/b,b,b/,,wb,b/b,wb,/w,w,w,w/,,w/w,w,w,w"
+
+
+map (\(o, dest) -> (o, filter (\d -> empty (fieldAtCoordinate n (nextPoint o d)) ) dest))(strikeCandidatesForColor n Black)
+
 
 getCoordinatesForColor n Black
 
@@ -61,4 +65,7 @@ fieldAtCoordinate
 (map (\(o, dest) -> nextPoint o (dest !! 0))(strikeCandidatesForColor n Black)) !! 0 
 
 
-listMoves ",,,/,,/,,,/b,,/,wbb,,/,,/,,, b" 
+strikeCandidatesForColor n Black
+
+listMoves "b,b,b,b/b,b,b/,,wb,b/b,wb,/w,w,w,w/,,w/w,w,w,w b" 
+getMove ",,,/,,/,,,/b,,/,wbb,,/,,/,,, b" 
