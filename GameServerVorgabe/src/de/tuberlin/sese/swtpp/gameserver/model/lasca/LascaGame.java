@@ -42,14 +42,20 @@ public class LascaGame extends Game implements Serializable {
 		private MoveType moveType;
 		
 		private MoveTypeHelper getMove(boolean top, boolean left){
-			if (top && left) 
-				this.moveType = MoveType.TOPLEFT;
-			else if(top && !left)
-				this.moveType = MoveType.TOPRIGHT;
-			else if(!top && !left)
-				this.moveType = MoveType.BOTTOMRIGHT;
-			else if(!top && left)
-				this.moveType = MoveType.BOTTOMLEFT;
+			if(top){
+				if(left){
+					this.moveType = MoveType.TOPLEFT;
+				} else {
+					this.moveType = MoveType.TOPRIGHT;
+				}
+			} else{
+				if(!left){
+					this.moveType = MoveType.BOTTOMRIGHT;
+				} else {
+					this.moveType = MoveType.BOTTOMLEFT;
+				}
+			}
+
 			return this;
 		}
 		
