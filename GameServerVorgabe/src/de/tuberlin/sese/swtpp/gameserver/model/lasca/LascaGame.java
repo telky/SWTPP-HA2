@@ -30,7 +30,6 @@ public class LascaGame extends Game implements Serializable {
 	private Player whitePlayer;
 
 	// internal representation of the game state
-	// TODO: insert additional game data here
 	LascaBoard board;
 	String state;
 	ArrayList<LascaMove> expectedMoves;
