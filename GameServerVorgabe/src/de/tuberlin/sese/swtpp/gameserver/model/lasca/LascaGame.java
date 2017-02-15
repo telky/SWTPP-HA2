@@ -387,14 +387,29 @@ public class LascaGame extends Game implements Serializable {
 	
 	// TODO Refactoring
 	private boolean canStrike(LascaField field) {
+		List<Point2D> points = calculateStrikePoints(field);
+		ColorType currentColor = field.getTopFigure().color;
+
+		for (int i = 0; i <  points.size()-1; i = i+2) {
+			LascaField selectedField = board.getField(points.get(i));
+			if (selectedField != null && !selectedField.isEmpty() && selectedField.getTopFigure().color != currentColor) {
+				LascaField destination = board.getField(points.get(i+1));
+				if (destination != null && destination.isEmpty()) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	private List<Point2D> calculateStrikePoints(LascaField field){
 		LascaFigure currentFigure = field.getTopFigure();
 		ColorType currentColor = currentFigure.color;
 		Point2D coordinate = field.getCoordinate();
 		
 		int yDir = currentColor == ColorType.WHITE ? 1 : -1;
-		
 		List<Point2D> points = new ArrayList<Point2D>();
-		
 		Point2D topLeft  = new Point2D(coordinate.x - 1 , coordinate.y + yDir);
 		Point2D topLeftDestination  = new Point2D(coordinate.x - 2 , coordinate.y + (yDir * 2));
 		points.add(topLeft);
@@ -416,18 +431,7 @@ public class LascaGame extends Game implements Serializable {
 			points.add(bottomRight);
 			points.add(bottomRightDestination);
 		}
-		
-		for (int i = 0; i <  points.size()-1; i = i+2) {
-			LascaField selectedField = board.getField(points.get(i));
-			if (selectedField != null && !selectedField.isEmpty() && selectedField.getTopFigure().color != currentColor) {
-				LascaField destination = board.getField(points.get(i+1));
-				if (destination != null && destination.isEmpty()) {
-					return true;
-				}
-			}
-		}
-		
-		return false;
+		return points;
 	}
 	
 	private boolean canMove(LascaField field) {
@@ -494,18 +498,12 @@ public class LascaGame extends Game implements Serializable {
 
 	@Override
 	public boolean tryMove(String moveString, Player player) {
-		if(this.nextPlayer != player){
+		LascaMove move = new LascaMove(moveString, player);
+		if(checkExpectedMoves(move)){
 			return false;
-		}
-		if(expectedMoves.size() > 0){
-			LascaMove tmpMove = new LascaMove(moveString, player);
-			if(!checkExpectedMoveContains(tmpMove)){
-				return false;
-			}
 		}
 		
 		Boolean canStrike = canStrike(player);
-		LascaMove move = new LascaMove(moveString, player);
 		LascaField origin = board.getField(move.origin);
 		LascaField destination = board.getField(move.destination);
 		if(origin.isEmpty()){
@@ -513,7 +511,7 @@ public class LascaGame extends Game implements Serializable {
 		}
 		Boolean currentPlayerCantMoveOrigin = !checkFieldFigure(origin, player);
 		
-		if (currentPlayerCantMoveOrigin) {
+		if (currentPlayerCantMoveOrigin || !checkValidMove(move)) {
 			return false;
 		} 
 
@@ -527,6 +525,28 @@ public class LascaGame extends Game implements Serializable {
 			// reset next player if game is ended
 			setCurrentPlayer(isWhiteNext() ? 'b' : 'w');
 		}
+		return finalizeMove(validMove, move);
+	}
+	
+	// return true if expectedMoves contains move
+	private boolean checkExpectedMoves(LascaMove move){
+		if(expectedMoves.size() > 0){
+			if(!checkExpectedMoveContains(move)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean checkValidMove(LascaMove move){		
+		if(this.nextPlayer != move.getPlayer()){
+			return false;
+		}
+		return true;
+	}
+	
+	// sets history, checks if strike can be continued
+	private boolean finalizeMove(boolean validMove, LascaMove move){
 		if(validMove){
 			  this.history.add(move);
 			  checkMoveStatus(move);
