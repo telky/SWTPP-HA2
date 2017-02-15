@@ -94,7 +94,7 @@ public class LascaBoard implements Serializable {
 		LinkedList<LascaFigure> figuresRead = new LinkedList<LascaFigure>();
 		for (int i = 0; i < figureString.length(); i++) {
 			String currentFigure = Character.toString(figureString.charAt(i));
-			figuresRead.addLast(new LascaFigure(currentFigure)); // TODO Check if String is valid??
+			figuresRead.addLast(new LascaFigure(currentFigure));
 		}
 		return figuresRead;
 	}

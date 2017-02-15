@@ -29,7 +29,7 @@ public class LascaMove extends Move  {
 		isUpgrade = false;
 	}
 
-	public boolean isDiagonal() { // TODO only working for soldiers
+	public boolean isDiagonal() {
 		int lengthX = (int) Math.abs(this.destination.x - this.origin.x);
 		int lengthY = (int) Math.abs(this.destination.y - this.origin.y);
 
