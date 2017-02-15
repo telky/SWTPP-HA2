@@ -552,9 +552,8 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,,,/,,/,,,b/,,bw/w,,,W", true, false , false);
 	}
 	
-	// TODO Whole game for testing, split
 	@Test
-	public void testGame(){
+	public void testGame_Part1(){
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);
 		assertMove("c3-b4", true, true);
 		assertMove("a5-c3", false, true);
@@ -574,6 +573,11 @@ public class TryMoveTest {
 		assertMove("c1-d2", true, true);
 		assertMove("d4-e3", false, true);
 		assertGameState("b,b,b,b/,b,b/,b,b,b/wb,,/w,w,bw,w/w,w,w/w,,w,w", true, false, false);
+	}
+	
+	@Test
+	public void testGame_Part2(){
+		startGame("b,b,b,b/,b,b/,b,b,b/wb,,/w,w,bw,w/w,w,w/w,,w,w", true);
 		assertMove("f2-d4", true, true); 	// white did strike and can continue strike
 		assertMove("g5-f4", false,false); 	// black move must fail
 		assertMove("g3-f4", true, false);	// white move with other figure must fail
@@ -596,6 +600,11 @@ public class TryMoveTest {
 		assertMove("a1-b2", true, true);	
 		assertMove("c5-d4", false, true);
 		assertGameState("b,,,b/bb,bb,b/bw,,b,b/,Bwwwww,/,w,,w/w,,/,,w,w", true, false, false);
+	}
+	
+	@Test
+	public void testGame_Part3(){
+		startGame("b,,,b/bb,bb,b/bw,,b,b/,Bwwwww,/,w,,w/w,,/,,w,w", true);
 		assertMove("e1-f2", true, true);	
 		assertMove("e5-f4", false, true);
 		assertGameState("b,,,b/bb,bb,b/bw,,,b/,Bwwwww,b/,w,,w/w,,w/,,,w", true, false, false);
@@ -616,6 +625,11 @@ public class TryMoveTest {
 		assertMove("c7-a5", true, true);
 		assertMove("e3-d2", false, true);
 		assertGameState(",,,b/,b,/Wbb,,b,b/,wwwww,/,WBbbb,,w/w,b,w/,,,w", true, false, false);
+	}
+	
+	@Test
+	public void testGame_Part4(){
+		startGame(",,,b/,b,/Wbb,,b,b/,wwwww,/,WBbbb,,w/w,b,w/,,,w", true);
 		assertMove("d4-f6", true, true);
 		assertMove("g7-e5", false, true);
 		assertGameState(",,,/,b,wwwwb/Wbb,,bw,b/,,/,WBbbb,,w/w,b,w/,,,w", true, false, false);
@@ -639,6 +653,11 @@ public class TryMoveTest {
 		assertMove("f2-d4", true, true);
 		assertMove("e3-f2", false, true);
 		assertGameState(",,,/,wb,wwwwb/,,,/,wb,/,,,/BwWw,,bb/,,WBbbbb,w", true, false, false);
+	}
+	
+	@Test
+	public void testGame_Part5(){
+		startGame(",,,/,wb,wwwwb/,,,/,wb,/,,,/BwWw,,bb/,,WBbbbb,w", true);
 		assertMove("g1-e3", true, true);
 		assertMove("f2-g1", false, true);
 		assertGameState(",,,/,wb,wwwwb/,,,/,wb,/,,wb,/BwWw,,/,,WBbbbb,B", true, false, false);
@@ -661,10 +680,14 @@ public class TryMoveTest {
 		assertMove("f4-d6", false, true);
 		assertMove("d6-b4", false, true);
 		assertGameState(",,,/,,Wwwwb/,bb,b,/BwWwwWw,,/,,,/,,/,,WBbbbb,B", true, false, false);
+	}
+	
+	@Test
+	public void testGame_Part6(){
+		startGame(",,,/,,Wwwwb/,bb,b,/BwWwwWw,,/,,,/,,/,,WBbbbb,B", true);
 		assertMove("f6-d4", true, true);
 		assertMove("d4-b6", true, true);
 		assertMove("g1-f2", false, true); // fails, tries to continue strike by going back
-		game.printBoard();
 		assertMove("e1-g3", true, true);
 		assertMove("c5-d4", false, true);
 		assertGameState(",,,/Wwwwbbb,,/,,,/BwWwwWw,b,/,,,WBbbbbB/,,/,,,", true,false, false);
@@ -685,8 +708,9 @@ public class TryMoveTest {
 		assertGameState(",Wwwwbbb,,/WBbbbbBB,,/,wWwwWw,,/,,/,,,/b,,/,,,", true, false, false);
 		assertMove("c5-d6", true, true);
 		assertMove("b2-c1", false, true);
-		assertGameState(",Wwwwbbb,,/WBbbbbBB,wWwwWw,/,,,/,,/,,,/,,/,B,,", true, false, false);	
+		assertGameState(",Wwwwbbb,,/WBbbbbBB,wWwwWw,/,,,/,,/,,,/,,/,B,,", true, false, false);
 	}
+	
 	
 	@Test
 	public void testProblemOne(){ // white wins by capture
@@ -695,36 +719,24 @@ public class TryMoveTest {
 		assertMove("g5-f6", true, true);
 		assertMove("g7-e5", false, true);
 		assertMove("g3-f4", true, true);
-		assertGameState("Bw,,,/,BB,ww/w,,bw,/b,bw,w/,B,,/,,wb/,WWb,,Wbb", false, false, false);
 		assertMove("e5-g3", false, true);
-		assertGameState("Bw,,,/,BB,ww/w,,,/b,bw,/,B,,bww/,,wb/,WWb,,Wbb", false, false, false); // continue with black
 		assertMove("g3-e1", false, true);
-		assertGameState("Bw,,,/,BB,ww/w,,,/b,bw,/,B,,/,,b/,WWb,Bwww,Wbb", true, false, false); 
 		assertMove("g1-e3", true, true);
-		assertGameState("Bw,,,/,BB,ww/w,,,/b,bw,/,B,Wbbb,/,,/,WWb,Bwww,", true, false, false); // continue with white
 		assertMove("e3-c5", true, true);
-		assertGameState("Bw,,,/,BB,ww/w,Wbbbb,,/b,w,/,B,,/,,/,WWb,Bwww,", true, false, false); // continue with white
 		assertMove("c5-e7", true, true);
-		assertGameState("Bw,,WbbbbB,/,B,ww/w,,,/b,w,/,B,,/,,/,WWb,Bwww,", false, false, false); 
 		assertMove("c3-e5", false, true);
 		assertGameState("Bw,,WbbbbB,/,B,ww/w,,Bw,/b,,/,,,/,,/,WWb,Bwww,", false, false, false); 
 		assertMove("e5-g7", false, true);
-		assertGameState("Bw,,WbbbbB,Bww/,B,w/w,,,/b,,/,,,/,,/,WWb,Bwww,", true, false, false);
 		assertMove("e7-c5", true, true);
 		assertMove("c5-a3", true, true);
 		assertMove("g7-e5", false, true);
-
 		assertMove("a5-b6", true, true);
 		assertMove("a7-c5", false, true);
-		
 		assertMove("c1-d2", true, true);
 		assertMove("e1-c3", false, true);
-		
 		assertMove("d2-b4", true, true);
 		assertMove("b4-d6", true, true);
 		assertMove("d6-f4", true, true);
-		game.printBoard();
-
 		assertGameState(",,,/,,/,ww,www,/,,WbBBB/WbbbbBBb,wwwW,,/,,/,,,", false, true, true);
 	}
 	
