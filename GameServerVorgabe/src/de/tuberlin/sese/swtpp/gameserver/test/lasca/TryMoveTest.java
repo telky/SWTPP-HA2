@@ -391,9 +391,7 @@ public class TryMoveTest {
 		startGame(",,,/,,/,b,,/,,/,,B,/,,w/w,w,w,w", true);
 		assertMove("f2-d4", true, true);
 		assertGameState(",,,/,,/,b,,/,wB,/,,,/,,/w,w,w,w", true, false, false);
-		game.printBoard();
 		assertMove("d4-b6", true, true);
-		game.printBoard();
 		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
 	}
 	
@@ -401,14 +399,8 @@ public class TryMoveTest {
 	public void testMove_continueStrikeAfterSuccessfulStrikeAndUpgrade() {
 		startGame(",,,/,b,b/,,,w/,,/,,,/,,/w,w,w,w", true);
 		assertMove("g5-e7", true, true);
-		game.printBoard();
-		System.out.println(game.getState());
-		System.out.println(game.isWhiteNext());
-		System.out.println(game.isFinished());
 		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w", false, false, false);
-		game.printBoard();
 		assertMove("e7-c5", true, false); // try to continue strike
-		game.printBoard();
 		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w", false, false, false);
 		assertMove("d6-c5", false, true); // move with black
 		assertGameState(",,Wb,/,,/,b,,/,,/,,,/,,/w,w,w,w", true, false, false);
@@ -425,7 +417,6 @@ public class TryMoveTest {
 		assertGameState(",,,b/,,/,,,/,wB,/,,,/,,/w,w,w,w", false, false, false);
 		assertMove("g7-f6", false, true);
 		assertGameState(",,,/,,b/,,,/,wB,/,,,/,,/w,w,w,w", true, false, false);
-
 	}
 	
 	@Test
@@ -568,6 +559,20 @@ public class TryMoveTest {
 		startGame(",,,/,,b/,,,/,b,/,w,,b/,,/,,,W", true);
 		assertMove("c3-e5", true, true);
 		assertGameState(",,,/,,b/,,wb,/,,/,,,b/,,/,,,W", true, false , false);
+	}
+	
+	@Test
+	public void testMove_PossibleDestinationsBlackSoldierLeftEnemy(){
+		startGame(",,,/,,/,,,/,b,/,w,,b/,,/w,,,W", false);
+		assertMove("d4-b2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,,,b/bw,,/w,,,W", true, false , false);
+	}
+	
+	@Test
+	public void testMove_PossibleDestinationsBlackSoldierRightEnemy(){
+		startGame(",,,/,,/,,,/,b,/,,w,b/,,/w,,,W", false);
+		assertMove("d4-f2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,,,b/,,bw/w,,,W", true, false , false);
 	}
 	
 	

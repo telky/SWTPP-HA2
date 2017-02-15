@@ -373,14 +373,9 @@ public class LascaGame extends Game implements Serializable {
 	private void checkUpgrade(LascaMove move, LascaField destination) {
 		if(destination.getTopFigure().type == FigureType.OFFICER){
 			return;
-		} 
-		//else if (destination.row == 7 && move.getPlayer() == whitePlayer) { 
-		//	upgrade(move, destination);
-		//}
-		else if(destination.row == 7){
+		} else if(destination.row == 7){
 			upgrade(move, destination);
-		}
-		else if (destination.row == 1) {
+		} else if (destination.row == 1) {
 			upgrade(move, destination);
 		}
 	}
@@ -600,12 +595,28 @@ public class LascaGame extends Game implements Serializable {
 		Boolean enemyOnBottomLeft =  this.isPossibleMove(currentField, MoveType.BOTTOMLEFT, ColorType.WHITE);
 		Boolean enemyOnBottomRight = this.isPossibleMove(currentField, MoveType.BOTTOMRIGHT, ColorType.WHITE);
 		
-		if (enemyOnBottomLeft && currentField.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
-			updateExpectedMovesSoldier(currentField, MoveType.BOTTOMLEFT, player);
+		if(enemyOnBottomLeft){
+			if(currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft != null){
+				if(currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
+					updateExpectedMovesSoldier(currentField, MoveType.BOTTOMLEFT, player);
+				}
+			}
 		}
-		if(enemyOnBottomRight && currentField.neighbourFieldBottomRight != null && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight != null &&currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
-			updateExpectedMovesSoldier(currentField, MoveType.BOTTOMRIGHT, player);
+		if(enemyOnBottomRight){
+			if(currentField.neighbourFieldBottomRight.neighbourFieldBottomRight != null){
+				if(currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
+					updateExpectedMovesSoldier(currentField, MoveType.BOTTOMRIGHT, player);
+				}
+			}
 		}
+		
+		
+//		if (enemyOnBottomLeft  && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft != null && currentField.neighbourFieldBottomLeft.neighbourFieldBottomLeft.isEmpty()){
+//			updateExpectedMovesSoldier(currentField, MoveType.BOTTOMLEFT, player);
+//		}
+//		if(enemyOnBottomRight && currentField.neighbourFieldBottomRight.neighbourFieldBottomRight != null &&currentField.neighbourFieldBottomRight.neighbourFieldBottomRight.isEmpty()){
+//			updateExpectedMovesSoldier(currentField, MoveType.BOTTOMRIGHT, player);
+//		}
 	}
 	
 	private void calculatePossibleDestinations_SoldierWhite(LascaField currentField, Player player){
