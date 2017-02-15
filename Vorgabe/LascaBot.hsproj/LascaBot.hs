@@ -23,7 +23,7 @@ data Figure = Figure { figureType :: FigureType
                             
 data Point = Point { x:: Int, y::Int}
 
-data Move = Move { from :: Point, to :: Point }
+data Move = Move { from :: Point, to :: Point , isStrike :: Bool}
  
 type Field = [Figure]
 type Row = [Field]
@@ -49,6 +49,12 @@ top f = last f
     
 -- Board functions 
 
+canStrikeForColor :: Board -> Color -> Bool
+canStrikeForColor b c =  length (possibleStrikesForColor b c) > 0 
+
+possibleStrikesForColor :: Board -> Color -> [Move]
+possibleStrikesForColor b c = []
+
 fieldAtCoordinate :: Board -> Point -> Field 
 fieldAtCoordinate b p 
       | mod (y p) 2 == 0, mod (x p) 2 == 0 = fieldAt b (((findPos (x p) [2,4..6])!!0)) (y p)
@@ -66,7 +72,18 @@ getCoordinatesForColor b c = filter (\x -> color (top (fieldAtCoordinate b x)) =
 
 
 possibleMovesForColor :: Board -> Color -> [Move]
-possibleMovesForColor b c = foldr  (++) [] (map (\w -> map (\x -> Move {from = w, to = x}) (emptyReachablePoints b w)) (getCoordinatesForColor b c))
+possibleMovesForColor b c = foldr  (++) [] (map (\w -> map (\x -> Move {from = w, to = x, isStrike = False }) (emptyReachablePoints b w)) (getCoordinatesForColor b c))
+
+-- TODO check if the point next to the strike candidate is empty 
+
+strikeCandidatesForColor :: Board -> Color -> [(Point, [Point])]
+strikeCandidatesForColor b c = map (\p -> (p, (notEmptyReachablePointWithColor b p (oppColor c))))  (getCoordinatesForColor b c)
+
+notEmptyReachablePointWithColor :: Board -> Point -> Color -> [Point]
+notEmptyReachablePointWithColor b p c = filter (\x -> color (top (fieldAtCoordinate b x)) == c ) (notEmptyReachablePoint b p)
+
+notEmptyReachablePoint :: Board -> Point -> [Point]
+notEmptyReachablePoint b p = filter (\x -> not (empty (fieldAtCoordinate b x))) (reachablePoints b p)
 
 emptyReachablePoints :: Board -> Point -> [Point]
 emptyReachablePoints b p = filter (\x -> empty (fieldAtCoordinate b x)) (reachablePoints b p)
@@ -84,6 +101,10 @@ reachablePointsAll b p
 movingDirForColor :: Color -> Int 
 movingDirForColor White = 1
 movingDirForColor Black = -1
+
+oppColor :: Color -> Color 
+oppColor White = Black
+oppColor Black = White 
 
 -- Point functions 
 
