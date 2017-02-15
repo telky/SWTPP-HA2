@@ -45,7 +45,7 @@ empty :: Field -> Bool
 empty f = length f == 0
 
 top :: Field -> Figure
-top f = last f 
+top f = f !! 0
     
 -- Board functions 
 
