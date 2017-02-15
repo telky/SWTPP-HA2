@@ -19,8 +19,8 @@ public class LascaMove extends Move  {
 	public Boolean isStrike;
 	public Boolean isUpgrade;
 
-	public LascaMove(String moveString, Player player) {
-		super(moveString, "TODO insert state here", player); //TODO What does this means??
+	public LascaMove(String moveString, String state, Player player) {
+		super(moveString, state, player); //TODO not sure
 		List<String> positionStrings = Arrays.asList(moveString.split("-"));
 
 		origin = CoordinatesHelper.corrdinateForString(positionStrings.get(0));

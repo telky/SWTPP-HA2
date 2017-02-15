@@ -39,28 +39,20 @@ public class CoordinatesHelper implements Serializable{
 		int tmp = (int) point.y;
 		String row = Integer.toString(tmp);
 		int column = (int) point.x;
-		switch (column) {
-		case 1:
+		if(column == 1){
 			fenString = fenString + ("a");
-			break;
-		case 2:
+		} else if(column == 2){
 			fenString = fenString + ("b");
-			break;
-		case 3:
+		} else if(column == 3){
 			fenString = fenString + ("c");
-			break;
-		case 4:
+		} else if(column == 4){
 			fenString = fenString + ("d");
-			break;
-		case 5:
+		} else if(column == 5){
 			fenString = fenString + ("e");
-			break;
-		case 6:
+		} else if(column == 6){
 			fenString = fenString + ("f");
-			break;
-		case 7:
+		} else if(column == 7){
 			fenString = fenString + ("g");
-			break;
 		}
 		fenString = fenString + (row);
 

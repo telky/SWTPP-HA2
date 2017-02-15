@@ -121,6 +121,17 @@ public class TryMoveTest {
 	}
 	
 	@Test
+	public void testStrikeSoldier_Continue() {
+		startGame(",,,/,,/b,,,/w,,/,,,/w,,/,w,w,w", false);
+		assertMove("a5-c3", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,bw,,/w,,/,w,w,w", false, false, false);
+		assertMove("c3-d2", false, false);	
+		assertGameState(",,,/,,/,,,/,,/,bw,,/w,,/,w,w,w", false, false, false);
+		assertMove("c3-a1", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,,,/,,/Bww,w,w,w", true, false, false);
+	}
+	
+	@Test
 	public void testStrikeOfficerNormalLength() {
 		startGame(",,,/,,/B,,,/w,,/,,,/,,/w,w,w,w", false);
 		assertMove("a5-c3", false, true);	
@@ -137,9 +148,7 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeOfficerNormalLengthBackwards() {
 		startGame(",,,/,,/,,,/,,/,w,,/B,,/w,w,w,w", false);
-		game.printBoard();
 		assertMove("b2-d4", false, true);
-		game.printBoard();
 		assertGameState(",,,/,,/,,,/,Bw,/,,,/,,/w,w,w,w", true, false, false);
 	}
 	
@@ -159,16 +168,27 @@ public class TryMoveTest {
 
 	@Test
 	public void testStrikeOwnSoldier() {
-		startGame(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false);
+		startGame(",,,/,,/b,,,/b,,/,,,/,,w/w,w,w,w", false);
 		assertMove("a5-c3", false, false);
-		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,w,w,w", false, false, false);
+		assertGameState(",,,/,,/b,,,/b,,/,,,/,,w/w,w,w,w", false, false, false);
+		assertMove("b4-a3", false, true);
+		assertGameState(",,,/,,/b,,,/,,/b,,,/,,w/w,w,w,w", true, false, false);
+		assertMove("g1-e3", true, false);
+		assertGameState(",,,/,,/b,,,/,,/b,,,/,,w/w,w,w,w", true, false, false);
 	}
-
+	
 	@Test
-	public void testUpgradeToOfficerBlack() {
-		startGame(",,,/,,/b,,,/b,,/,,,/,b,/w,,,w", false);
-		assertMove("d2-e1", false, true);
-		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,B,w", true, false, false);
+	public void testSoldierStrikeEmptyField() {
+		startGame(",,,/,,/b,,,/,,/,,,/,,/w,w,w,w", false);
+		assertMove("a5-c3", false, false);
+		assertGameState(",,,/,,/b,,,/,,/,,,/,,/w,w,w,w", false, false, false);
+	}
+	
+	@Test
+	public void testOfficerStrikeEmptyField() {
+		startGame(",,,/,,/B,,,/,,/,,,/,,/w,w,w,w", false);
+		assertMove("a5-c3", false, false);
+		assertGameState(",,,/,,/B,,,/,,/,,,/,,/w,w,w,w", false, false, false);
 	}
 	
 	@Test
@@ -219,9 +239,17 @@ public class TryMoveTest {
 	
 	@Test
 	public void testMoveBlackOfficerForward() {
-		startGame(",,,/,,/B,,,/,,/,,,/,,/w,w,w,w", false);
+		startGame(",,,/,,/B,,,/,,/,,,/w,w,/w,w,w,w", false);
 		assertMove("a5-b4", false, true);
-		assertGameState(",,,/,,/,,,/B,,/,,,/,,/w,w,w,w", true, false, false);
+		assertGameState(",,,/,,/,,,/B,,/,,,/w,w,/w,w,w,w", true, false, false);
+		assertMove("b2-c3", true, true);
+		assertGameState(",,,/,,/,,,/B,,/,w,,/,w,/w,w,w,w", false, false, false);
+		assertMove("b4-c3", false, false);
+		assertMove("b4-d2", false, false);
+		assertGameState(",,,/,,/,,,/B,,/,w,,/,w,/w,w,w,w", false, false, false);
+		assertMove("b4-a3", false, true);
+		assertGameState(",,,/,,/,,,/,,/B,w,,/,w,/w,w,w,w", true, false, false);
+
 	}
 
 	@Test 
@@ -241,9 +269,7 @@ public class TryMoveTest {
 	@Test
 	public void testStrikeUpgradeToOfficerBlack() {
 		startGame(",,,/,,/b,,,/b,,/,b,,/,w,/w,,,w", false);
-		game.printBoard();
 		assertMove("c3-e1", false, true);
-		game.printBoard();
 		assertGameState(",,,/,,/b,,,/b,,/,,,/,,/w,,Bw,w", true, false, false);
 	}
 
@@ -259,7 +285,6 @@ public class TryMoveTest {
 	public void testStrikeSoldierStack_completeHistory(){
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/w,w,w,w/w,w,w/w,w,w,w", true);
 		assertMove("a3-b4", true, true);
-		game.printBoard();
 		assertMove("c5-a3", false, true);
 		assertMove("c3-b4", true, true);
 		assertMove("a5-c3", false, true);
@@ -273,7 +298,6 @@ public class TryMoveTest {
 	public void testWhite_StrikeSoldierStack(){
 		startGame(",,,/,,/,,,/,,/,bww,,/w,,/w,w,w,w", true);
 		assertMove("b2-d4", true, true);
-		game.printBoard();
 		assertGameState(",,,/,,/,,,/,wb,/,ww,,/,,/w,w,w,w", false, true, true);
 	}
 	
@@ -281,22 +305,16 @@ public class TryMoveTest {
 	// strike with black a stack of white - black - black 
 	public void testBlack_StrikeSoldierStack(){
 		startGame(",,,/,,/,,,/b,,/,wbb,,/,,/,,,", false);
-		game.printBoard();
 		assertMove("b4-d2", false, true);
-		game.printBoard();
 		assertGameState(",,,/,,/,,,/,,/,bb,,/,bw,/,,,", true, true, false);
-		game.printBoard();
 	}
 	
 	@Test
 	// strike with black a stack of white - black - black 
 	public void testBlack_StrikeSoldierStack2(){
 		startGame(",,,/,,/,,,/b,,/,wBb,,/,,/,,,", false);
-		game.printBoard();
 		assertMove("b4-d2", false, true);
-		game.printBoard();
 		assertGameState(",,,/,,/,,,/,,/,Bb,,/,bw,/,,,", true, true, false);
-		game.printBoard();
 	}
 	
 	@Test
@@ -305,7 +323,6 @@ public class TryMoveTest {
 		startGame(",,,/,,/,,,/B,,/,wbb,,/,,/,,,", false);
 		assertMove("b4-d2", false, true);
 		assertGameState(",,,/,,/,,,/,,/,bb,,/,Bw,/,,,", true, true, false);
-		game.printBoard();
 	}
 	
 	// should move complete stack
@@ -313,7 +330,6 @@ public class TryMoveTest {
 	public void testMoveStack(){
 		startGame(",,,/,,/,,,/B,,/,bb,,/,,/,,,", false);
 		assertMove("c3-b2", false, true);
-		game.printBoard();
 		assertGameState(",,,/,,/,,,/B,,/,,,/bb,,/,,,", true, true, false);
 	}
 
@@ -370,9 +386,7 @@ public class TryMoveTest {
 		startGame(",,,/,,/,b,,/,,/,,B,/,,w/w,w,w,w", true);
 		assertMove("f2-d4", true, true);
 		assertGameState(",,,/,,/,b,,/,wB,/,,,/,,/w,w,w,w", true, false, false);
-		game.printBoard();
 		assertMove("d4-b6", true, true);
-		game.printBoard();
 		assertGameState(",,,/wBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
 	}
 	
@@ -380,14 +394,8 @@ public class TryMoveTest {
 	public void testMove_continueStrikeAfterSuccessfulStrikeAndUpgrade() {
 		startGame(",,,/,b,b/,,,w/,,/,,,/,,/w,w,w,w", true);
 		assertMove("g5-e7", true, true);
-		game.printBoard();
-		System.out.println(game.getState());
-		System.out.println(game.isWhiteNext());
-		System.out.println(game.isFinished());
 		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w", false, false, false);
-		game.printBoard();
 		assertMove("e7-c5", true, false); // try to continue strike
-		game.printBoard();
 		assertGameState(",,Wb,/,b,/,,,/,,/,,,/,,/w,w,w,w", false, false, false);
 		assertMove("d6-c5", false, true); // move with black
 		assertGameState(",,Wb,/,,/,b,,/,,/,,,/,,/w,w,w,w", true, false, false);
@@ -404,7 +412,6 @@ public class TryMoveTest {
 		assertGameState(",,,b/,,/,,,/,wB,/,,,/,,/w,w,w,w", false, false, false);
 		assertMove("g7-f6", false, true);
 		assertGameState(",,,/,,b/,,,/,wB,/,,,/,,/w,w,w,w", true, false, false);
-
 	}
 	
 	@Test
@@ -414,7 +421,7 @@ public class TryMoveTest {
 		assertGameState(",,,/,,/,b,,/,WB,/,,,/,,/w,w,w,w", true, false, false);
 		assertMove("d4-e6", true, false);
 		assertMove("d4-b6", true, true);
-		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true); // failing with isWhiteNext: true, isFinished:false
+		assertGameState(",,,/WBb,,/,,,/,,/,,,/,,/w,w,w,w", false, true, true); 
 	}
 	
 	// strike with with white officer, strike cant be continued, try to strike with white and black
@@ -434,9 +441,6 @@ public class TryMoveTest {
 	public void testFinishedGame_NoFiguresWhite(){
 		startGame("b,b,b,b/b,b,b/b,b,b,b/,,/,,,/,,/,,,", false);
 		assertMove("a5-b4", false, true);
-		System.out.println(game.getState());
-		System.out.println(game.isWhiteNext());
-		System.out.println(game.isFinished());
 		assertGameState("b,b,b,b/b,b,b/,b,b,b/b,,/,,,/,,/,,,", true, true, false);
 	}
 	
@@ -445,9 +449,6 @@ public class TryMoveTest {
 	public void testFinishedGame_NoFiguresBlack(){
 		startGame(",,,/,,/,,,/,,/,,,/b,,/w,w,w,w", true);
 		assertMove("a1-c3", true, true);
-		System.out.println(game.getState());
-		System.out.println(game.isWhiteNext());
-		System.out.println(game.isFinished());
 		assertGameState(",,,/,,/,,,/,,/,wb,,/,,/,w,w,w", false, true, true);
 	}
 	
@@ -459,20 +460,19 @@ public class TryMoveTest {
 	}
 	
 	@Test
+	public void testFinishedGame_cantContinue(){
+		startGame(",,,b/,,/,,,/,,/,b,,/,,/w,B,,", false);
+		assertMove("c1-b2", false, true);	
+		assertGameState(",,,b/,,/,,,/,,/,b,,/B,,/w,,,", true, true, false);		
+	}
+	
+	@Test
 	public void testFinishedGame_TryToContinue(){
 		startGame(",,,/,,/,b,,/w,,/,,,/,,/w,w,w,w", true);
 		assertMove("b4-d6", true, true);	
 		assertGameState(",,,/,wb,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
 		assertMove("a1-b2", true, false);	
 		assertGameState(",,,/,wb,/,,,/,,/,,,/,,/w,w,w,w", false, true, true);
-	}
-	
-	@Test
-	public void testStrikeFlow_GoBack(){
-		startGame(",,,/,,Wwwwb/,bb,b,/BwWwwWw,,/,,,/,,/,,WBbbbb,B", true);
-		assertMove("f6-d4", true, true);
-		assertMove("d4-b6", true, true);
-		assertMove("g1-f2", false, true);
 	}
 	
 	@Test
@@ -503,9 +503,54 @@ public class TryMoveTest {
 		assertGameState(",,b,/,,/,b,,/W,,/,,,b/,,/,,,W", true, false , false);
 	}
 	
+	@Test
+	public void testMove_PossibleDestinationsWhiteSoldierLeft(){
+		startGame(",,,/,,/,b,,/,w,/,,,b/,,/,,,W", true);
+		assertMove("d4-b6", true, true);
+		assertGameState(",,,/wb,,/,,,/,,/,,,b/,,/,,,W", false, false , false);
+	}
 	
+	@Test
+	public void testMove_PossibleDestinationsWhiteSoldierLeftEnemy(){
+		startGame(",,,/,,/,,,/b,,/,w,,b/,,/,,,W", true);
+		assertMove("c3-a5", true, true);
+		assertGameState(",,,/,,/wb,,,/,,/,,,b/,,/,,,W", false, false , false);
+	}
 	
+	@Test
+	public void testMove_PossibleDestinationsWhiteSoldierRight(){
+		startGame(",,,/,,/,,b,/,w,/,,,b/,,/,,,W", true);
+		assertMove("d4-f6", true, true);
+		assertGameState(",,,/,,wb/,,,/,,/,,,b/,,/,,,W", false, false , false);
+	}
 	
+	@Test
+	public void testMove_PossibleDestinationsWhiteSoldierRightEnemy(){
+		startGame(",,,/,,/,,,/,,b/,,w,b/,,/,,,W", true);
+		assertMove("e3-g5", true, true);
+		assertGameState(",,,/,,/,,,wb/,,/,,,b/,,/,,,W", false, false , false);
+	}
+	
+	@Test
+	public void testMove_PossibleDestinationsWhiteSoldierRightEnemy2(){
+		startGame(",,,/,,b/,,,/,b,/,w,,b/,,/,,,W", true);
+		assertMove("c3-e5", true, true);
+		assertGameState(",,,/,,b/,,wb,/,,/,,,b/,,/,,,W", true, false , false);
+	}
+	
+	@Test
+	public void testMove_PossibleDestinationsBlackSoldierLeftEnemy(){
+		startGame(",,,/,,/,,,/,b,/,w,,b/,,/w,,,W", false);
+		assertMove("d4-b2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,,,b/bw,,/w,,,W", true, false , false);
+	}
+	
+	@Test
+	public void testMove_PossibleDestinationsBlackSoldierRightEnemy(){
+		startGame(",,,/,,/,,,/,b,/,,w,b/,,/w,,,W", false);
+		assertMove("d4-f2", false, true);
+		assertGameState(",,,/,,/,,,/,,/,,,b/,,bw/w,,,W", true, false , false);
+	}
 	
 	// TODO Whole game for testing, split
 	@Test
@@ -642,5 +687,46 @@ public class TryMoveTest {
 		assertMove("b2-c1", false, true);
 		assertGameState(",Wwwwbbb,,/WBbbbbBB,wWwwWw,/,,,/,,/,,,/,,/,B,,", true, false, false);	
 	}
+	
+	@Test
+	public void testProblemOne(){ // white wins by capture
+		startGame("Bw,,,b/,BB,/w,,,www/b,bw,/,B,,w/,,wb/,WWb,,Wbb", true);
+		assertGameState("Bw,,,b/,BB,/w,,,www/b,bw,/,B,,w/,,wb/,WWb,,Wbb", true, false, false);
+		assertMove("g5-f6", true, true);
+		assertMove("g7-e5", false, true);
+		assertMove("g3-f4", true, true);
+		assertGameState("Bw,,,/,BB,ww/w,,bw,/b,bw,w/,B,,/,,wb/,WWb,,Wbb", false, false, false);
+		assertMove("e5-g3", false, true);
+		assertGameState("Bw,,,/,BB,ww/w,,,/b,bw,/,B,,bww/,,wb/,WWb,,Wbb", false, false, false); // continue with black
+		assertMove("g3-e1", false, true);
+		assertGameState("Bw,,,/,BB,ww/w,,,/b,bw,/,B,,/,,b/,WWb,Bwww,Wbb", true, false, false); 
+		assertMove("g1-e3", true, true);
+		assertGameState("Bw,,,/,BB,ww/w,,,/b,bw,/,B,Wbbb,/,,/,WWb,Bwww,", true, false, false); // continue with white
+		assertMove("e3-c5", true, true);
+		assertGameState("Bw,,,/,BB,ww/w,Wbbbb,,/b,w,/,B,,/,,/,WWb,Bwww,", true, false, false); // continue with white
+		assertMove("c5-e7", true, true);
+		assertGameState("Bw,,WbbbbB,/,B,ww/w,,,/b,w,/,B,,/,,/,WWb,Bwww,", false, false, false); 
+		assertMove("c3-e5", false, true);
+		assertGameState("Bw,,WbbbbB,/,B,ww/w,,Bw,/b,,/,,,/,,/,WWb,Bwww,", false, false, false); 
+		assertMove("e5-g7", false, true);
+		assertGameState("Bw,,WbbbbB,Bww/,B,w/w,,,/b,,/,,,/,,/,WWb,Bwww,", true, false, false);
+		assertMove("e7-c5", true, true);
+		assertMove("c5-a3", true, true);
+		assertMove("g7-e5", false, true);
+
+		assertMove("a5-b6", true, true);
+		assertMove("a7-c5", false, true);
+		
+		assertMove("c1-d2", true, true);
+		assertMove("e1-c3", false, true);
+		
+		assertMove("d2-b4", true, true);
+		assertMove("b4-d6", true, true);
+		assertMove("d6-f4", true, true);
+		game.printBoard();
+
+		assertGameState(",,,/,,/,ww,www,/,,WbBBB/WbbbbBBb,wwwW,,/,,/,,,", false, true, true);
+	}
+	
 
 }
