@@ -121,6 +121,17 @@ public class TryMoveTest {
 	}
 	
 	@Test
+	public void testStrikeSoldier_Continue() {
+		startGame(",,,/,,/b,,,/w,,/,,,/w,,/,w,w,w", false);
+		assertMove("a5-c3", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,bw,,/w,,/,w,w,w", false, false, false);
+		assertMove("c3-d2", false, false);	
+		assertGameState(",,,/,,/,,,/,,/,bw,,/w,,/,w,w,w", false, false, false);
+		assertMove("c3-a1", false, true);	
+		assertGameState(",,,/,,/,,,/,,/,,,/,,/Bww,w,w,w", true, false, false);
+	}
+	
+	@Test
 	public void testStrikeOfficerNormalLength() {
 		startGame(",,,/,,/B,,,/w,,/,,,/,,/w,w,w,w", false);
 		assertMove("a5-c3", false, true);	

@@ -348,9 +348,9 @@ public class LascaGame extends Game implements Serializable {
 			if (canStrike && strike) {	
 				move.isStrike = true;
 				return true;
-			} else if(canStrike && !strike){
-				move.isStrike = false;
-				return false;
+			} else if(canStrike){
+					move.isStrike = false;
+					return false;	
 			} else if (destination.isEmpty() && move.isSimpleMove()) {
 				// simple move without strike 
 				board.moveFigure(origin, destination, false);
