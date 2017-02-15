@@ -182,8 +182,6 @@ instance Show Point where
   
 instance Show Move where 
   show (Move{from = f, to = t}) = (show f) ++ "-" ++ (show t)
-
-
                                                        
 instance Show Color where
     show = colorToString
